@@ -17,7 +17,7 @@ const InvoicesByUser = ({ residenceNo, isOpen, onDissmis }) => {
   const toast = useRef(null);
 
   const handleGetInvoiceByUser = async (pageIndex, pageSize) => {
-    debugger;
+    
     const request = {
       paymentByUser: {
         residenceNo: residenceNo,

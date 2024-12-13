@@ -10,7 +10,7 @@ export const InvoiceCardStyled = styled.div`
     height: 65vh;
     overflow: auto;
     scrollbar-width: thin; /* Para Firefox */
-    scrollbar-color: #009929 #fff; /* Para Firefox */
+    scrollbar-color: #002147 #fff; /* Para Firefox */
     .invoice-card {
       background-color: #fff;
       border-radius: 10px;
@@ -18,7 +18,7 @@ export const InvoiceCardStyled = styled.div`
       overflow: hidden;
       transition: transform 0.2s;
       width: 300px;
-      height: 200px;
+      height: 220px;
       margin: 20px;
       cursor: pointer;
     }
@@ -61,7 +61,10 @@ export const InvoiceCardStyled = styled.div`
     }
 
     .invoice-content {
-      padding: 20px;
+      padding-left: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
 
     .invoice-content p {

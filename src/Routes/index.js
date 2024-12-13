@@ -1,5 +1,5 @@
 import Invoice from "../Container/Invoice";
-import Permission from "../Container/Permission";
+import Permission from "../Container/SecurityAndManagement/Permission";
 import ReportsContainer from "../Container/Reports";
 import IncomeAndSpendingReportSummarized from "../Container/Reports/IncomeAndSpendingReportSummarized";
 import IncomeAndSpendingReportDetailed from "../Container/Reports/IncomesAndSpendingReportDetailed";
@@ -11,28 +11,63 @@ import { TipoCuentas } from "../Helpers/Constant";
 import ImportUserOption from "../Container/Users/ImportUserOption";
 import {
   FaPaste,
-  FaFileImport,
   FaUsers,
   FaLock,
   FaFileInvoiceDollar,
+  FaPuzzlePiece,
 } from "react-icons/fa";
 import { TbReport, TbReportAnalytics, TbReportSearch } from "react-icons/tb";
-import { FaHouse, FaPersonBurst, FaPersonMilitaryToPerson } from "react-icons/fa6";
+import {
+  FaHouse,
+  FaPersonBurst,
+  FaPersonMilitaryToPerson,
+} from "react-icons/fa6";
 import AlertReport from "../Container/Reports/AlertReport";
 import AccessReport from "../Container/Reports/AccessReport";
 import ResidentialContainer from "../Container/Residentials";
 import SpecialVisit from "../Container/Residentials/SpecialVisit";
+import SecurityAndManagementContainer from "../Container/SecurityAndManagement";
+import BillingContainer from "../Container/Billing";
+import PaymentType from "../Container/Billing/PaymentType";
+import SpendingType from "../Container/SecurityAndManagement/SpendingType";
+import { CreateOrUpdatePaymentType } from "../Container/Invoice/Components/CreateOrUpdatePaymentType";
+import PenaltyFee from "../Container/Invoice/PenaltyFee";
 const routes = [
   {
-    path: "/invoice",
-    name: "Facturación",
+    path: "/billing",
+    name: "Pagos",
     isMenu: false,
     isSecurity: true,
     color: "#ae976a",
     accesses: "Facturas",
-    icon: <FaFileInvoiceDollar />,
+    icon: <FaFileInvoiceDollar size={30} />,
     permissions: [TipoCuentas.administrador],
-    Element: <Invoice />,
+    Element: <BillingContainer />,
+    module: "billing",
+    subRoutes: [
+      {
+        path: "/billing/receipt",
+        name: "Recibos",
+        isMenu: false,
+        isSecurity: true,
+        color: "#ae976a",
+        accesses: "Recibos",
+        icon: <FaFileInvoiceDollar size={30} />,
+        permissions: [TipoCuentas.administrador],
+        Element: <Invoice />,
+      },
+      {
+        path: "/billing/penalty-fee",
+        name: "Multas",
+        isMenu: false,
+        isSecurity: true,
+        color: "#ae98ca",
+        accesses: "Multas",
+        icon: <FaFileInvoiceDollar size={30} />,
+        permissions: [TipoCuentas.administrador],
+        Element: <PenaltyFee />,
+      },
+    ],
   },
   {
     path: "/reports",
@@ -40,7 +75,7 @@ const routes = [
     isMenu: false,
     isSecurity: true,
     color: "#FFA07A",
-    icon: <FaPaste />,
+    icon: <FaPaste size={30} />,
     permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
     accesses: "Reportes",
     module: "reports",
@@ -120,7 +155,7 @@ const routes = [
     isMenu: false,
     isSecurity: true,
     color: "#87CEFA",
-    icon: <FaUsers />,
+    icon: <FaUsers size={30} />,
     accesses: "Usuarios",
     permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
     Element: <UsersContainer />,
@@ -151,15 +186,51 @@ const routes = [
     ],
   },
   {
-    path: "/permission",
-    name: "Seguridad",
+    path: "/security-and-management",
+    name: "Administración y Seguridad",
     isMenu: false,
     isSecurity: true,
     color: "#A2C8CC",
-    icon: <FaLock />,
+    icon: <FaPuzzlePiece size={30} />,
     accesses: "Seguridad",
     permissions: [TipoCuentas.administrador],
-    Element: <Permission />,
+    module: "security-and-management",
+    Element: <SecurityAndManagementContainer />,
+    subRoutes: [
+      {
+        path: "/security-and-management/security",
+        name: "Seguridad",
+        isMenu: false,
+        isSecurity: true,
+        color: "#FFA07A",
+        icon: <FaLock />,
+        permissions: [TipoCuentas.administrador],
+        accesses: "VerImportarUsuarios",
+        Element: <Permission />,
+      },
+      {
+        path: "/security-and-management/payment-type",
+        name: "Tipos de Pago",
+        isMenu: false,
+        isSecurity: true,
+        color: "#A2C8BB",
+        icon: <FaLock />,
+        permissions: [TipoCuentas.administrador],
+        accesses: "VerImportarUsuarios",
+        Element: <PaymentType />,
+      },
+      {
+        path: "/security-and-management/spending-type",
+        name: "Tipos de Gastos",
+        isMenu: false,
+        isSecurity: true,
+        color: "#A8C37A",
+        icon: <FaLock />,
+        permissions: [TipoCuentas.administrador],
+        accesses: "VerImportarUsuarios",
+        Element: <SpendingType />,
+      },
+    ],
   },
   {
     path: "/residential",
@@ -167,7 +238,7 @@ const routes = [
     isMenu: false,
     isSecurity: true,
     color: "#87CEFA",
-    icon: <FaHouse />,
+    icon: <FaHouse size={30} />,
     accesses: "Residenciales",
     permissions: [TipoCuentas.administrador],
     Element: <ResidentialContainer />,
@@ -179,7 +250,7 @@ const routes = [
         isMenu: false,
         isSecurity: true,
         color: "#FFA07A",
-        icon: <FaPersonBurst />,
+        icon: <FaPersonBurst size={30} />,
         permissions: [TipoCuentas.administrador],
         accesses: "VerVisitasEspeciales",
         Element: <SpecialVisit />,

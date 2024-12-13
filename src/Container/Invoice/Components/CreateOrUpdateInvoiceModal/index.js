@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -21,7 +22,6 @@ const CreateOrUpdateInvoiceModal = ({
   onDissmis,
   invoiceSelected,
   residenceList,
-  isEdit,
   residentialSelected,
 }) => {
   const [invoice, setInvoice] = useState(
@@ -61,6 +61,21 @@ const CreateOrUpdateInvoiceModal = ({
   const [paymentWays, setPaymentWays] = useState([]);
   const [showPrintMenu, setShowPrintMenu] = useState(false);
 
+  useEffect(() => {
+    loadPaymentTypeList();
+  }, [residentialSelected]);
+
+  const loadPaymentTypeList = async () => {
+    const request = { searchValue: residentialSelected.residentialNo };
+
+    const response = await InvoiceServices.getPaymentTypes(request);
+
+    if (response?.paymentTypes) {
+      setPaymentTypeList(
+        response.paymentTypes?.where((x) => !x.canBeUseToPenaltyFee)
+      );
+    }
+  };
   useEffect(() => {
     if (utils.evaluateFullObjetct(residenceList)) {
       const customersList = residenceList
@@ -163,9 +178,10 @@ const CreateOrUpdateInvoiceModal = ({
   const getPaymeType = async (residenceSelected) => {
     const request = {
       residenceId: residenceSelected.residenceId,
+      residentialId: residentialSelected.id,
     };
 
-    const response = await InvoiceServices.getPaymentTypeByresidence(request);
+    const response = await InvoiceServices.getPaymentTypeByResidence(request);
     if (!response?.success) {
       toast.current.show({
         severity: "warn",
@@ -186,7 +202,9 @@ const CreateOrUpdateInvoiceModal = ({
           isFollowing: false,
         };
         newPaymentList.push(paymentoOther);
-        setPaymentTypeList(newPaymentList);
+        setPaymentTypeList(
+          newPaymentList?.where((x) => !x.canBeUseToPenaltyFee)
+        );
         setPeymentOlds(response.invoiceDetailOld);
         setPartialPeymentOlds(response?.partialPaymentOld);
         return;
@@ -234,7 +252,7 @@ const CreateOrUpdateInvoiceModal = ({
       });
       return;
     }
-    
+
     if (
       !utils.evaluateArray(invoice.partialPayments) &&
       utils.evaluateArray(partialPeymentOlds) &&
@@ -744,6 +762,9 @@ const CreateOrUpdateInvoiceModal = ({
         ...invoice,
         invoiceDate: dateInvoice,
         residentialNo: residentialSelected.residentialNo,
+        accountId: residenceList
+          .firstOrDefault((x) => x.id === invoice.residenceId)
+          ?.accounts?.firstOrDefault()?.id,
       },
     };
 
@@ -953,7 +974,6 @@ const CreateOrUpdateInvoiceModal = ({
   };
 
   const handleBlockDescription = () => {
-    ;
     if (detail?.paymentTypeNo === "PT0000000") return false;
     const payment = paymentTypeList.firstOrDefault(
       (x) => x.paymentTypeNo === detail.paymentTypeNo

@@ -71,7 +71,7 @@ export class InvoiceServices {
     return response;
   }
 
-  static async getPaymentTypeByresidence(request) {
+  static async getPaymentTypeByResidence(request) {
     const response = await restClient.httpGet(
       `/payment/residences-payments`,
       request

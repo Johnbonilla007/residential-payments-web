@@ -12,7 +12,7 @@ module.exports = function (plop) {
         type: "list",
         name: "module",
         message: "Tipo de archivo a generar:",
-        choices: ["Reports"],
+        choices: ["Reports", "Invoice", "SecurityAndManagement", "Users"],
       },
       {
         type: "input",

@@ -36,7 +36,7 @@ export const ReportPendingPdfStyled = styled.div`
       display: grid;
       font-size: 12pt;
       grid-template-columns: 15% 15% 13% 13% 12% 12% 12% 8%;
-      background-color: #4cad4c;
+      background-color: #002147;
       width: 100%;
       text-align: left;
       div {

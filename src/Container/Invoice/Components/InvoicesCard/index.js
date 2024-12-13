@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { InvoiceCardStyled } from "./styled";
 import { InvoiceServices } from "../../Invoice.Service";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillPrinter } from "react-icons/ai";
 import { FilterControl } from "../../../../Components/Controls/FilterControl";
 import { utils } from "../../../../Helpers/utils";
+import { getRequestUserInfo } from "../../../../Helpers/restClient";
+import InvoicePrint from "../InvoicePrint";
+import DocumentInvoice from "../InvoicePrint/DocumentInvoice";
 
 const InvoicesCard = ({
   residenceSelected,
@@ -14,12 +17,14 @@ const InvoicesCard = ({
   confirmDialog,
   toast,
   setIsEdit,
+  residentialSelected,
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [invoices, setInvoices] = useState([]);
   const [invoiceList, setInvoiceList] = useState([]);
   const [filterInvoices, setFilterInvoices] = useState("");
-
+  const [showModalPrint, setShowModalPrint] = useState(false);
+  const [invoice, setInvoice] = useState(undefined);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -83,6 +88,14 @@ const InvoicesCard = ({
     });
   };
 
+  const userInfo = useMemo(() => getRequestUserInfo(), []);
+
+  const isReadOnly = useMemo(() => {
+    return userInfo.accesses?.some((x) =>
+      x?.permissions?.some((y) => y.name === "SoloLectura")
+    );
+  }, [userInfo]);
+
   const CardComponent = (invoice, index) => {
     const IsLastInvoice = index === 0;
     return (
@@ -96,14 +109,26 @@ const InvoicesCard = ({
           <h3>Factura NO: {invoice.invoiceNo}</h3>
 
           <div className="card-actions">
-            <AiFillEdit
-              className="edit-icon-invoice"
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit(invoice);
-              }}
-            />
-            {IsLastInvoice && (
+            {isReadOnly && (
+              <AiFillPrinter
+                className="edit-icon-invoice"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowModalPrint(true);
+                  setInvoice(invoice);
+                }}
+              />
+            )}
+            {!isReadOnly && (
+              <AiFillEdit
+                className="edit-icon-invoice"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(invoice);
+                }}
+              />
+            )}
+            {IsLastInvoice && !isReadOnly && (
               <AiFillDelete
                 color={
                   utils.hasPermission("EliminarIngresos") ? "#f44336" : "#ccc"
@@ -133,6 +158,10 @@ const InvoicesCard = ({
           <p>
             <strong>Número de Casa:</strong> {invoice.houseNumber}
           </p>
+          <p>
+            <strong>Fecha Factura:</strong>{" "}
+            {utils.FormatDate(invoice.invoiceDate)}
+          </p>
         </div>
       </div>
     );
@@ -157,6 +186,16 @@ const InvoicesCard = ({
         {invoiceList.length > 0 &&
           invoiceList.map((invoice, index) => CardComponent(invoice, index))}
       </div>
+
+      {showModalPrint && (
+        <DocumentInvoice
+          visible
+          invoice={invoice}
+          format="normal"
+          onDismiss={() => setShowModalPrint(false)}
+          residentialSelected={residentialSelected}
+        />
+      )}
     </InvoiceCardStyled>
   );
 };

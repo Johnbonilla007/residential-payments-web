@@ -1,26 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ReportStyled } from "./styled";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
-import { getRequestUserInfo, restClient } from "../../../Helpers/restClient";
+import { restClient } from "../../../Helpers/restClient";
 import { utils } from "../../../Helpers/utils";
 import { FilterMatchMode } from "primereact/api";
 import TableControl from "../../../Components/Controls/TableControl";
 import { columnsReport } from "./setting";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import DocPdfReport from "./DocPdfReport";
-import { TipoCuentas } from "../../../Helpers/Constant";
 import { Toast } from "primereact/toast";
 import { getDate, getHours } from "../../../Helpers/FormatDate";
 import { Dialog } from "primereact/dialog";
 import { Image } from "primereact/image";
-import { UsersServices } from "../../Users/User/users.service";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const Report = () => {
-  const [residentialSelected, setResidentialSelected] = useState(null);
-  const [residentialList, setResidentialList] = useState([]);
   const [dateQuery, setDateQuery] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dataVisits, setDataVisits] = useState([]);
@@ -40,48 +38,12 @@ const Report = () => {
     label: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
   const toast = useRef(null);
-  const userInfo = getRequestUserInfo();
 
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
-
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-      setPermissionAccount(permission);
-
-      if (
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales")
-      ) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentialList(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-      const response = await restClient.httpGet(
-        "/security/residentials/get-residentials",
-        request
-      );
-      if (response.success) {
-        setResidentialList([response.residential]);
-        setResidentialSelected(response.residential);
-      }
-    }
-  };
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const residentialList = residentials;
+  const dispatch = useDispatch();
 
   const filterFields = [
     "fullName",
@@ -96,7 +58,7 @@ const Report = () => {
   ];
 
   const handleOnchangeResidential = (e) => {
-    setResidentialSelected(e.value);
+    dispatch(setResidentialSelected(e.value));
   };
   const handleGenerateReport = async () => {
     if (!utils.evaluateFullObjetct(residentialSelected)) {

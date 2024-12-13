@@ -9,6 +9,6 @@ export const SpecialVisitStyled = styled.div`
     height: 70vh;
     overflow: auto;
     scrollbar-width: thin; /* Para Firefox */
-    scrollbar-color: #009929 #fff; /* Para Firefox */
+    scrollbar-color: #002147 #fff; /* Para Firefox */
   }
 `;

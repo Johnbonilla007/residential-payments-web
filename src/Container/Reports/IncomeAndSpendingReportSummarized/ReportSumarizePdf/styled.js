@@ -36,7 +36,7 @@ export const ReportSumarizePdfStyled = styled.div`
       display: grid;
       font-size: 12pt;
       grid-template-columns: 30% 50% 20%;
-      background-color: #4cad4c;
+      background-color: #002147;
       width: 100%;
       text-align: left;
       div {

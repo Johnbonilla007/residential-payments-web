@@ -31,7 +31,7 @@ export const CreateOrUpdateSpendingInvoiceModalStyled = styled.div`
   
   .header-detail {
     margin-top: 5px;
-    background-color: #009929;
+    background-color: #002147;
     display: grid;
     grid-template-columns: 27% 20% 30% 10%;
     width: 100%;
@@ -49,7 +49,7 @@ export const CreateOrUpdateSpendingInvoiceModalStyled = styled.div`
     height: 180px;
     overflow: auto;
     scrollbar-width: thin; /* Para Firefox */
-    scrollbar-color: #009929 #fff; /* Para Firefox */
+    scrollbar-color: #002147 #fff; /* Para Firefox */
   }
 
   .detail-item {

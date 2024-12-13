@@ -2,11 +2,13 @@ import styled from "styled-components";
 
 export const ListControlStyled = styled.div`
   .list-control {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
-    margin-top: 115px;
-    height: calc(100% - 135px);
+    bottom: 0;
+    top: 50px;
+    /* margin-top: 115px; */
+    /* height: calc(100% - 135px); */
     background-color: #f8f9fa;
     border-right: 1px solid #ddd;
     padding: 10px;
@@ -35,6 +37,6 @@ export const ListControlStyled = styled.div`
     border-radius: 10px;
     overflow: auto;
     scrollbar-width: thin; /* Para Firefox */
-    scrollbar-color: #009929 #fff; /* Para Firefox */
+    scrollbar-color: #002147 #fff; /* Para Firefox */
   }
 `;

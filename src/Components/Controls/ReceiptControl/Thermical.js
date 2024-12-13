@@ -44,7 +44,7 @@ const InvoiceDocumentThermal = ({
         </div>
         <div className="app-name">
           <div style={{ textAlign: "center" }}>
-            <strong>Sistema de Seguridad Alpha</strong>
+            <strong>Sistema de Pagos Residenciales</strong>
           </div>
           <div
             style={{
@@ -55,7 +55,7 @@ const InvoiceDocumentThermal = ({
           >
             <div style={{ width: "30px", fontWeight: "700" }}>Telefono:</div>
             <label style={{ fontSize: "6pt", marginLeft: 3 }}>
-              +504 9920-6159
+              +504 9443-2877
             </label>
           </div>
           <div
@@ -67,7 +67,7 @@ const InvoiceDocumentThermal = ({
           >
             <div style={{ width: "30px", fontWeight: "700" }}>Correo:</div>
             <label style={{ fontSize: "6pt", marginLeft: 3 }}>
-              administracion@sashonduras.com
+              residencialquintasdelsol2022@gmail.com
             </label>
           </div>
         </div>

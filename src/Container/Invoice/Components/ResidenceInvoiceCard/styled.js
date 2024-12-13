@@ -4,12 +4,12 @@ export const ResidenceInvoiceCardStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 5px;
   padding: 20px;
   height: 75vh;
   overflow: auto;
   scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #009929 #fff; /* Para Firefox */
+  scrollbar-color: #002147 #fff; /* Para Firefox */
   .residence-card {
     background-color: #fff;
     border-radius: 10px;
@@ -17,7 +17,7 @@ export const ResidenceInvoiceCardStyled = styled.div`
     overflow: hidden;
     transition: transform 0.2s;
     width: 300px;
-    height: 300px;
+    height: ${({ isFromPenaltyFee }) => (isFromPenaltyFee ? "310px" : "310px")};
     margin: 20px;
     cursor: pointer;
     display: flex;

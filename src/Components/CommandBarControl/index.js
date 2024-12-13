@@ -2,12 +2,14 @@
 import React from "react";
 import { CommandBarControlStyled } from "./styled";
 import { utils } from "../../Helpers/utils";
+import { useSelector } from "react-redux";
 
 const CommandBarControl = ({ commands }) => {
+  const { showSideBar } = useSelector((state) => state.DefaultLayout);
+
   return (
-    <CommandBarControlStyled>
+    <CommandBarControlStyled showSideBar={showSideBar}>
       {commands.map((command, index) => {
-        ;
         const style = command.disabled ? "-disabled" : "";
 
         return (

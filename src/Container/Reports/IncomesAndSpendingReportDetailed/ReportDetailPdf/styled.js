@@ -37,7 +37,7 @@ export const ReportDetailPdfStyled = styled.div`
       font-size: 12pt;
       grid-template-columns: ${(props) =>
         props.isIncoming ? "10% 15% 20% 10% 20% 15% 10%" : "15% 35% 35% 15% "};
-      background-color: #4cad4c;
+      background-color: #002147;
       width: 100%;
       text-align: left;
       div {

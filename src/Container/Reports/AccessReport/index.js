@@ -22,6 +22,8 @@ import { columns } from "./settings";
 import { InputNumber } from "primereact/inputnumber";
 import { AccessReportService } from "./AccessReport.Service";
 import { Toast } from "primereact/toast";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const filterObject = {
   page: 1,
@@ -35,8 +37,6 @@ const AccessReport = () => {
   const toast = useRef(null);
 
   const userInfo = getRequestUserInfo();
-  const [residentials, setResidentials] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState(null);
   const [filters, setFilters] = useState(filterObject);
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -49,10 +49,10 @@ const AccessReport = () => {
     modifiedBy: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
   const [accesses, setAccesses] = useState([]);
-
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     loadUsersByResidentialNo();
@@ -73,50 +73,9 @@ const AccessReport = () => {
     }
   };
 
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-
-      const showAllResidentials =
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales");
-
-      if (showAllResidentials) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentials(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-
-      const response =
-        await IncomeAndSpendingReportSummarizedService.getResidentialByAccountType(
-          request
-        );
-
-      if (response.success) {
-        setResidentials([response.residential]);
-        setResidentialSelected({
-          ...response.residential,
-          residentialSelected: response.residential,
-        });
-      }
-    }
-  };
   const canShowResidentialControl = useMemo(() => {
-    const account = userInfo.accounts[0];
-    const permission = account.accountType;
+    const account = userInfo?.accounts[0];
+    const permission = account?.accountType;
     return (
       permission === TipoCuentas.administrador ||
       utils.hasPermission("VerTodasLasResidenciales")
@@ -195,7 +154,7 @@ const AccessReport = () => {
               filter
               options={residentials}
               onChange={(e) => {
-                setResidentialSelected(e.value);
+                dispatch(setResidentialSelected(e.value));
               }}
               optionLabel="name"
               placeholder="Seleccione una Residencial"

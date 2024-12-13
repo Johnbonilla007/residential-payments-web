@@ -1,4 +1,4 @@
-import { restClient } from "../../Helpers/restClient";
+import { restClient } from "../../../Helpers/restClient";
 
 export class PermissionServices {
   static url = "/security-managements";

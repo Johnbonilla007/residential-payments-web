@@ -1,4 +1,4 @@
-import { InputsType } from "../../Helpers/Constant";
+import { InputsType } from "../../../Helpers/Constant";
 
 export const fieldsRol = [
   {
@@ -83,8 +83,7 @@ export const fieldsAsignPermission = (
       fieldName: "userName",
       options: userList,
       optionLabel: "userName",
-      itemTemplate: itemTemplateUser
+      itemTemplate: itemTemplateUser,
     },
-    
   ];
 };

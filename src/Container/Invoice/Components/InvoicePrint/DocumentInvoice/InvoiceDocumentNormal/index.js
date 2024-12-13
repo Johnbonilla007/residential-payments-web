@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { InvoiceDocumentNormalStyled } from "./styled";
 import { getDate } from "../../../../../../Helpers/FormatDate";
 import { utils } from "../../../../../../Helpers/utils";
+import { FaGratipay, FaPaypal } from "react-icons/fa";
 
 const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
   const [imageUrl, setImageUrl] = useState();
@@ -25,7 +26,7 @@ const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
   useEffect(() => {
     fetchResource();
   }, []);
-  
+
   const formatter = new Intl.NumberFormat("es-HN", {
     style: "currency",
     currency: "HNL",
@@ -42,15 +43,15 @@ const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
         <div className="residential-name">{residentialSelected.name}</div>
         <div className="app-name">
           <div>
-            <strong>Sistema de Seguridad Alpha</strong>
+            <strong>Sistema de Pagos Residenciales</strong>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "60px", fontWeight: "700" }}>Telefono:</div>
-            <label>+504 9920-6159</label>
+            <label>+504 9443-2877</label>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "60px", fontWeight: "700" }}>Correo:</div>
-            <label>administracion@sashonduras.com</label>
+            <label>residencialquintasdelsol2022@gmail.com</label>
           </div>
         </div>
 

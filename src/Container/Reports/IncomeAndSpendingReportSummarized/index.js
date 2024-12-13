@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Container from "../../../Components/ContainerControl";
 import { IncomeAndSpendingReportSummarizedStyled } from "./styles";
 import { Dropdown } from "primereact/dropdown";
@@ -8,77 +8,24 @@ import { utils } from "../../../Helpers/utils";
 import { Button } from "primereact/button";
 import { TipoCuentas } from "../../../Helpers/Constant";
 import { getRequestUserInfo } from "../../../Helpers/restClient";
-import { UsersServices } from "../../Users/User/users.service";
 import { Calendar } from "primereact/calendar";
 import TableControl from "../../../Components/Controls/TableControl";
 import { Toast } from "primereact/toast";
 import { ReportPdfControl } from "../Components/ReportPdfControl";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const IncomeAndSpendingReportSummarized = () => {
   const [filters, setFilters] = useState({});
-  const [residentials, setResidentials] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState(null);
   const [report, setReport] = useState({});
   const [dateReport, setDateReport] = useState({});
   const [printReport, setPrintReport] = useState(false);
   const toast = useRef(null);
   const userInfo = getRequestUserInfo();
-
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
-
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-
-      const showAllResidentials =
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales");
-
-      if (showAllResidentials) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentials(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-
-      const response =
-        await IncomeAndSpendingReportSummarizedService.getResidentialByAccountType(
-          request
-        );
-
-      if (response.success) {
-        setResidentials([response.residential]);
-        setResidentialSelected({
-          ...response.residential,
-          residentialSelected: response.residential,
-        });
-      }
-    }
-  };
-  const adjustDates = (startDate, endDate) => {
-    const adjustedStartDate = startDate
-      ? new Date(startDate.setHours(0, 0, 0, 0))
-      : null;
-    const adjustedEndDate = endDate
-      ? new Date(endDate.setHours(23, 59, 59, 999))
-      : null;
-
-    return { adjustedStartDate, adjustedEndDate };
-  };
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const dispatch = useDispatch();
 
   const handleOnChangeFilters = (event) => {
     const { value, target } = event;
@@ -126,8 +73,8 @@ const IncomeAndSpendingReportSummarized = () => {
   };
 
   const canShowResidentialControl = useMemo(() => {
-    const account = userInfo.accounts[0];
-    const permission = account.accountType;
+    const account = userInfo?.accounts[0];
+    const permission = account?.accountType;
     return (
       permission === TipoCuentas.administrador ||
       utils.hasPermission("VerTodasLasResidenciales")
@@ -150,33 +97,6 @@ const IncomeAndSpendingReportSummarized = () => {
       },
     ];
   }, []);
-
-  const getPreviusIncominBack = () => {
-    if (report) {
-      const incomingBank =
-        report?.previousMonthlyBalance?.totalAmounthIncomeBank || 0;
-      const spendingBank = report?.previousMonthlyBalance?.bank || 0;
-
-      const total = incomingBank - spendingBank;
-
-      return total;
-    }
-    return 0;
-  };
-
-  const getPreviusIncominCash = () => {
-    if (report) {
-      const incomingBank =
-        report?.previousMonthlyBalance?.totalAmounthIncomeCash || 0;
-      const spendingBank =
-        report?.previousMonthlyBalance?.totalAmounthSpendingCash || 0;
-
-      const total = incomingBank - spendingBank;
-
-      return total;
-    }
-    return 0;
-  };
 
   const getTotalMonth = () => {
     if (report) {
@@ -242,7 +162,7 @@ const IncomeAndSpendingReportSummarized = () => {
               filter
               options={residentials}
               onChange={(e) => {
-                setResidentialSelected(e.value);
+                dispatch(setResidentialSelected(e.value));
               }}
               optionLabel="name"
               placeholder="Seleccione una Residencial"
@@ -328,14 +248,13 @@ const IncomeAndSpendingReportSummarized = () => {
                 </div>
                 <div
                   className={`total ${
-                    report?.currentMonthlyBalance?.totalAmounthIncomeBank  >
-                    0
+                    report?.currentMonthlyBalance?.totalAmounthIncomeBank > 0
                       ? "positive"
                       : "negative"
                   }`}
                 >
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthIncomeBank 
+                    report?.currentMonthlyBalance?.totalAmounthIncomeBank
                   )}
                 </div>
               </div>
@@ -346,14 +265,13 @@ const IncomeAndSpendingReportSummarized = () => {
                 </div>
                 <div
                   className={`total ${
-                    report?.currentMonthlyBalance?.totalAmounthIncomeCash  >
-                    0
+                    report?.currentMonthlyBalance?.totalAmounthIncomeCash > 0
                       ? "positive"
                       : "negative"
                   }`}
                 >
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthIncomeCash 
+                    report?.currentMonthlyBalance?.totalAmounthIncomeCash
                   )}
                 </div>
               </div>

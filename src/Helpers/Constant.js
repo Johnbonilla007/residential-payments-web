@@ -5,6 +5,7 @@ export const TipoCuentas = {
   subAdministrador: "PRES",
   residente: "RESD",
   guardia: "GUARD",
+  Rol_Residente: "Residente",
 };
 
 export const getToken = async () => {

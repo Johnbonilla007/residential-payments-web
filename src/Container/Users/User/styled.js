@@ -29,3 +29,9 @@ export const UsersStyled = styled.div`
     }
   }
 `;
+
+export const ActionButtonsStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;

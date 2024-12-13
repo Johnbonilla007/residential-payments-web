@@ -19,29 +19,19 @@ export class UsersServices {
     return response;
   }
   static async getUsers(request) {
-    const response = await restClient.httpGet(
-      `${this.url}/get-users`,
-      request
-    );
+    const response = await restClient.httpGet(`${this.url}/get-users`, request);
     return response;
   }
 
   static async getUser(request) {
-    const response = await restClient.httpGet(
-      `${this.url}/get-user`,
-      request
-    );
+    const response = await restClient.httpGet(`${this.url}/get-user`, request);
     return response;
   }
 
-  static async getAccount(request) {
-    const response = await restClient.httpGet(
-      `/security/accounts`,
-      request
-    );
+  static async getAccounts(request) {
+    const response = await restClient.httpGet(`/security/accounts`, request);
     return response;
   }
-
 
   static async createOrUpdateUser(request) {
     const response = await restClient.httpPost(
@@ -99,4 +89,35 @@ export class UsersServices {
     return response;
   }
 
+  static async createOrUpdateResidence(request) {
+    const response = await restClient.httpPost(
+      `/security/residences/create-or-update-residence`,
+      request
+    );
+    return response;
+  }
+
+  static async createOrUpdateAccount(request) {
+    const response = await restClient.httpPost(
+      `/security/accounts/create-or-update-account`,
+      request
+    );
+    return response;
+  }
+
+  static async deleteResidence(request) {
+    const response = await restClient.httpDelete(
+      `/security/residences/remove-residence`,
+      request
+    );
+    return response;
+  }
+
+  static async deleteAccount(request) {
+    const response = await restClient.httpDelete(
+      `/security/accounts/remove-account`,
+      request
+    );
+    return response;
+  }
 }

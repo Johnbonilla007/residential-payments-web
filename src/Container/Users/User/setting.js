@@ -1,15 +1,7 @@
 import { InputsType } from "../../../Helpers/Constant";
 import { utils } from "../../../Helpers/utils";
 
-export const columnsReport = (
-  onRenderActiveButton,
-  permissionAccount,
-  onRenderEmergyButton,
-  onRenderFreeDevice,
-  onRenderChanguePass,
-  onRenderDeleteUser,
-  onRenderFrequentVisitButton
-) => {
+export const columnsReport = (onRenderActiveButton, onRenderActions) => {
   const columns = [
     {
       fieldName: "index",
@@ -19,12 +11,6 @@ export const columnsReport = (
     {
       fieldName: "fullName",
       name: "Nombre",
-      width: "200px",
-      isFilter: true,
-    },
-    {
-      fieldName: "userName",
-      name: "Usuario",
       width: "200px",
       isFilter: true,
     },
@@ -40,17 +26,22 @@ export const columnsReport = (
       width: "10em",
       isFilter: true,
     },
-
     {
       fieldName: "houseNumber",
-      name: "#casa",
+      name: "#Casa",
       width: "10em",
+      isFilter: true,
+    },
+    {
+      fieldName: "userName",
+      name: "Usuario",
+      width: "200px",
       isFilter: true,
     },
     {
       fieldName: "phoneNumber",
       name: "Telefono",
-      width: "5em",
+      width: "10em",
     },
     {
       fieldName: "isActive",
@@ -62,63 +53,20 @@ export const columnsReport = (
     },
   ];
 
-  columns.splice(4, 0, {
+  columns.splice(2, 0, {
     fieldName: "email",
     name: "Correo",
     width: "5em",
     noVisible: !utils.hasPermission("VerCorreo"),
-  });
-
-  columns.push({
-    fieldName: "allowEmergy",
-    name: "Permitir Emergencia",
     isFilter: true,
-    isBoolean: true,
-    body: onRenderEmergyButton,
-    width: "10em",
-    noVisible: !utils.hasPermission("ActivarEmergencia"),
   });
 
   columns.push({
-    fieldName: "allowRegisterFrequentVisit",
-    name: "Permitir Visita Frecuente",
-    isFilter: true,
-    isBoolean: true,
-    body: onRenderFrequentVisitButton,
-    width: "10em",
-    noVisible: !utils.hasPermission("ActivarVisitaFrecuente"),
+    fieldName: "",
+    name: "Acciones",
+    body: onRenderActions,
+    alignHeader: "center",
   });
-
-  columns.push({
-    fieldName: "FreeDevice",
-    name: "",
-    isFilter: false,
-    isBoolean: false,
-    body: onRenderFreeDevice,
-    width: "10em",
-    noVisible: !utils.hasPermission("LiberarDispositivo"),
-  });
-  columns.push({
-    fieldName: "ChangePass",
-    name: "",
-    isFilter: false,
-    isBoolean: false,
-    body: onRenderChanguePass,
-    width: "10em",
-    noVisible: !utils.hasPermission("CambiarContraseña"),
-  });
-
-  columns.push({
-    fieldName: "DeleteUser",
-    name: "",
-    isFilter: false,
-    isBoolean: false,
-    body: onRenderDeleteUser,
-    width: "10em",
-    noVisible: !utils.hasPermission("EliminarUsuario"),
-  });
-
-
   return columns;
 };
 
@@ -170,11 +118,18 @@ export const columnsReportPDF = [
   },
 ];
 
+export const stages = {
+  primeraEtapa: "Primera Etapa",
+  segundaEtapa: "Segunda Etapa",
+  terceraEtapa: "Tercera Etapa",
+  cuartaEtapa: "Cuarta Etapa",
+};
+
 export const fieldsUsers = (
-  residentialList,
+  _residentialList,
   isEditUser,
-  getResidenceByResidential,
-  residenceList
+  _getResidenceByResidential,
+  _residenceList
 ) => {
   const templateResidence = (item) => {
     return (
@@ -192,6 +147,46 @@ export const fieldsUsers = (
     );
   };
 
+  if (isEditUser) {
+    return [
+      {
+        name: "Nombre Completo",
+        type: InputsType.text,
+        placeholder: "Nombre Completo",
+        fieldName: "fullName",
+      },
+      {
+        name: "Usuario",
+        type: InputsType.text,
+        placeholder: "Usuario",
+        fieldName: "userName",
+        keyfilter: /^[a-zA-Z0-9ñÑ]+$/,
+      },
+      {
+        name: "Correo",
+        type: InputsType.text,
+        placeholder: "Correo",
+        fieldName: "email",
+      },
+      {
+        name: "Telefono",
+        type: InputsType.mask,
+        mask: "9999-9999",
+        placeholder: "Telefono",
+        fieldName: "phoneNumber",
+      },
+      {
+        name: "Género",
+        type: InputsType.select,
+        fieldName: "gender",
+        targetValue: "gender",
+        options: [{ gender: "Masculino" }, { gender: "Femenido" }],
+        optionLabel: "gender",
+        optionValue: "gender",
+      },
+    ];
+  }
+
   return [
     {
       name: "Usuario",
@@ -208,24 +203,43 @@ export const fieldsUsers = (
       disabled: isEditUser,
     },
     {
-      name: "Residencial",
-      type: InputsType.select,
-      fieldName: "residentialId",
-      targetValue: "id",
-      options: residentialList,
-      optionLabel: "name",
-      optionValue: "id",
-      fetchDataByItem: getResidenceByResidential,
+      name: "Bloque",
+      type: InputsType.text,
+      placeholder: "Bloque",
+      fieldName: "block",
     },
     {
-      name: "Residencia",
+      name: "Número de Casa / Número de Lote",
+      type: InputsType.text,
+      placeholder: "# Casa/Lote",
+      fieldName: "houseNumber",
+    },
+    {
+      name: "Nombre Casa",
+      type: InputsType.text,
+      placeholder: "Nombre Casa",
+      fieldName: "name",
+    },
+    {
+      name: "Etapa",
       type: InputsType.select,
-      fieldName: "residenceId",
-      targetValue: "id",
-      options: residenceList,
-      optionLabel: "name",
-      optionValue: "id",
-      itemTemplate: templateResidence,
+      placeholder: "Etapa",
+      fieldName: "stage",
+      options: [
+        { stage: stages["primeraEtapa"] },
+        { stage: stages["segundaEtapa"] },
+        { stage: stages["terceraEtapa"] },
+        { stage: stages["cuartaEtapa"] },
+      ],
+      optionValue: "stage",
+      optionLabel: "stage",
+      targetValue: "stage",
+    },
+    {
+      name: "Color de Casa",
+      type: InputsType.text,
+      placeholder: "Color de Casa",
+      fieldName: "color",
     },
     {
       name: "Género",
@@ -255,17 +269,70 @@ export const fieldsUsers = (
       placeholder: "Telefono",
       fieldName: "phoneNumber",
     },
-    {
-      name: "Tipo de usuario",
-      type: InputsType.select,
-      fieldName: "accountType",
-      targetValue: "accountType",
-      options: [
-        { accountType: "RESD", name: "Residente" },
-        { accountType: "GUARD", name: "Guardia" },
-      ],
-      optionLabel: "name",
-      optionValue: "accountType",
-    },
   ];
 };
+
+export const fieldsResidence = [
+  {
+    name: "¿Es Lote Baldío?",
+    type: InputsType.checkbox,
+    fieldName: "isEmptyLot",
+  },
+  {
+    name: "Nombre",
+    type: InputsType.text,
+    placeholder: "Nombre",
+    fieldName: "name",
+  },
+  {
+    name: "Etapa",
+    type: InputsType.select,
+    placeholder: "Etapa",
+    fieldName: "stage",
+    options: [
+      { stage: stages["primeraEtapa"] },
+      { stage: stages["segundaEtapa"] },
+      { stage: stages["terceraEtapa"] },
+      { stage: stages["cuartaEtapa"] },
+    ],
+    optionValue: "stage",
+    optionLabel: "stage",
+    targetValue: "stage",
+  },
+  {
+    name: "Bloque",
+    type: InputsType.text,
+    placeholder: "Bloque",
+    fieldName: "block",
+  },
+  {
+    name: "Número de Casa / Número de Lote",
+    type: InputsType.text,
+    placeholder: "# Casa/Lote",
+    fieldName: "houseNumber",
+  },
+];
+
+export const columnsResidences = (renderEditResidence) => [
+  {
+    fieldName: "name",
+    name: "Nombre",
+    width: "50px",
+  },
+  {
+    fieldName: "stage",
+    name: "Etapa",
+    width: "50px",
+  },
+  {
+    fieldName: "block",
+    name: "Bloque",
+    width: "50px",
+  },
+  {
+    fieldName: "houseNumber",
+    name: "Número de Casa",
+    width: "50px",
+  },
+  { name: "Acciones", body: renderEditResidence },
+];

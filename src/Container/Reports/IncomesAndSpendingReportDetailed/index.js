@@ -4,13 +4,12 @@ import Container from "../../../Components/ContainerControl";
 import { IncomeReportStyled } from "./styles";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
-import { getRequestUserInfo, restClient } from "../../../Helpers/restClient";
+import { getRequestUserInfo } from "../../../Helpers/restClient";
 import { utils } from "../../../Helpers/utils";
 import { Calendar } from "primereact/calendar";
 import TableControl from "../../../Components/Controls/TableControl";
 import { columnsIncomesReport, columnsSpendingsReport } from "./settings";
 import { Checkbox } from "primereact/checkbox";
-import { UsersServices } from "../../Users/User/users.service";
 import { REPORT_TYPE, TipoCuentas } from "../../../Helpers/Constant";
 import { CreateOrUpdateSpendingTypeService } from "../../Invoice/Components/CreateOrUpdateSpendingType/CreateOrUpdateSpendingType.Service";
 import { InvoiceServices } from "../../Invoice/Invoice.Service";
@@ -20,6 +19,8 @@ import { Toast } from "primereact/toast";
 import CustomDropDown from "../../../Components/Controls/CustomDropDown";
 import { InputText } from "primereact/inputtext";
 import { ReportPdfControl } from "../Components/ReportPdfControl";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const IncomeAndSpendingReportDetailed = () => {
   const [residences, setResidences] = useState([]);
@@ -30,8 +31,6 @@ const IncomeAndSpendingReportDetailed = () => {
   });
   const [loading, setLoading] = useState(false);
   const [itemsReport, setItemsReport] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState(null);
-  const [residentialList, setResidentialList] = useState([]);
   const [spendingTypes, setSpendingTypes] = useState([]);
   const [printReport, setPrintReport] = useState(false);
   const [filtersIncomesReport, setFiltersIncomesReport] = useState({
@@ -53,6 +52,13 @@ const IncomeAndSpendingReportDetailed = () => {
     amount: { value: null, matchMode: FilterMatchMode.CONTAINS },
     vendor: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const dispatch = useDispatch();
+
+  const residentialList = residentials;
+
   const toast = useRef(null);
   useEffect(() => {
     loadPaymentTypes();
@@ -98,53 +104,14 @@ const IncomeAndSpendingReportDetailed = () => {
     }
   };
 
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
-
   const userInfo = getRequestUserInfo();
 
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-      const showAllResidentials =
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales");
-
-      if (showAllResidentials) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentialList(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-      const response = await restClient.httpGet(
-        "/security/residentials/get-residentials",
-        request
-      );
-      if (response.success) {
-        setResidentialList([response.residential]);
-        setResidentialSelected(response.residential);
-      }
-    }
-  };
-
   const handleOnchangeResidential = (e) => {
-    setResidentialSelected(e.value);
+    dispatch(setResidentialSelected(e.value));
   };
 
   const loadResidences = async () => {
+    
     if (residentialSelected) {
       const response =
         await IncomeAndSpendingReportDetailedService.getResidencesByResidentialNo(
@@ -158,11 +125,12 @@ const IncomeAndSpendingReportDetailed = () => {
             Array.isArray(residence.accounts) && residence.accounts.length > 0
           );
         });
-        const residenceAndManeger = filteredResidences.map(item=>{
-          const account = item.accounts.find(x=>x.isManager) || item.accounts[0]
+        const residenceAndManeger = filteredResidences.map((item) => {
+          const account =
+            item.accounts.find((x) => x.isManager) || item.accounts[0];
           item.fullName = account.fullName;
           return item;
-        })
+        });
         setResidences(residenceAndManeger);
       }
     }
@@ -231,8 +199,8 @@ const IncomeAndSpendingReportDetailed = () => {
   };
 
   const canShowResidentialControl = useMemo(() => {
-    const account = userInfo.accounts[0];
-    const permission = account.accountType;
+    const account = userInfo?.accounts[0];
+    const permission = account?.accountType;
     return (
       permission === TipoCuentas.administrador ||
       utils.hasPermission("VerTodasLasResidenciales")
@@ -286,7 +254,6 @@ const IncomeAndSpendingReportDetailed = () => {
   }, [filtersReport.reportType]);
 
   const itemTemplate = (item) => {
-
     return (
       <div
         className="dropdown-item"

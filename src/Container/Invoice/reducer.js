@@ -7,6 +7,7 @@ export const InvoiceSlice = createSlice({
     residences: [],
     filterResidential: "",
     filterResidences: "",
+    residentialSelected: {},
   },
   reducers: {
     setResidentials: (state, action) => {
@@ -21,8 +22,17 @@ export const InvoiceSlice = createSlice({
     setFilterResidences: (state, action) => {
       state.filterResidences = action.payload;
     },
+    setResidentialSelected: (state, action) => {
+      state.residentialSelected = action.payload;
+    },
   },
 });
 
-export const { setResidentials, setFilterResidential, setResidences, setFilterResidences } = InvoiceSlice.actions;
+export const {
+  setResidentials,
+  setFilterResidential,
+  setResidences,
+  setFilterResidences,
+  setResidentialSelected,
+} = InvoiceSlice.actions;
 export default InvoiceSlice.reducer;

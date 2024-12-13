@@ -10,14 +10,14 @@ import { utils } from "../../../Helpers/utils";
 import { pendingPaymentColumns } from "./settings";
 import { getRequestUserInfo } from "../../../Helpers/restClient";
 import { TipoCuentas } from "../../../Helpers/Constant";
-import { UsersServices } from "../../Users/User/users.service";
-import { IncomeAndSpendingReportSummarizedService } from "../IncomeAndSpendingReportSummarized/IncomeAndSpendingReport.Service";
 import { Calendar } from "primereact/calendar";
 import { Toast } from "primereact/toast";
 import { FilterMatchMode } from "primereact/api";
 import { ReportPdfControl } from "../Components/ReportPdfControl";
 import CustomDropDown from "../../../Components/Controls/CustomDropDown";
 import { InputText } from "primereact/inputtext";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const PendingPaymentReport = () => {
   const [paymentTypes, setPaymentTypes] = useState([]);
@@ -25,8 +25,6 @@ const PendingPaymentReport = () => {
   const [filters, setFilters] = useState({ onlyPending: true });
   const [loading, setLoading] = useState(false);
   const [pandingPayments, setPandingPayments] = useState([]);
-  const [residentials, setResidentials] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState({});
   const [printReport, setPrintReport] = useState(false);
   const toast = useRef(null);
 
@@ -42,9 +40,10 @@ const PendingPaymentReport = () => {
     hasPartialPayment: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (utils.evaluateFullObjetct(residentialSelected)) {
@@ -73,52 +72,6 @@ const PendingPaymentReport = () => {
 
     setPaymentTypes(response.paymentTypes);
     setLoading(false);
-  };
-
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-
-      const showAllResidentials =
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales");
-
-      // const showAllResidentials = permission === TipoCuentas.administrador;
-
-      if (showAllResidentials) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentials(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-
-      const response =
-        await IncomeAndSpendingReportSummarizedService.getResidentialByAccountType(
-          request
-        );
-
-      if (response.success) {
-        setResidentials([response.residential]);
-
-        setResidentialSelected({
-          ...response.residential,
-          residentialSelected: response.residential,
-        });
-      }
-    }
   };
 
   const loadAccounts = async () => {
@@ -163,8 +116,8 @@ const PendingPaymentReport = () => {
   };
 
   const canShowResidentialControl = useMemo(() => {
-    const account = userInfo.accounts[0];
-    const permission = account.accountType;
+    const account = userInfo?.accounts[0];
+    const permission = account?.accountType;
     return (
       permission === TipoCuentas.administrador ||
       utils.hasPermission("VerTodasLasResidenciales")
@@ -172,7 +125,7 @@ const PendingPaymentReport = () => {
   }, [userInfo]);
 
   const handleOnchangeResidential = (e) => {
-    setResidentialSelected(e.value);
+    dispatch(setResidentialSelected(e.value));
   };
 
   const filterFields = [

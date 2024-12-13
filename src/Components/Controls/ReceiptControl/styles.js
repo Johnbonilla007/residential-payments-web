@@ -78,7 +78,7 @@ export const InvoiceDocumentNormalStyled = styled.div`
           display: flex;
           justify-content: center;
           border: 1px solid #ccc;
-          background-color: #4cad4c;
+          background-color: #002147;
           width: 120px;
           font-weight: 700;
           color: #fff;
@@ -259,7 +259,7 @@ export const InvoiceDocumentThermalStyled = styled.div`
           display: flex;
           justify-content: center;
           border: 1px solid #ccc;
-          background-color: #4cad4c;
+          background-color: #002147;
           width: 60px;
           font-weight: 700;
           font-size: 6pt;

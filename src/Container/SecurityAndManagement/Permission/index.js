@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { PermissionStyled } from "./styled";
-import ListControl from "../../Components/ListControl";
-import Container from "../../Components/ContainerControl";
+import ListControl from "../../../Components/ListControl";
+import Container from "../../../Components/ContainerControl";
 import {
   FaPlus,
   FaShieldAlt,
@@ -9,7 +9,7 @@ import {
   FaPen,
   FaUser,
 } from "react-icons/fa";
-import DynamicFormDialog from "../../Components/DynamicFormDialog";
+import DynamicFormDialog from "../../../Components/DynamicFormDialog";
 import {
   fieldsAsignPermission,
   fieldsPermission,
@@ -19,9 +19,9 @@ import { Toast } from "primereact/toast";
 
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { confirmDialog } from "primereact/confirmdialog";
-import { utils } from "../../Helpers/utils";
+import { utils } from "../../../Helpers/utils";
 import { PermissionServices } from "./permission.service";
-import { UsersServices } from "../Users/User/users.service";
+import { UsersServices } from "../../Users/User/users.service";
 import { Button } from "primereact/button";
 import { UserByPermissionModal } from "./Components/UserByPermissionModal";
 const Permission = () => {
@@ -209,7 +209,7 @@ const Permission = () => {
   };
 
   const handleSubmitAsignPermission = async (item) => {
-    debugger;
+    
     const request = {
       rolesPermissions: item.permissions.map((x) => {
         return {
@@ -324,7 +324,7 @@ const Permission = () => {
   };
 
   const onPressEnter = async (userName) => {
-    debugger;
+    
     const request = {
       userName: userName,
     };

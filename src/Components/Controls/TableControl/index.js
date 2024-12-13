@@ -21,6 +21,7 @@ const TableControl = ({
   onPage,
   rowsPerPageOptions = undefined,
   paginator = true,
+  onFilter,
 }) => {
   const verifiedRowFilterTemplate = (options, item) => {
     return (
@@ -112,6 +113,7 @@ const TableControl = ({
           rowsPerPageOptions={rowsPerPageOptions}
           // globalFilterFields={filterFields}
           emptyMessage={emptyMessage ? emptyMessage : " "}
+          onFilter={onFilter}
         >
           {columns &&
             columns.map((item) => {

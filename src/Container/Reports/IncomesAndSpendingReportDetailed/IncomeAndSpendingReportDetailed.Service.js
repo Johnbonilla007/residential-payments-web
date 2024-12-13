@@ -14,6 +14,8 @@ export class IncomeAndSpendingReportDetailedService {
   }
 
   static async getResidencesByResidentialNo(searchValue) {
+    
+
     return await restClient.httpGet("/security/residences/get-residences", {
       searchValue,
     });

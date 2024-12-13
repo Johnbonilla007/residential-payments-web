@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { InvoiceStyled } from "./styled";
 import Container from "../../Components/ContainerControl";
 import { FaArrowLeft, FaEye, FaPlus } from "react-icons/fa";
@@ -25,6 +26,7 @@ import {
   setFilterResidential,
   setResidences,
   setResidentials,
+  setResidentialSelected,
 } from "./reducer";
 import FinancialMovementForm from "./Components/FinancialMovementForm";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -32,7 +34,6 @@ import FinancialMovement from "./Components/FinancialMovement";
 
 const Invoice = () => {
   const [residentialList, setResidentialList] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState({});
   const [residenceSelected, setResidenceSelected] = useState({});
   const [isOpenInvoiceModal, setisOpenInvoiceModal] = useState(false);
   const [isOpenSpendingInvoiceModal, setIsOpenSpendingInvoiceModal] =
@@ -47,70 +48,25 @@ const Invoice = () => {
   const [showModalPaymentType, setShowModalPaymentType] = useState(false);
   const [showModalSpendingType, setShowModalSpendingType] = useState(false);
   const [openUploadControl, setOpenUploadControl] = useState(false);
-  const [showViewResidence, setShowViewResidence] = useState(false);
+  const [showViewResidence, setShowViewResidence] = useState(true);
   const [showFinancialMovement, setShowFinancialMovement] = useState(false);
   const [showAddFinancialMovement, setShowAddFinancialMovement] =
     useState(false);
-  const { residentials, filterResidential, residences, filterResidences } =
-    useSelector((state) => state.Invoice);
+  const {
+    residentials,
+    filterResidential,
+    residences,
+    filterResidences,
+    residentialSelected,
+  } = useSelector((state) => state.Invoice);
   const dispatch = useDispatch();
+
   const toast = useRef(null);
-
-  useEffect(() => {
-    handleFechtResidential();
-  }, []);
-
-  const userInfo = getRequestUserInfo();
-
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-      if (
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales")
-      ) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentialList(response.residentials);
-          dispatch(setResidentials(response.residentials));
-
-          return;
-        }
-      }
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-      const response = await restClient.httpGet(
-        "/security/residentials/get-residentials",
-        request
-      );
-      if (response.success) {
-        setResidentialList([response.residential]);
-        dispatch(setResidentials([response.residential]));
-      }
-    }
-  };
+  const userInfo = useMemo(() => getRequestUserInfo(), []);
 
   const commands = () => {
     if (utils.evaluateFullObjetct(residentialSelected)) {
-      return [
-        {
-          label: "Atras",
-          action: () => {
-            if (utils.evaluateFullObjetct(residenceSelected) && showInvoice) {
-              setResidenceSelected({});
-              setShowInvoice(false);
-              return;
-            }
-            setResidentialSelected({});
-            dispatch(setResidences([]));
-            setShowViewResidence(false);
-          },
-          icon: () => {
-            return <FaArrowLeft size={16} color="#84b6f4" />;
-          },
-        },
+      const commandsToReturn = [
         {
           label: "Recibo de Ingreso",
           action: () => {
@@ -160,6 +116,31 @@ const Invoice = () => {
           },
         },
       ];
+
+      const allowGoBack = userInfo.accesses?.some((x) =>
+        x?.permissions?.some((y) => y.name === "SuperRoot")
+      );
+
+      if (allowGoBack) {
+        commandsToReturn.unshift({
+          label: "Atras",
+          action: () => {
+            if (utils.evaluateFullObjetct(residenceSelected) && showInvoice) {
+              setResidenceSelected({});
+              setShowInvoice(false);
+              return;
+            }
+            // dispatch(setResidentialSelected({}));
+            dispatch(setResidences([]));
+            setShowViewResidence(false);
+          },
+          icon: () => {
+            return <FaArrowLeft size={16} color="#84b6f4" />;
+          },
+        });
+      }
+
+      return commandsToReturn;
     }
     return [];
   };
@@ -213,7 +194,7 @@ const Invoice = () => {
       return;
     }
     if (response?.success) {
-      handleFechtResidential();
+      // handleFechtResidential();
       toast.current.show({
         severity: "success",
         summary: "Exito",
@@ -306,8 +287,15 @@ const Invoice = () => {
       </div>
     );
   };
+
+  const isReadOnly = useMemo(() => {
+    return userInfo.accesses?.some(
+      (x) => x.rolName === TipoCuentas.Rol_Residente
+    );
+  }, [userInfo]);
+
   return (
-    <Container commands={commands()}>
+    <Container commands={!isReadOnly && commands()}>
       <InvoiceStyled>
         <ConfirmDialog />
         <Toast ref={toast} />
@@ -326,7 +314,12 @@ const Invoice = () => {
                   setFilter={(value) => {
                     dispatch(setFilterResidences(value));
                   }}
-                  propertyFilter={["name", "block", "houseNumber"]}
+                  propertyFilter={[
+                    "name", // Top-level property
+                    "block", // Top-level property
+                    "houseNumber", // Top-level property
+                    { key: "accounts", subItems: ["fullName", "userName"] }, // Nested properties
+                  ]}
                   combinedFilterProperties={["block", "houseNumber"]}
                   onChange={(items) => {
                     setResidenceList(items);
@@ -349,8 +342,7 @@ const Invoice = () => {
           )}
         </div>
 
-        {!utils.evaluateFullObjetct(residentialSelected) &&
-          !showViewResidence &&
+        {!showViewResidence &&
           residentialList.length > 0 &&
           CardComponent(residentialList)}
 
@@ -474,7 +466,7 @@ const Invoice = () => {
                   });
                   setResidentialSelected({});
                   setOpenUploadControl(false);
-                  handleFechtResidential();
+                  // handleFechtResidential();
                   return;
                 }
               }

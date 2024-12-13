@@ -9,7 +9,7 @@ export const ReportContainerStyled = styled.div`
   padding: 30px;
   max-height: 80vh;
   scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #009929 #fff; /* Para Firefox */
+  scrollbar-color: #002147 #fff; /* Para Firefox */
   margin-top: 20px;
   .item {
     margin: 10px;

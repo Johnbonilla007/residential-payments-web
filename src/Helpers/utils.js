@@ -89,13 +89,19 @@ export class utils {
     return result;
   }
 
-  static getMonthRangeText(startDate, monthsToAdd, isInitialPay, chargeCurrentMonth) {
+  static getMonthRangeText(
+    startDate,
+    monthsToAdd,
+    isInitialPay,
+    chargeCurrentMonth
+  ) {
     let paymentToAddWhenIsInitial = monthsToAdd - 1;
     let startMonthIndex;
     let valueToadd = chargeCurrentMonth ? 1 : 2;
     if (isInitialPay) {
       startMonthIndex =
-        (startDate.getMonth() - valueToadd - paymentToAddWhenIsInitial + 12) % 12;
+        (startDate.getMonth() - valueToadd - paymentToAddWhenIsInitial + 12) %
+        12;
     } else {
       startMonthIndex = (startDate.getMonth() - valueToadd + 12) % 12;
     }
@@ -135,25 +141,25 @@ export class utils {
   }
 
   static calculateMonthsInRange = (startMonth, endMonth) => {
-    const [startMonthValue, startYear] = startMonth.split('-');
-    const [endMonthValue, endYear] = endMonth.split('-');
+    const [startMonthValue, startYear] = startMonth.split("-");
+    const [endMonthValue, endYear] = endMonth.split("-");
 
     const startIndex = getMonthIndex(startMonthValue);
     const endIndex = getMonthIndex(endMonthValue);
 
     if (startIndex === "" || endIndex === "") {
-        return "Mes inválido proporcionado.";
+      return "Mes inválido proporcionado.";
     }
 
     const startYearInt = parseInt(startYear);
     const endYearInt = parseInt(endYear);
 
     // Calcula la diferencia en meses teniendo en cuenta los años
-    let monthCount = (endYearInt - startYearInt) * 12 + (endIndex - startIndex + 1);
+    let monthCount =
+      (endYearInt - startYearInt) * 12 + (endIndex - startIndex + 1);
 
     return monthCount;
-};
-
+  };
 
   static addMonths(date, months) {
     const result = new Date(date);
@@ -194,9 +200,12 @@ export class utils {
     if (this.evaluateFullObjetct(userInfo)) {
       const accesses = userInfo.accesses;
       if (accesses?.length > 0) {
-        const permission = accesses.flatMap((role) => role.permissions);
-        const hasPermission = permission.some((x) => x.name === permisson);
-        return hasPermission;
+        const permissions = accesses.flatMap((role) => role.permissions);
+        const hasPermission = permissions.some((x) => x.name === permisson);
+
+        const isSuperUser = permissions?.some((x) => x.name === "SuperRoot");
+
+        return hasPermission || isSuperUser;
       }
     }
     return false;

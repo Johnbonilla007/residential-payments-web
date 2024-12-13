@@ -9,6 +9,10 @@ export const CommandBarControlStyled = styled.div`
   display: flex;
   z-index: 1000;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  /* position: absolute;
+  left: ${({ showSideBar }) => showSideBar && "70px"}; */
+  transition: left 0.10s ease, color 0.10s ease;
+
   .command-button-disabled {
     opacity: 0.5; /* Reduce la opacidad para dar efecto de deshabilitado */
     pointer-events: none; /* Evita cualquier interacción */

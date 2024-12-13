@@ -45,15 +45,15 @@ const InvoiceDocumentNormal = ({
         <div className="residential-name">{residentialSelected.name}</div>
         <div className="app-name">
           <div>
-            <strong>Sistema de Seguridad Alpha</strong>
+            <strong>Sistema de Pagos Residenciales</strong>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "60px", fontWeight: "700" }}>Telefono:</div>
-            <label>+504 9920-6159</label>
+            <label>+504 9443-2877</label>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "60px", fontWeight: "700" }}>Correo:</div>
-            <label>administracion@sashonduras.com</label>
+            <label>residencialquintasdelsol2022@gmail.com</label>
           </div>
         </div>
 

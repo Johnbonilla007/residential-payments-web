@@ -60,7 +60,11 @@ export const CreateOrUpdatePaymentType = ({
 
   const handleSubmit = async (values) => {
     const request = {
-      paymentType: { ...values, residentialNo: residentialSelected.residentialNo, residentialId: residentialSelected.id },
+      paymentType: {
+        ...values,
+        residentialNo: residentialSelected.residentialNo,
+        residentialId: residentialSelected.id,
+      },
     };
 
     const response = await CreateOrUpdatePaymentTypeService.createOrUpdate(

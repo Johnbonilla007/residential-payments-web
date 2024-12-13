@@ -15,23 +15,28 @@ const ListControl = ({
     item[searchProperty].toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
-    <ListControlStyled>
-      <div className="list-control" style={{ width: width ? width : "200px" }}>
-        <SearchControl
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-        <div className="container-items">
-          {filteredItems.map((item, index) => {
-            return (
-              <div onClick={() => onSelectItem(item)}>
-                {renderItem(item, index)}
-              </div>
-            );
-          })}
+    <div style={{ position: "" }}>
+      <ListControlStyled>
+        <div
+          className="list-control"
+          style={{ width: width ? width : "200px" }}
+        >
+          <SearchControl
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <div className="container-items">
+            {filteredItems.map((item, index) => {
+              return (
+                <div onClick={() => onSelectItem(item)}>
+                  {renderItem(item, index)}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </ListControlStyled>
+      </ListControlStyled>
+    </div>
   );
 };
 

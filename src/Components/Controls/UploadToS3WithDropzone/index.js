@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Dialog } from "primereact/dialog";
 import { Amplify, Storage } from "aws-amplify";
@@ -6,8 +7,9 @@ import awsConfig from "../../../aws-exports-ssa";
 import { Toast } from "primereact/toast";
 import { UploadToS3WithDropzoneStyled } from "./styled";
 import { Button } from "primereact/button";
-import { utils } from "../../../Helpers/utils";
-import { ProgressBar } from 'primereact/progressbar';
+import { ProgressBar } from "primereact/progressbar";
+import { CameraWrapper } from "../Camera/styles";
+import Webcam from "react-webcam";
 
 Amplify.configure(awsConfig);
 
@@ -17,11 +19,32 @@ const UploadToS3WithDropzone = ({
   folderPath,
   getUrl,
   fileName,
+  handleCapturePhoto,
 }) => {
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const webcamRef = useRef(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const [showUploadPhoto, setShowUploadPhoto] = useState(true);
+
+  const capturePhoto = () => {
+    if (webcamRef.current) {
+      const image = webcamRef.current.getScreenshot();
+      setImageSrc(image);
+      setShowCamera(false);
+      setShowUploadPhoto(true);
+      handleCapturePhoto && handleCapturePhoto(image);
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      handleClose();
+    }
+  }, [isOpen]);
 
   const toast = useRef(null);
 
@@ -67,7 +90,9 @@ const UploadToS3WithDropzone = ({
       return;
     }
 
-    if (!file) {
+    const _file = file;
+
+    if (!_file) {
       toast.current.show({
         severity: "warn",
         summary: "Advertencia",
@@ -79,8 +104,10 @@ const UploadToS3WithDropzone = ({
 
     setUploading(true);
 
-    const fileExtension = file.name.split(".").pop(); // Obtiene la extensión del archivo
-    const finalFileName = fileName ? fileName + "." + fileExtension : file.name;
+    const fileExtension = _file.name.split(".").pop(); // Obtiene la extensión del archivo
+    const finalFileName = fileName
+      ? fileName + "." + fileExtension
+      : _file.name;
     const filePath = `${folderPath}/${finalFileName}`;
 
     try {
@@ -89,7 +116,6 @@ const UploadToS3WithDropzone = ({
         level: "public",
         contentType: file.type,
         progressCallback: uploadProgress,
-
       });
 
       const url = `https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/${result.key}`;
@@ -117,6 +143,7 @@ const UploadToS3WithDropzone = ({
   const handleClose = () => {
     setFile(null); // Limpiar el archivo seleccionado
     setFileUrl(""); // Limpiar la vista previa
+    setImageSrc("");
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -125,37 +152,80 @@ const UploadToS3WithDropzone = ({
   });
 
   return (
-    <Dialog
-      header={"Subir Imagen"}
-      visible={isOpen}
-      onHide={() => onDissmis()}
-      style={{ width: "70vw", height: "60vh" }}
-    >
+    <Dialog header={"Subir Imagen"} visible={isOpen} onHide={onDissmis}>
       <UploadToS3WithDropzoneStyled>
         <Toast ref={toast} />
-        {utils.isNullOrEmpty(fileUrl) && !uploading && (
-          <div
-            {...getRootProps()}
-            style={{
-              ...dropzoneStyle,
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <input {...getInputProps()} />
-            <p>
-              Arrastra y suelta un archivo aquí, o haz clic para seleccionar uno
-            </p>
+
+        <div className="button-group">
+          {!showUploadPhoto && (
+            <button
+              disabled={showUploadPhoto}
+              className="upload-button"
+              onClick={() => {
+                setShowUploadPhoto(true);
+                setShowCamera(false);
+                handleClose();
+              }}
+            >
+              Subir Imagen
+            </button>
+          )}
+
+          {!showCamera && (
+            <button
+              className="upload-button"
+              onClick={() => {
+                setShowCamera(true);
+                setShowUploadPhoto(false);
+                handleClose();
+              }}
+            >
+              Tomar Foto
+            </button>
+          )}
+        </div>
+
+        {!fileUrl && !uploading && (
+          <div className="upload-section">
+            {showUploadPhoto && (
+              <div {...getRootProps()} className="dropzone">
+                <input {...getInputProps()} />
+                <p>
+                  Arrastra y suelta un archivo aquí, o haz clic para seleccionar
+                  uno
+                </p>
+              </div>
+            )}
+
+            {showCamera && (
+              <CameraWrapper>
+                <h2>Tomar Foto</h2>
+                <div className="webcam-container">
+                  <Webcam
+                    ref={webcamRef}
+                    audio={false}
+                    screenshotFormat="image/jpeg"
+                    className="webcam"
+                  />
+                </div>
+                <button className="capture-button" onClick={capturePhoto}>
+                  Capturar Foto
+                </button>
+              </CameraWrapper>
+            )}
           </div>
         )}
-        {fileUrl && !uploading && (
+        {(fileUrl || imageSrc) && !uploading && (
           <div>
             <h3>Vista Previa:</h3>
-            <img src={fileUrl} alt="Preview" style={{ width: "300px" }} />
+            <img
+              src={imageSrc || fileUrl}
+              alt="Preview"
+              style={{ width: "300px" }}
+            />
           </div>
         )}
-        {fileUrl && !uploading && (
+        {(imageSrc || fileUrl) && !uploading && (
           <div
             style={{
               display: "flex",
@@ -169,7 +239,7 @@ const UploadToS3WithDropzone = ({
             <Button label="Cancelar" onClick={handleClose} />
           </div>
         )}
-        {uploading &&   <ProgressBar value={progress}></ProgressBar>}
+        {uploading && <ProgressBar value={progress}></ProgressBar>}
       </UploadToS3WithDropzoneStyled>
     </Dialog>
   );

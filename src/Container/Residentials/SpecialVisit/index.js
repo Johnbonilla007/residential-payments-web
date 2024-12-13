@@ -4,35 +4,30 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { AiFillDelete } from "react-icons/ai"; // Icono de eliminar
 import Container from "../../../Components/ContainerControl";
-import { FaPlus, FaUserPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { Dropdown } from "primereact/dropdown";
-import { getRequestUserInfo, restClient } from "../../../Helpers/restClient";
-import { UsersServices } from "../../Users/User/users.service";
 import { utils } from "../../../Helpers/utils";
 import { Toast } from "primereact/toast";
-import { TipoCuentas } from "../../../Helpers/Constant";
 import { SpecialVisitServices } from "./SpecialVisit.service";
 import DynamicFormDialog from "../../../Components/DynamicFormDialog";
 import { fieldsSpecialVisit } from "./setting";
+import { useDispatch, useSelector } from "react-redux";
+import { setResidentialSelected } from "../../Invoice/reducer";
 
 const SpecialVisit = () => {
   const [specialVisits, setSpecialVisits] = useState([]);
-  const [residentialSelected, setResidentialSelected] = useState(null);
-  const [residentialList, setResidentialList] = useState([]);
-  const [permissionAccount, setPermissionAccount] = useState("");
   const [showModalForm, setShowModalForm] = useState(false);
   const toast = useRef(null);
-  const userInfo = getRequestUserInfo();
 
-  useEffect(() => {
-    if (residentialList.length <= 0) {
-      handleFechtResidential();
-    }
-  }, []);
+  const { residentialSelected, residentials } = useSelector(
+    (store) => store.Invoice
+  );
+  const residentialList = residentials;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (utils.evaluateFullObjetct(residentialSelected)) {
-      debugger;
+      
       handleGetSpecialVisit(residentialSelected.residentialNo);
     }
   }, [residentialSelected]);
@@ -48,42 +43,6 @@ const SpecialVisit = () => {
     if (response?.success) {
       setSpecialVisits(response.specialVisits);
       return;
-    }
-  };
-
-  const handleFechtResidential = async () => {
-    if (utils.evaluateFullObjetct(userInfo)) {
-      const account = userInfo.accounts[0];
-      const permission = account.accountType;
-      setPermissionAccount(permission);
-      if (
-        permission === TipoCuentas.administrador ||
-        utils.hasPermission("VerTodasLasResidenciales")
-      ) {
-        const response = await UsersServices.getAllResidential({});
-        if (response?.success) {
-          setResidentialList(response.residentials);
-          if (utils.evaluateFullObjetct(residentialSelected)) {
-            const residential = response.residentials.find(
-              (x) => x.residentialId === residentialSelected.residentialId
-            );
-            setResidentialSelected(residential);
-          }
-        }
-        return;
-      }
-
-      const request = {
-        searchValue: userInfo.residentialNo,
-      };
-      const response = await restClient.httpGet(
-        "/security/residentials/get-residentials",
-        request
-      );
-      if (response.success) {
-        setResidentialList([response.residential]);
-        setResidentialSelected(response.residential);
-      }
     }
   };
 
@@ -126,8 +85,7 @@ const SpecialVisit = () => {
   ];
 
   const handleOnchangeResidential = (e) => {
-    debugger;
-    setResidentialSelected(e.value);
+    dispatch(setResidentialSelected(e.value));
   };
 
   const templateResidentials = (row) => {

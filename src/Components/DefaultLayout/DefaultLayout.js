@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import routes from "../../Routes";
 import { Menubar } from "primereact/menubar";
 import { menuItems } from "./setting";
@@ -15,8 +15,12 @@ import { Login } from "../../Container/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthenticate } from "../../Container/Login/reducer";
 import { Toast } from "primereact/toast";
-import Menu from "../../Container/Menu";
-import ReportsContainer from "../../Container/Reports";
+import DashboardMenu from "../../Container/Menu";
+import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
+import AppSidebar from "./AppSideBar";
+import { TipoCuentas } from "../../Helpers/Constant";
+import { SiReactivex } from "react-icons/si";
 
 export const DefaultLayout = () => {
   const navigate = useNavigate();
@@ -30,11 +34,10 @@ export const DefaultLayout = () => {
   const toast = useRef(null);
 
   const { authenticate } = useSelector((state) => state.Login);
+  const { showSideBar } = useSelector((state) => state.DefaultLayout);
 
   useEffect(() => {
-    
     if (authenticate) {
-      
       if (utils.evaluateFullObjetct(userInfo)) {
         homeOption();
         setIsLogin(true);
@@ -48,12 +51,18 @@ export const DefaultLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticate]);
 
-  const permission = useMemo(() => {
+  const accesses = useMemo(() => {
     if (utils.evaluateFullObjetct(userInfo)) {
       let accesses = userInfo.accesses;
       return accesses;
     }
     return [];
+  }, [userInfo]);
+
+  const isResidenceRol = useMemo(() => {
+    return userInfo?.accesses?.any(
+      (x) => x.rolName === TipoCuentas.Rol_Residente
+    );
   }, [userInfo]);
 
   const handelOnLogin = async (e) => {
@@ -74,7 +83,14 @@ export const DefaultLayout = () => {
       setPassword("");
       setIsLogin(true);
       window.sessionStorage.setItem("userInfo", JSON.stringify(response.user));
-      navigate("/menuu");
+      const isResidenceRol = response.user.accesses.any(
+        (x) => x.rolName === TipoCuentas.Rol_Residente
+      );
+      if (isResidenceRol) {
+        navigate("/billing/receipt");
+        return;
+      }
+      navigate("/dashboard");
       return;
     }
     if (response && response.success) {
@@ -96,11 +112,22 @@ export const DefaultLayout = () => {
   };
 
   const homeOption = () => {
-    navigate("/menuu");
+    if (isResidenceRol) {
+      navigate("/billing/receipt");
+      return;
+    }
+    navigate("/dashboard");
   };
 
   const start = (
-    <img alt="logo" src={require("../../Assets/ssaicon.png")} height="50"></img>
+    <div className="app-icon">
+      {/* <img
+        alt="logo"
+        src={require("../../Assets/ssaicon.png")}
+        height="35"
+      ></img> */}
+      <SiReactivex size={40} color="white" title="SPR" />
+    </div>
   );
   const end = (
     <Button
@@ -123,66 +150,87 @@ export const DefaultLayout = () => {
       style={{ marginRight: "30px" }}
     />
   );
-  return (
-    <DefaultLayoutStyled>
-      <Toast ref={toast} />
-      <Menubar
-        model={menuItems(homeOption)}
-        start={start}
-        end={end}
-        style={{ margin: "0px", backgroundColor: "#4cad4c" }}
+
+  const RenderRoutes = () => (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route key={"/login"} path={"/login"} element={<Login />} />
+      <Route key={"/home"} path={"/home"} element={<Home />} />
+      <Route
+        key={"/dashboard"}
+        path={"/dashboard"}
+        element={<DashboardMenu />}
       />
-      <Routes>
-        <Route index element={<Menu />} />
-        <Route key={"/login"} path={"/login"} element={<Login />} />
-        <Route key={"/home"} path={"/home"} element={<Home />} />
-        <Route key={"/menuu"} path={"/menuu"} element={<Menu />} />
-        {routes.map((route) => {
-          const AllowView = permission?.some(
-            (x) => x.rolName === route.accesses
-          );
-          const hasSubRoutes = route.subRoutes !== undefined;
+      {routes.map((route) => {
+        const allowView = accesses?.some(
+          (x) =>
+            x.rolName === route.accesses ||
+            x?.permissions?.some((y) => y.name === "SuperRoot")
+        );
 
-          if (hasSubRoutes && AllowView) {
-            return (
-              <>
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.Element}
-                />
-                {route.subRoutes.map((subRoute) => {
-                  const allowAccess = utils.hasPermission(subRoute.accesses);
-                  if (allowAccess) {
-                    return (
-                      <Route
-                        key={subRoute.path}
-                        path={subRoute.path}
-                        element={subRoute.Element}
-                      />
-                    );
-                  }
+        let hasSubRoutes = route.subRoutes !== undefined;
 
-                  return null;
-                })}
-              </>
-            );
-          }
-
-          if (AllowView)
-            return (
+        if (hasSubRoutes && allowView) {
+          return (
+            <>
               <Route
                 key={route.path}
                 path={route.path}
                 element={route.Element}
               />
-            );
+              {route.subRoutes.map((subRoute) => {
+                let allowAccess = utils.hasPermission(subRoute.accesses);
+                const isSuperRoot = accesses?.some((x) =>
+                  x?.permissions?.some((y) => y.name === "SuperRoot")
+                );
 
-          return null;
-        })}
-      </Routes>
+                if (!allowAccess && isSuperRoot) {
+                  allowAccess = true;
+                }
+
+                if (allowAccess) {
+                  return (
+                    <Route
+                      key={subRoute.path}
+                      path={subRoute.path}
+                      element={subRoute.Element}
+                    />
+                  );
+                }
+
+                return null;
+              })}
+            </>
+          );
+        }
+
+        if (allowView)
+          return (
+            <Route key={route.path} path={route.path} element={route.Element} />
+          );
+
+        return null;
+      })}
+    </Routes>
+  );
+
+  return (
+    <DefaultLayoutStyled authenticate={authenticate} showSideBar={showSideBar}>
+      <Toast ref={toast} />
+
+      <Menubar
+        style={{ borderRadius: 1 }}
+        className="top-bar"
+        model={menuItems(homeOption)}
+        start={start}
+        end={end}
+      />
+      {authenticate && <AppSidebar />}
+
+      {RenderRoutes()}
+
       <div className="footer">
-        © 2022, Sistema de Seguridad Alpha. Todos los derechos reservados.
+        © 2024, Sistema de Pagos Residenciales. Todos los derechos reservados.
       </div>
       <OverlayPanel
         ref={op}
