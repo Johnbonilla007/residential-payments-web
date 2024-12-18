@@ -7,7 +7,11 @@ import Container from "../../Components/ContainerControl";
 import { BillingContainerSyled } from "./styles";
 
 const BillingContainer = () => {
-  const _routes = routes.firstOrDefault((x) => x.module === "billing");
+  const _routes = useMemo(
+    () => routes?.firstOrDefault((x) => x.module === "billing"),
+    []
+  );
+
   const userInfo = getRequestUserInfo();
   const accesses = useMemo(() => {
     if (utils.evaluateFullObjetct(userInfo)) {

@@ -15,10 +15,12 @@ import { Button } from "primereact/button";
 import { ResidenceInvoiceCardStyled } from "../Components/ResidenceInvoiceCard/styled";
 import { utils } from "../../../Helpers/utils";
 import { InvoiceServices } from "../Invoice.Service";
-import { CardComponent } from "./components/CardComponent";
+import { CardComponentPenaltyFee } from "../Components/CardComponentPenaltyFee";
 import { PenaltyFeeForm } from "./components/PenaltyFeeForm";
 import { PenaltyFeeService } from "./PenaltyFee.Service";
 import { PenaltiesFeeListComponent } from "./components/PenaltiesFeeListComponent";
+import { ReceiptsPenaltiesFeeComponent } from "./components/ReceiptsPenaltiesFeeComponent";
+import EditResidenceModal from "../Components/ResidenceInvoiceCard/Components/EditResidenceModal";
 
 const PenaltyFee = () => {
   const { residentialSelected, residences, filterResidences } = useSelector(
@@ -33,6 +35,11 @@ const PenaltyFee = () => {
   const [paymentTypeList, setPaymentTypeList] = useState([]);
   const [showPenaltyFeeForm, setShowPenaltyFeeForm] = useState(false);
   const [showPenaltiesFee, setShowPenaltiesFee] = useState(false);
+  const [selectedPenalty, setSelectedPenalty] = useState(null); // Estado para almacenar la penalidad seleccionada
+  const [showReceiptsPenaltiesFee, setShowReceiptsPenaltiesFee] =
+    useState(false);
+  const [showEditResidence, setShowEditResidence] = useState(false);
+  const [userList, setUserList] = useState([]);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -67,13 +74,11 @@ const PenaltyFee = () => {
   const loadResidences = async (request) => {
     let response = await UsersServices.getResidence(request);
 
-    const hasPermission = userInfo.accesses?.some((x) =>
-      x?.permissions?.some((y) => y.name === "VerMisResidencias")
-    );
+    const hasPermission = utils.hasPermission("VerTodasLasResidencias");
 
     const accountIds = userInfo.accounts.select((x) => x.id);
 
-    if (hasPermission) {
+    if (!hasPermission) {
       response.residences = response.residences.filter((x) =>
         accountIds.includes(x.accountId)
       );
@@ -88,18 +93,34 @@ const PenaltyFee = () => {
 
   const handleOnChangeEmptyLot = async (e) => setOnlyEmptyLot(e.value);
 
-  const handleOnAddOrEditPenaltyFee = (residence) => {
+  const handleOnAddPenaltyFee = (residence) => {
     setResidenceSelected(residence);
     setShowPenaltyFeeForm(true);
+  };
+
+  const handleOnEditResidence = (residence) => {
+    setResidenceSelected(residence);
+    setShowEditResidence(true);
   };
 
   const handleCloaseForm = () => {
     setShowPenaltyFeeForm(false);
     setResidenceSelected({});
+    setSelectedPenalty({});
   };
 
   const handleShowPenaltiesFee = (residence) => {
     setShowPenaltiesFee(true);
+    setResidenceSelected(residence);
+  };
+
+  const handleShowEditPenalty = (penalty) => {
+    setShowPenaltyFeeForm(true);
+    setSelectedPenalty(penalty);
+  };
+
+  const handleShowReceiptPenaltiesFee = (residence) => {
+    setShowReceiptsPenaltiesFee(true);
     setResidenceSelected(residence);
   };
 
@@ -143,11 +164,13 @@ const PenaltyFee = () => {
         >
           {residenceList.length > 0 &&
             residenceList.map((residence, index) => (
-              <CardComponent
+              <CardComponentPenaltyFee
                 residence={residence}
                 index={index}
-                handleOnAddOrEditPenaltyFee={handleOnAddOrEditPenaltyFee}
+                handleOnAddPenaltyFee={handleOnAddPenaltyFee}
+                handleOnEditResidence={handleOnEditResidence}
                 handleShowPenaltiesFee={handleShowPenaltiesFee}
+                handleShowReceiptPenaltiesFee={handleShowReceiptPenaltiesFee}
               />
             ))}
         </ResidenceInvoiceCardStyled>
@@ -158,16 +181,45 @@ const PenaltyFee = () => {
           toast={toast}
           onClose={handleCloaseForm}
           paymentTypeList={paymentTypeList}
+          selectedPenalty={selectedPenalty}
         />
       )}
       {showPenaltiesFee && (
         <PenaltiesFeeListComponent
+          {...residenceSelected}
           onClose={() => setShowPenaltiesFee(false)}
           residenceNo={residenceSelected.residenceNo}
           ownerPropertyName={
             residenceSelected.accounts?.firstOrDefault()?.fullName
           }
           residenceName={residenceSelected.name}
+          accountId={residenceSelected.accounts?.firstOrDefault()?.id}
+          paymentTypeList={paymentTypeList}
+          toast={toast}
+          handleShowEditPenalty={handleShowEditPenalty}
+        />
+      )}
+      {showReceiptsPenaltiesFee && (
+        <ReceiptsPenaltiesFeeComponent
+          residenceId={residenceSelected.id}
+          onClose={() => setShowReceiptsPenaltiesFee(false)}
+          paymentTypeList={paymentTypeList}
+          ownerPropertyName={
+            residenceSelected.accounts?.firstOrDefault()?.fullName
+          }
+          residentialSelected={residentialSelected}
+        />
+      )}
+      {showEditResidence && (
+        <EditResidenceModal
+          accounts={userList}
+          visible
+          onHide={() => setShowEditResidence(false)}
+          residenceList={residenceList}
+          setResidenceList={setResidenceList}
+          setUserList={setUserList}
+          residence={residenceSelected}
+          setSelectedResidence={setResidenceSelected}
         />
       )}
     </Container>

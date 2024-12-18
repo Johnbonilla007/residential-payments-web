@@ -12,18 +12,16 @@ import { PrimeIcons } from "primereact/api";
 import { utils } from "../../../../Helpers/utils";
 import DynamicFormDialog from "../../../../Components/DynamicFormDialog";
 import { CreateOrUpdateSpendingTypeService } from "./CreateOrUpdateSpendingType.Service";
+import { useSelector } from "react-redux";
 
-export const CreateOrUpdateSpendingType = ({
-  isOpen,
-  onDissmis,
-  residentialSelected,
-}) => {
+export const CreateOrUpdateSpendingType = ({ isOpen, onDissmis }) => {
   const [spendingTypes, setSpendingTypes] = useState([]);
   const [showModalForm, setShowModalForm] = useState(false);
   const [spendingTypeFields, setSpendingTypeFields] = useState({});
   const [filteredSpendingTypes, setFilteredSpendingTypes] =
     useState(spendingTypes);
   const [searchQuery, setSearchQuery] = useState("");
+  const { residentialSelected } = useSelector((store) => store.Invoice);
 
   const toast = useRef(null);
   useEffect(() => {

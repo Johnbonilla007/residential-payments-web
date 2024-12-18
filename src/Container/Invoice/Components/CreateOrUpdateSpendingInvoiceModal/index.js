@@ -403,6 +403,7 @@ const CreateOrUpdateSpendingInvoiceModal = ({
             onDismissPrintMenu={() => setShowPrintMenu(false)}
             invoice={invoice.id ? invoice : invoiceSelected}
             residentialSelected={residentialSelected}
+            toast={toast}
           />
         )}
       </CreateOrUpdateSpendingInvoiceModalStyled>

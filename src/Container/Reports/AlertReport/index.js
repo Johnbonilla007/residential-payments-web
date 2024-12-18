@@ -97,7 +97,7 @@ const AlertReport = () => {
               gap: 5,
             }}
           >
-            <label htmlFor="basic">Solo alertas recibidas</label>
+            <label htmlFor="basic">Solo alertas Recibídas</label>
             <Checkbox
               checked={filters.onlyAlertReceived}
               icon="pi pi-check"

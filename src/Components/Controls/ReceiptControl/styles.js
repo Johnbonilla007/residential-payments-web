@@ -14,16 +14,17 @@ export const InvoiceDocumentNormalStyled = styled.div`
     left: 340px;
     width: 200px;
     height: 200px;
-    background-image: url(${(props) => (props.logoResidential ? props.logoResidential : logo)});
+    background-image: url(${(props) =>
+      props.logoResidential ? props.logoResidential : logo});
     background-size: contain; /* Ajusta la imagen al contenedor sin cortarla */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que se repita la imagen */
     opacity: 0.2;
-    z-index: 1; 
+    z-index: 1;
   }
   .header {
     display: grid;
-    grid-template-columns: 10% 50% 30% 10%;
+    grid-template-columns: 10% 50% 40%;
     border-bottom: 1px solid #ccc;
     border-radius: 10px 10px 0px 0px;
     .invoice {
@@ -156,16 +157,15 @@ export const InvoiceDocumentNormalStyled = styled.div`
     }
   }
   .payment-way-container {
-    display: grid;
-    grid-template-columns: 30% 65%;
-    justify-content: left;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
-    margin-top: 60px;
-    padding-bottom: 20px;
+    margin-top: 50px;
+    padding-bottom: 15px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     .payment-way {
-      display: grid;
-      grid-template-columns: 50% 50%;
+      display: flex;
+      gap: 3px;
     }
     .signature {
       display: grid;
@@ -173,7 +173,7 @@ export const InvoiceDocumentNormalStyled = styled.div`
       justify-content: right;
       align-items: center;
       margin-right: 10px;
-      .signature-item{
+      .signature-item {
         display: grid;
         justify-content: center;
         font-weight: 800;
@@ -196,7 +196,8 @@ export const InvoiceDocumentThermalStyled = styled.div`
     left: 15px;
     width: 195px;
     height: 130px;
-    background-image: url(${(props) => (props.logoResidential ? props.logoResidential : logo)});
+    background-image: url(${(props) =>
+      props.logoResidential ? props.logoResidential : logo});
     background-size: contain; /* Ajusta la imagen al contenedor sin cortarla */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que se repita la imagen */
@@ -349,7 +350,7 @@ export const InvoiceDocumentThermalStyled = styled.div`
       justify-content: center;
       margin-top: 50px;
       align-items: center;
-      .signature-item{
+      .signature-item {
         display: grid;
         justify-content: center;
         font-weight: 800;

@@ -118,7 +118,7 @@ const EditResidenceModal = ({
         <EditResidenceStyled>
           {!editMode && (
             <button onClick={handleEditClick} className="primary-button">
-              <i className="pi pi-pencil"></i> Edit
+              <i className="pi pi-pencil"></i> Editar
             </button>
           )}
 
@@ -128,7 +128,15 @@ const EditResidenceModal = ({
               className="primary-button"
               onClick={handleSaveClick}
             >
-              <i className="pi pi-save"></i> Save
+              <i className="pi pi-save"></i> Guardar
+            </button>
+          )}
+          {editMode && (
+            <button
+              onClick={() => setEditMode(false)}
+              className="primary-button"
+            >
+              <i className="pi pi-times"></i> Cancelar
             </button>
           )}
         </EditResidenceStyled>

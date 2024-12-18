@@ -3,10 +3,15 @@ import React, { useEffect, useState } from "react";
 import { InvoiceDocumentNormalStyled } from "./styled";
 import { getDate } from "../../../../../../Helpers/FormatDate";
 import { utils } from "../../../../../../Helpers/utils";
-import { FaGratipay, FaPaypal } from "react-icons/fa";
+import { isString } from "lodash";
 
-const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
+const InvoiceDocumentNormal = ({
+  invoice,
+  residentialSelected,
+  showSignatureSaved,
+}) => {
   const [imageUrl, setImageUrl] = useState();
+
   const fetchResource = async () => {
     const response = await fetch(
       !utils.isNullOrEmpty(residentialSelected.logoResidential)
@@ -90,7 +95,7 @@ const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
         <div className="total">
           <div className="customer">
             <div>
-              <strong>Recibi de:</strong>
+              <strong>Recibí de:</strong>
             </div>
             <div style={{ borderBottom: "2px solid #ccc" }}>
               {invoice?.customer}
@@ -147,8 +152,20 @@ const InvoiceDocumentNormal = ({ invoice, residentialSelected }) => {
           </div>
           <div className="signature">
             <div
-              style={{ borderBottom: "2px solid #ccc", width: "300px" }}
-            ></div>
+              style={{
+                textAlign: "center",
+                borderBottom: "2px solid #ccc",
+                width: "300px",
+              }}
+            >
+              {showSignatureSaved &&
+                !invoice?.signature?.includes("data:image") &&
+                invoice.signature}
+              {showSignatureSaved &&
+                invoice?.signature?.includes("data:image") && (
+                  <img src={invoice.signature} alt="Captured" />
+                )}
+            </div>
             <div className="signature-item">
               <div>{invoice?.userCreate}</div>
               <div>Firma o Sello</div>

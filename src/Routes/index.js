@@ -16,7 +16,12 @@ import {
   FaFileInvoiceDollar,
   FaPuzzlePiece,
 } from "react-icons/fa";
-import { TbReport, TbReportAnalytics, TbReportSearch } from "react-icons/tb";
+import {
+  TbPaywall,
+  TbReport,
+  TbReportAnalytics,
+  TbReportSearch,
+} from "react-icons/tb";
 import {
   FaHouse,
   FaPersonBurst,
@@ -30,8 +35,8 @@ import SecurityAndManagementContainer from "../Container/SecurityAndManagement";
 import BillingContainer from "../Container/Billing";
 import PaymentType from "../Container/Billing/PaymentType";
 import SpendingType from "../Container/SecurityAndManagement/SpendingType";
-import { CreateOrUpdatePaymentType } from "../Container/Invoice/Components/CreateOrUpdatePaymentType";
 import PenaltyFee from "../Container/Invoice/PenaltyFee";
+import PenaltyFeeReport from "../Container/Reports/PenaltyFeeReport";
 const routes = [
   {
     path: "/billing",
@@ -147,6 +152,17 @@ const routes = [
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <AccessReport />,
       },
+      {
+        path: "/reports/penalty-fee-report",
+        name: "Reporte de Multas",
+        isMenu: false,
+        isSecurity: true,
+        color: "lightblue",
+        icon: <TbPaywall />,
+        accesses: "ReporteMultas",
+        permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
+        Element: <PenaltyFeeReport />,
+      },
     ],
   },
   {
@@ -169,7 +185,7 @@ const routes = [
         color: "#FFA07A",
         icon: <FaUsers />,
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
-        accesses: "VerUsuario",
+        accesses: "AdministrarUsuarios",
         Element: <Users />,
       },
       {
@@ -205,7 +221,7 @@ const routes = [
         color: "#FFA07A",
         icon: <FaLock />,
         permissions: [TipoCuentas.administrador],
-        accesses: "VerImportarUsuarios",
+        accesses: "AdministrarSeguridad",
         Element: <Permission />,
       },
       {
@@ -216,7 +232,7 @@ const routes = [
         color: "#A2C8BB",
         icon: <FaLock />,
         permissions: [TipoCuentas.administrador],
-        accesses: "VerImportarUsuarios",
+        accesses: "AdminstrarTiposDePago",
         Element: <PaymentType />,
       },
       {
@@ -227,7 +243,7 @@ const routes = [
         color: "#A8C37A",
         icon: <FaLock />,
         permissions: [TipoCuentas.administrador],
-        accesses: "VerImportarUsuarios",
+        accesses: "AdminstrarTiposDeGasto",
         Element: <SpendingType />,
       },
     ],

@@ -12,18 +12,27 @@ import Camera from "../../../../../Components/Controls/Camera";
 import { Button } from "primereact/button";
 import { PenaltyFeeService } from "../../PenaltyFee.Service";
 import { InputTextarea } from "primereact/inputtextarea";
+import { useDispatch, useSelector } from "react-redux";
+import { setPenaltiesFee } from "../../reducer";
 
 export const PenaltyFeeForm = ({
   onClose,
   paymentTypeList,
   toast,
   residenceNo,
+  selectedPenalty = {},
 }) => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    ...selectedPenalty,
+    penaltyFeeDate: new Date(selectedPenalty?.penaltyFeeDate),
+  });
   const [isOpenUploadImage, setIsOpenUploadImage] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
+  const { penaltiesFee } = useSelector((store) => store.PenaltyFee);
   const { quantity, paymentTypeNo } = formData;
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (formData.cost && formData.quantity) {
       setFormData({
@@ -71,6 +80,15 @@ export const PenaltyFeeForm = ({
         life: 3000,
       });
 
+      if (utils.evaluateFullObjetct(selectedPenalty)) {
+        const _penaltiesFee = penaltiesFee.where(
+          (x) => x.penaltyFeeNo !== selectedPenalty.penaltyFeeNo
+        );
+
+        _penaltiesFee.unshift({ ...formData });
+
+        dispatch(setPenaltiesFee(_penaltiesFee));
+      }
       onClose();
     }
   };

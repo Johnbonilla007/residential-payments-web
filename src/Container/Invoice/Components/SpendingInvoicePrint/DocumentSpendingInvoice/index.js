@@ -1,5 +1,5 @@
 // DocumentSpendingInvoice.js
-import React from "react";
+import React, { useState } from "react";
 import { DocumentSpendingInvoiceStyled } from "./styled";
 import { Dialog } from "primereact/dialog";
 import { useRef } from "react";
@@ -7,9 +7,15 @@ import { useReactToPrint } from "react-to-print";
 import { Button } from "primereact/button";
 import html2canvas from "html2canvas";
 import ReceipControl from "../../../../../Components/Controls/ReceiptControl";
+import { confirmDialog } from "primereact/confirmdialog";
+import { SignatureComponent } from "../../SignatureComponent";
 
 const DocumentSpendingInvoice = (props) => {
-  const { invoice, format, residentialSelected, visible, onDismiss } = props;
+  const { invoice, format, residentialSelected, visible, onDismiss, toast } =
+    props;
+  const [showSignature, setShowSignature] = useState(false);
+  const [showSignatureSaved, setShowSignatureSaved] = useState(false);
+
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -40,6 +46,12 @@ const DocumentSpendingInvoice = (props) => {
           }}
         />
         <Button
+          label="Firmar"
+          className="p-button-rounded p-button-warning p-button-sm"
+          icon="pi pi-pencil"
+          onClick={() => setShowSignature(true)}
+        />
+        <Button
           label="Descargar"
           className="p-button-rounded p-button-info p-button-sm"
           icon="pi pi-download"
@@ -62,6 +74,16 @@ const DocumentSpendingInvoice = (props) => {
           componentRef={componentRef}
         />
       </DocumentSpendingInvoiceStyled>
+      {showSignature && (
+        <SignatureComponent
+          onClose={() => setShowSignature(false)}
+          setShowSignatureSaved={setShowSignatureSaved}
+          userId={invoice?.userId}
+          toast={toast}
+          invoice={invoice}
+          canSaveSignature={false}
+        />
+      )}
     </Dialog>
   );
 };

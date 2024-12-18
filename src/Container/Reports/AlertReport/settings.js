@@ -19,7 +19,7 @@ export const columns = [
   },
   {
     fieldName: "receiverUser",
-    name: "Recibida por",
+    name: "Recibída por",
     width: "150px",
     filter: true,
   },

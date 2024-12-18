@@ -5,6 +5,8 @@ import { TriStateCheckbox } from "primereact/tristatecheckbox";
 import { classNames } from "primereact/utils";
 import { TableControlStyled } from "./styled";
 import { Button } from "primereact/button";
+import { isBoolean, isDate } from "lodash";
+import { utils } from "../../../Helpers/utils";
 
 const TableControl = ({
   title,
@@ -22,6 +24,7 @@ const TableControl = ({
   rowsPerPageOptions = undefined,
   paginator = true,
   onFilter,
+  columnsToExcelExport = undefined,
 }) => {
   const verifiedRowFilterTemplate = (options, item) => {
     return (
@@ -59,16 +62,28 @@ const TableControl = ({
 
   const exportExcel = () => {
     import("xlsx").then((xlsx) => {
-      const customizedItems = items.map((item) => {
+      const _columns = columnsToExcelExport || columns;
+
+      const customizedItems = items?.map((item) => {
         const customizedItem = {};
-        columns.forEach((column) => {
-          customizedItem[column.name] = item[column.fieldName];
+
+        _columns.forEach((column) => {
+          let value = item[column.fieldName];
+
+          if (isBoolean(value)) {
+            value = value ? "Si" : "No";
+          }
+
+          if (column.isDate) {
+            value = new Date(value).toLocaleDateString();
+          }
+          customizedItem[column.name] = value;
         });
         return customizedItem;
       });
 
       const worksheet = xlsx.utils.json_to_sheet(customizedItems, {
-        header: columns.map((column) => column.name),
+        header: _columns.map((column) => column.name),
       });
 
       const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };

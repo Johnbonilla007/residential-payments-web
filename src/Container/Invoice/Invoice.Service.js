@@ -32,7 +32,6 @@ export class InvoiceServices {
     return response;
   }
 
-
   static async createOrUpdateSpendingInvoice(request) {
     const response = await restClient.httpPost(
       `/payment/spending-invoices/create-or-update-spending-invoice`,
@@ -124,6 +123,15 @@ export class InvoiceServices {
       `/security/residentials/allow-or-disable-charge-current-month`,
       request
     );
+    return response;
+  }
+
+  static async updateSignature(request) {
+    const response = await restClient.httpPost(
+      `/security/users/update-signature`,
+      request
+    );
+
     return response;
   }
 }

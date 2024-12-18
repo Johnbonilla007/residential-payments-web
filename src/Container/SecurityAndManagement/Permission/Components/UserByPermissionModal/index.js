@@ -56,14 +56,14 @@ export const UserByPermissionModal = ({
           permission?.users.map((user) => {
             return (
               <div className="item">
-                <div className="user">{user.userName}</div>
-                <div className="residential">{user.residential}</div>
+                <div className="user">{user?.userName}</div>
+                <div className="residential">{user?.residential}</div>
                
                   <div
                     className="delete"
                     onClick={() => {
                       confirmDialog({
-                        message: `¿Quieres eliminar este permiso al usuario: ${user.userName}?`,
+                        message: `¿Quieres eliminar este permiso al usuario: ${user?.userName}?`,
                         header: "Advertencia",
                         icon: "pi pi-info-circle",
                         acceptClassName: "p-button-danger",

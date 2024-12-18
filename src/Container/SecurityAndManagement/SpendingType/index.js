@@ -16,6 +16,7 @@ import {
 } from "../../Invoice/Components/CreateOrUpdateSpendingType/settings";
 import { getRequestUserInfo } from "../../../Helpers/restClient";
 import { ConfirmDialog } from "primereact/confirmdialog";
+import { useSelector } from "react-redux";
 
 const SpendingType = () => {
   const toast = useRef(null);
@@ -26,6 +27,7 @@ const SpendingType = () => {
     useState(spendingTypes);
   const [searchQuery, setSearchQuery] = useState("");
   const userInfo = useMemo(() => getRequestUserInfo(), []);
+  const { residentialSelected } = useSelector((store) => store.Invoice);
 
   useEffect(() => {
     loadData();
@@ -63,8 +65,8 @@ const SpendingType = () => {
     const request = {
       spendingType: {
         ...values,
-        residentialId: userInfo.residential,
-        residentialNo: userInfo.residentialNo,
+        residentialId: residentialSelected.id,
+        residentialNo: residentialSelected.residentialNo,
       },
     };
 

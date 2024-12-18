@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { InvoiceDocumentNormalStyled } from "./styles";
 import { getDate } from "../../../Helpers/FormatDate";
 import { utils } from "../../../Helpers/utils";
+import { InputText } from "primereact/inputtext";
 
 const InvoiceDocumentNormal = ({
   invoice,
@@ -43,27 +44,34 @@ const InvoiceDocumentNormal = ({
           <img src={imageUrl} alt="Descripción de la imagen" width={60} />
         </div>
         <div className="residential-name">{residentialSelected.name}</div>
-        <div className="app-name">
-          <div>
-            <strong>Sistema de Pagos Residenciales</strong>
-          </div>
-          <div style={{ display: "flex" }}>
-            <div style={{ width: "60px", fontWeight: "700" }}>Telefono:</div>
-            <label>+504 9443-2877</label>
-          </div>
-          <div style={{ display: "flex" }}>
-            <div style={{ width: "60px", fontWeight: "700" }}>Correo:</div>
-            <label>residencialquintasdelsol2022@gmail.com</label>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <div className="app-name">
+            <div>
+              <strong>Sistema de Pagos Residenciales</strong>
+            </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "60px", fontWeight: "700" }}>Telefono:</div>
+              <label>+504 9443-2877</label>
+            </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "60px", fontWeight: "700" }}>Correo:</div>
+              <label>residencialquintasdelsol2022@gmail.com</label>
+            </div>
           </div>
         </div>
-
-        <div className="logo-app">
+        {/* <div className="logo-app">
           <img
             src={require("./../../../Assets/ssaicon.png")}
             alt="Descripción de la imagen"
             width={60}
           />
-        </div>
+        </div> */}
       </div>
       <div
         style={{
@@ -92,7 +100,7 @@ const InvoiceDocumentNormal = ({
         <div className="total">
           <div className="customer">
             <div>
-              <strong>Recibi de:</strong>
+              <strong>Recibí de:</strong>
             </div>
             <div style={{ borderBottom: "2px solid #ccc" }}>
               {invoice?.remitance}
@@ -157,13 +165,52 @@ const InvoiceDocumentNormal = ({
                 : ""}
             </div>
           </div>
-          <div className="signature">
-            <div
-              style={{ borderBottom: "2px solid #ccc", width: "300px" }}
-            ></div>
-            <div className="signature-item">
-              <div>{invoice?.userCreate}</div>
-              <div>Firma o Sello</div>
+          <div
+            style={{
+              display: receipType === "spending" ? "flex" : "block",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              gap: receipType === "spending" ? 20 : 0,
+            }}
+          >
+            {receipType === "spending" && (
+              <div>
+                <div style={{ borderBottom: "2px solid #ccc", width: 250 }}>
+                  <input
+                    type="text"
+                    style={{
+                      width: "100%",
+                      border: "1px solid transparent", // Borde gris
+                      outline: "2px solid transparent", // Outline azul cuando está activo
+                      padding: "5px",
+                      borderRadius: "4px",
+                      textAlign: "center",
+                    }}
+                    autoFocuss
+                  />
+                </div>
+                <div style={{ textAlign: "center" }} className="signature-item">
+                  Identidad
+                </div>
+              </div>
+            )}
+
+            <div className="signature">
+              <div style={{ borderBottom: "2px solid #ccc", width: 250 }}>
+                {invoice?.signature?.includes("data:") ? (
+                  <img src={invoice.signature} alt="signature" />
+                ) : (
+                  <span style={{ justifyContent: "center", display: "flex" }}>
+                    {invoice?.signature}
+                  </span>
+                )}
+              </div>
+              <div className="signature-item">
+                {receipType === "invoice" && (
+                  <div>{invoice?.userCreate || "Firma o Sello"}</div>
+                )}
+                {receipType === "spending" && <div>Nombre</div>}
+              </div>
             </div>
           </div>
         </div>

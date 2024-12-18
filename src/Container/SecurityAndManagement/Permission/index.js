@@ -8,6 +8,7 @@ import {
   FaRegTrashAlt,
   FaPen,
   FaUser,
+  FaUserEdit,
 } from "react-icons/fa";
 import DynamicFormDialog from "../../../Components/DynamicFormDialog";
 import {
@@ -24,6 +25,8 @@ import { PermissionServices } from "./permission.service";
 import { UsersServices } from "../../Users/User/users.service";
 import { Button } from "primereact/button";
 import { UserByPermissionModal } from "./Components/UserByPermissionModal";
+import { EditUserComponent } from "./Components/EditUserComponent";
+import { FaUserCheck } from "react-icons/fa6";
 const Permission = () => {
   const [showModalRol, setShowModalRol] = useState(false);
   const [rolesList, setRolesList] = useState([]);
@@ -37,6 +40,7 @@ const Permission = () => {
   const [permissionList, setPermissionList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [userByPermission, setUserByPermission] = useState({});
+  const [showModalEditUser, setShowModalEditUser] = useState(false);
   const [showModalPermissionByUser, setShowModalPermissionByUser] =
     useState(false);
   const toast = useRef(null);
@@ -127,29 +131,30 @@ const Permission = () => {
   const commands = [
     {
       label: "Agregar Rol",
-      action: () => {
-        setShowModalRol(true);
-      },
+      action: () => setShowModalRol(true),
       icon: () => {
         return <FaPlus size={16} color="#84b6f4" />;
       },
     },
     {
       label: "Agregar Permiso",
-      action: () => {
-        setShowModalPermission(true);
-      },
+      action: () => setShowModalPermission(true),
       icon: () => {
         return <FaPlus size={16} color="#84b6f4" />;
       },
     },
     {
       label: "Asignar Permiso",
-      action: () => {
-        setshowModalAsignPermission(true);
-      },
+      action: () => setshowModalAsignPermission(true),
       icon: () => {
         return <FaShieldAlt size={16} color="#84b6f4" />;
+      },
+    },
+    {
+      label: "Ver Accesos Por Usuario",
+      action: () => setShowModalEditUser(true),
+      icon: () => {
+        return <FaUserCheck size={16} color="indigo" />;
       },
     },
   ];
@@ -209,7 +214,6 @@ const Permission = () => {
   };
 
   const handleSubmitAsignPermission = async (item) => {
-    
     const request = {
       rolesPermissions: item.permissions.map((x) => {
         return {
@@ -324,7 +328,6 @@ const Permission = () => {
   };
 
   const onPressEnter = async (userName) => {
-    
     const request = {
       userName: userName,
     };
@@ -484,6 +487,12 @@ const Permission = () => {
           />
         )}
       </PermissionStyled>
+      {showModalEditUser && (
+        <EditUserComponent
+          onClose={() => setShowModalEditUser(false)}
+          toast={toast}
+        />
+      )}
     </Container>
   );
 };

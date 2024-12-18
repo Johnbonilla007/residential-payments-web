@@ -19,7 +19,7 @@ const UploadToS3WithDropzone = ({
   folderPath,
   getUrl,
   fileName,
-  handleCapturePhoto,
+  handleCapturePhoto = undefined,
 }) => {
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
@@ -171,7 +171,7 @@ const UploadToS3WithDropzone = ({
             </button>
           )}
 
-          {!showCamera && (
+          {!showCamera && handleCapturePhoto && (
             <button
               className="upload-button"
               onClick={() => {

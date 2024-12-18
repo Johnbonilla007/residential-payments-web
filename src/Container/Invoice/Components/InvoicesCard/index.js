@@ -194,6 +194,7 @@ const InvoicesCard = ({
           format="normal"
           onDismiss={() => setShowModalPrint(false)}
           residentialSelected={residentialSelected}
+          toast={toast}
         />
       )}
     </InvoiceCardStyled>

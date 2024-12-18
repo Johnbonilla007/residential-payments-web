@@ -20,7 +20,16 @@ export class PenaltyFeeService {
     );
   }
 
+  static async executePaymentPenaltyFee(request) {
+    return await restClient.httpPost(
+      `${this.baseUrl}/execute-payment-penalty-fee`,
+      request
+    );
+  }
+
   static async remove(id) {
-    return await restClient.httpDelete(`${this.baseUrl}/delete-penalty`, { id });
+    return await restClient.httpDelete(`${this.baseUrl}/delete-penalty`, {
+      id,
+    });
   }
 }

@@ -9,10 +9,20 @@ export class PermissionServices {
   }
 
   static async getAllPermissionWithUsers(request) {
-    const response = await restClient.httpGet(`${this.url}/all-permission-with-users`, request);
+    const response = await restClient.httpGet(
+      `${this.url}/all-permission-with-users`,
+      request
+    );
     return response;
   }
 
+  static async getAllPermissionsByUserName(userName) {
+    const response = await restClient.httpGet(
+      `${this.url}/accesses-by-username`,
+      { userName }
+    );
+    return response;
+  }
 
   static async createOrUpdateRol(request) {
     const response = await restClient.httpPost(
@@ -37,18 +47,34 @@ export class PermissionServices {
     return response;
   }
   static async removeRol(request) {
-    const response = await restClient.httpDelete(`${this.url}/remove-role`, request);
+    const response = await restClient.httpDelete(
+      `${this.url}/remove-role`,
+      request
+    );
     return response;
   }
 
   static async removeAccessPermissionToUser(request) {
-    const response = await restClient.httpDelete(`${this.url}/remove-access-permission-to-user`, request);
+    const response = await restClient.httpDelete(
+      `${this.url}/remove-access-permission-to-user`,
+      request
+    );
     return response;
   }
 
-
   static async removePermission(request) {
-    const response = await restClient.httpDelete(`${this.url}/remove-permission`, request);
+    const response = await restClient.httpDelete(
+      `${this.url}/remove-permission`,
+      request
+    );
+    return response;
+  }
+
+  static async removeRoleToUser(request) {
+    const response = await restClient.httpDelete(
+      `${this.url}/remove-access-role-to-user`,
+      request
+    );
     return response;
   }
 }

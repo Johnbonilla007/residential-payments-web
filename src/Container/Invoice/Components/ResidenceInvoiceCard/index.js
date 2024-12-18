@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { ResidenceInvoiceCardStyled } from "./styled";
+import { CardComponentStyled, ResidenceInvoiceCardStyled } from "./styled";
 import { UsersServices } from "../../../Users/User/users.service";
 import { utils } from "../../../../Helpers/utils";
 import InvoicesCard from "../InvoicesCard";
@@ -14,6 +14,7 @@ import InvoicesByUser from "../InvoicesByUser";
 import { getRequestUserInfo } from "../../../../Helpers/restClient";
 import { Dialog } from "primereact/dialog";
 import EditResidenceModal from "./Components/EditResidenceModal";
+import { FaPencilAlt } from "react-icons/fa";
 
 const ResidenceInoviceCard = ({
   residenceSelected,
@@ -38,6 +39,7 @@ const ResidenceInoviceCard = ({
   const [selectedResidence, setSelectedResidence] = useState(undefined);
   const dispatch = useDispatch();
   const { residentialSelected } = useSelector((store) => store.Invoice);
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     getInvoicesByResidential();
@@ -52,13 +54,12 @@ const ResidenceInoviceCard = ({
 
     let response = await UsersServices.getResidence(request);
 
-    const hasPermission = userInfo.accesses?.some((x) =>
-      x?.permissions?.some((y) => y.name === "VerMisResidencias")
+    const hasPermissionToSeeAllResidences = utils.hasPermission(
+      "VerTodasLasResidencias"
     );
-
     const accountIds = userInfo.accounts.select((x) => x.id);
 
-    if (hasPermission) {
+    if (!hasPermissionToSeeAllResidences) {
       response.residences = response.residences.filter((x) =>
         accountIds.includes(x.accountId)
       );
@@ -71,114 +72,133 @@ const ResidenceInoviceCard = ({
     }
   };
 
-  const CardComponent = (residence, index) => {
+  const CardComponent = ({ residence, index }) => {
+    const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+    const { imageUrl, accounts, name, block, houseNumber } = residence;
+
+    const buttons = [
+      {
+        label: "Asignar Pago",
+        className: "p-button-info",
+        condition: utils.hasPermission("AsignarPago"),
+        onClick: () => {
+          setResidenceSelected(residence);
+          setShowAsignPayment(true);
+        },
+      },
+      {
+        label: "Ver Comprobantes",
+        className: "p-button-primary",
+        condition: true,
+        onClick: () => {
+          setShowVoucher(true);
+          setResidenceSelected(residence);
+        },
+      },
+    ];
+
+    const canEditHouse = useMemo(() => {
+      return (
+        utils.hasPermission("EditarCasa") || utils.hasPermission("EditarMiCasa")
+      );
+    }, []);
+
     return (
-      <div className="residence-card" key={index}>
+      <CardComponentStyled key={index}>
+        <div className="edit-button">
+          <Button
+            disabled={!canEditHouse}
+            icon={<FaPencilAlt />} // Icono de lápiz
+            className="p-button-rounded p-button-secondary"
+            onClick={() => {
+              setShowEditResidence(true);
+              setUserList(residence.accounts);
+              setSelectedResidence(residence);
+            }}
+            aria-label="Editar Casa"
+          />
+        </div>
+
+        {/* Imagen de la residencia */}
         <div className="residence-image">
           <img
+            onClick={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              setIsImageModalVisible(true);
+            }}
             src={
-              residence.imageUrl ||
+              imageUrl ||
               "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/casa.jpg"
             }
             alt="Descripción de la imagen"
-            width={20}
           />
         </div>
+
+        {/* Contenido de la tarjeta */}
         <div className="residence-content">
           <p>
-            <strong>Nombre del Propietario:</strong>{" "}
-            {residence.accounts?.firstOrDefault()?.fullName}
+            <strong>Nombre Propietario:</strong>{" "}
+            {accounts?.[0]?.fullName || "N/A"}
           </p>
           <p>
-            <strong>Nombre:</strong> {residence.name}
+            <strong>Nombre:</strong> {name}
           </p>
           <p>
-            <strong>Bloque:</strong> {residence.block}
+            <strong>Bloque:</strong> {block}
           </p>
           <p>
-            <strong>Número de Casa:</strong> {residence.houseNumber}
+            <strong>Número de Casa:</strong> {houseNumber}
           </p>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap", // Permite que los botones se envuelvan
-            justifyContent: "center",
-            alignItems: "center", // Centra los botones verticalmente
-            height: "100%", // Ajusta a la altura del contenedor
-            width: "100%", // Ajusta al ancho del contenedor
-          }}
-        >
-          {utils.hasPermission("AsignarPago") && (
-            <div style={{ flexGrow: 1, minWidth: "120px", padding: 3 }}>
-              <Button
-                label="Asignar Pago"
-                className="p-button-raised p-button-info"
-                onClick={() => {
-                  setResidenceSelected(residence);
-                  setShowAsignPayment(true);
-                }}
-                style={{ height: "100%", width: "100%" }}
-              />
-            </div>
+
+        {/* Botones de acción */}
+        <div className="buttons-container">
+          {buttons.map(
+            (button, index) =>
+              button.condition && (
+                <Button
+                  key={index}
+                  label={button.label}
+                  className={`p-button-raised ${button.className}`}
+                  onClick={button.onClick}
+                />
+              )
           )}
-          {/* <div style={{ flexGrow: 1, minWidth: "120px" }}>
-            <Button
-              label="Ver recibos de Pago"
-              className="p-button-raised p-button-success"
-              onClick={() => {
-                setShowInvoice(true);
-                setResidenceSelected(residence);
-              }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </div> */}
-          {/* <div style={{ flexGrow: 1, minWidth: "120px" }}>
-            <Button
-              label="Usuarios"
-              className="p-button-raised p-button-primary"
-              onClick={() => {
-                setShowUsers(true);
-                setUserList(residence.accounts);
-              }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </div> */}
-          <div style={{ flexGrow: 1, minWidth: "120px", padding: 3 }}>
-            <Button
-              label="Ver Comprobantes"
-              className="p-button-raised p-button-primary"
-              onClick={() => {
-                setShowVoucher(true);
-                setResidenceSelected(residence);
-              }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </div>
-          <div style={{ flexGrow: 1, minWidth: "120px", padding: 3 }}>
-            <Button
-              label="Editar Casa"
-              className="p-button-raised p-button-warning"
-              onClick={() => {
-                setShowEditResidence(true);
-                setUserList(residence.accounts);
-                setSelectedResidence(residence);
-              }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </div>
         </div>
-      </div>
+
+        <Dialog
+          visible={isImageModalVisible}
+          onHide={() => setIsImageModalVisible(false)}
+          header="Full-Size Image"
+          style={{ width: "50vw", textAlign: "center" }}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="Full-Size Residence"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+          ) : (
+            <p>No image available</p>
+          )}
+        </Dialog>
+      </CardComponentStyled>
     );
   };
+
   return (
     <ResidenceInvoiceCardStyled>
       <Toast ref={toast} />
       {!showInvoice &&
         residenceList.length > 0 &&
-        residenceList.map((Residence, index) =>
-          CardComponent(Residence, index)
-        )}
+        residenceList.map((Residence, index) => (
+          <CardComponent residence={Residence} index={index} />
+        ))}
       {utils.evaluateFullObjetct(residenceSelected) && showInvoice && (
         <InvoicesCard
           residenceSelected={residenceSelected}

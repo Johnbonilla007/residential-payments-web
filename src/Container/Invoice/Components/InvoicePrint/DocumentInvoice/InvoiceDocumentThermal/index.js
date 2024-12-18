@@ -106,7 +106,7 @@ const InvoiceDocumentThermal = ({ invoice, residentialSelected }) => {
         <div className="total">
           <div className="customer">
             <div>
-              <strong>Recibi de:</strong>
+              <strong>Recibí de:</strong>
             </div>
             <div
               style={{

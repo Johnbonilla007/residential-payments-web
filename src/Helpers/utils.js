@@ -273,4 +273,14 @@ export class utils {
 
     return "";
   }
+
+  static copyOf = (items) => {
+    if (items === undefined || items === null) {
+      return {};
+    }
+
+    const copy = JSON.parse(JSON.stringify(items));
+
+    return copy;
+  };
 }

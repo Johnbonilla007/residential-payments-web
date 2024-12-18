@@ -6,21 +6,29 @@ import { Button } from "primereact/button";
 import { PayPenaltyFee } from "../PayPenaltyFee";
 import { confirmDialog } from "primereact/confirmdialog";
 import { utils } from "../../../../../Helpers/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setPenaltiesFee } from "../../reducer";
 
 export const PenaltiesFeeListComponent = ({
   onClose,
   residenceNo,
   ownerPropertyName,
   residenceName,
+  accountId,
+  block,
+  houseNumber,
+  id,
+  paymentTypeList,
+  toast,
+  handleShowEditPenalty,
 }) => {
-  const [penaltiesFee, setPenaltiesFee] = useState([]);
+  const { penaltiesFee } = useSelector((store) => store.PenaltyFee);
   const [loading, setLoading] = useState(true); // Loading state
   const [isImageModalVisible, setIsImageModalVisible] = useState(false); // Modal visibility
   const [selectedImage, setSelectedImage] = useState(null); // Selected image for modal
   const [selectedPenalty, setSelectedPenalty] = useState(null); // Estado para almacenar la penalidad seleccionada
   const [isPaymentModalVisible, setIsPaymentModalVisible] = useState(false); // Estado para mostrar el modal de pago
-  const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
-    useState(false); // Modal de confirmación
+  const dispatch = useDispatch();
 
   useEffect(() => {
     loadPenaltiesFee();
@@ -31,7 +39,7 @@ export const PenaltiesFeeListComponent = ({
     try {
       const response = await PenaltyFeeService.getAll(request);
       if (response.success) {
-        setPenaltiesFee(response.penaltiesFee);
+        dispatch(setPenaltiesFee(response.penaltiesFee));
       } else {
         console.error("Failed to load penalties");
       }
@@ -66,12 +74,25 @@ export const PenaltiesFeeListComponent = ({
       accept: async () => {
         const response = await PenaltyFeeService.remove(id);
         if (response.success) {
-          setPenaltiesFee(penaltiesFee.filter((penalty) => penalty.id !== id)); // Actualiza la lista de penalidades
+          const _penaltiesFee = penaltiesFee.filter(
+            (penalty) => penalty.id !== id
+          );
+
+          dispatch(setPenaltiesFee(_penaltiesFee)); // Actualiza la lista de penalidades
         } else {
           alert("Error al eliminar la multa");
         }
       },
       reject: () => {},
+    });
+  };
+
+  const showSuccess = (message) => {
+    toast.current.show({
+      severity: "success",
+      summary: "Exito",
+      detail: message,
+      life: 3000,
     });
   };
 
@@ -83,23 +104,43 @@ export const PenaltiesFeeListComponent = ({
       acceptClassName: "p-button-danger",
       position: "center",
       accept: async () => {
-        const request = { penaltyFee: { ...penalty, wasPayed: true } };
-        const response = await PenaltyFeeService.createOrUpdate(request);
+        const request = {
+          penaltyFee: {
+            id: penalty.id,
+            penaltyFeeNo: penalty.penaltyFeeNo,
+            wasPaid: true,
+          },
+        };
+        const response = await PenaltyFeeService.executePaymentPenaltyFee(
+          request
+        );
         if (response.success) {
-          penalty.wasPayed = true;
+          const _penaltiesFee = utils.copyOf(penaltiesFee);
+          const _penalty = _penaltiesFee.firstOrDefault(
+            (x) => x.id === penalty.id
+          );
+          _penalty.wasPaid = true;
 
-          const filteredOnlyWasnPayed = penaltiesFee.where(
-            (item) => !item.wasPayed
+          const filteredOnlyWasnPayed = _penaltiesFee.where(
+            (item) => !item.wasPaid
           );
 
-          setPenaltiesFee([...filteredOnlyWasnPayed]);
-          setIsConfirmationModalVisible(false); // Cerrar modal de confirmación
+          dispatch(setPenaltiesFee([...filteredOnlyWasnPayed]));
+          showSuccess();
         } else {
           alert("Error al condonar la multa");
         }
       },
       reject: () => {},
     });
+  };
+
+  const updatePenaltiesFee = (penalty) => {
+    const _penaltiesFee = penaltiesFee.where(
+      (x) => x.penaltyFeeNo !== penalty.penaltyFeeNo
+    );
+
+    dispatch(setPenaltiesFee(_penaltiesFee));
   };
 
   return (
@@ -175,7 +216,7 @@ export const PenaltiesFeeListComponent = ({
                 {utils.hasPermission("EditarMulta") && (
                   <Button
                     label="Editar Multa"
-                    //  onClick={handleCondonePenalty}
+                    onClick={() => handleShowEditPenalty(penalty)}
                     className="p-button p-button-info"
                   />
                 )}
@@ -192,26 +233,35 @@ export const PenaltiesFeeListComponent = ({
         header="Imagen de Evidencia"
         style={{ width: "50vw", textAlign: "center" }}
       >
-        {selectedImage ? (
+        {selectedImage && (
           <img
             src={selectedImage}
-            alt="Full-Size Image"
+            alt="Full-Size"
             style={{
               width: "100%",
               height: "auto",
               borderRadius: "8px",
             }}
           />
-        ) : (
-          <p>No hay imagen disponible</p>
         )}
       </Dialog>
 
-      <PayPenaltyFee
-        isPaymentModalVisible={isPaymentModalVisible}
-        setIsPaymentModalVisible={setIsPaymentModalVisible}
-        selectedPenalty={selectedPenalty}
-      />
+      {isPaymentModalVisible && (
+        <PayPenaltyFee
+          isPaymentModalVisible={isPaymentModalVisible}
+          setIsPaymentModalVisible={setIsPaymentModalVisible}
+          selectedPenalty={selectedPenalty}
+          accountId={accountId}
+          residenceNo={residenceNo}
+          block={block}
+          houseNumber={houseNumber}
+          ownerPropertyName={ownerPropertyName}
+          residenceId={id}
+          paymentTypeList={paymentTypeList}
+          toast={toast}
+          updatePenaltiesFee={updatePenaltiesFee}
+        />
+      )}
     </Dialog>
   );
 };

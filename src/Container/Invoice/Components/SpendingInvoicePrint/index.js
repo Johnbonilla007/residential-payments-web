@@ -10,9 +10,11 @@ const SpendingInvoicePrint = ({
   onDismissPrintMenu,
   invoice,
   residentialSelected,
+  toast,
 }) => {
   const [format, setFormat] = useState("normal");
   const [viewPreview, setViewPreview] = useState(false);
+
   const footer = () => {
     return (
       <div>
@@ -62,6 +64,7 @@ const SpendingInvoicePrint = ({
         format={format}
         onDismiss={() => setViewPreview(false)}
         residentialSelected={residentialSelected}
+        toast={toast}
       />
     </Dialog>
   );
