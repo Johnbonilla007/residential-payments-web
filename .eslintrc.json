@@ -1,8 +1,0 @@
-// En el archivo .eslintrc.json
-{
-    "rules": {
-      "no-unused-vars": "off",
-      "react-hooks/exhaustive-deps": "off"
-    }
-  }
-  
