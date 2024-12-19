@@ -5,14 +5,17 @@ export const LoginStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 68px;
 
   .container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
-    width: 80%;
+    height: 100vh;
+    width: 100vw;
   }
 
   .login-box {
