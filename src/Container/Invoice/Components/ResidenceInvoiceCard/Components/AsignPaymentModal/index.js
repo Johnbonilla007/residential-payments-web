@@ -198,7 +198,7 @@ export const AsignPaymentModal = ({
         <Button
           icon="pi pi-trash"
           className="p-button-rounded p-button-danger"
-          disabled={!utils.hasPermission("EliminarAsignados")}
+          disabled={!utils.hasPermission("EliminarPagoAsignado")}
           onClick={() =>
             confirmDialog({
               message: "¿Estas seguro que quieres eliminar este pago?",

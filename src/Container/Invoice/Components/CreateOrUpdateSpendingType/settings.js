@@ -51,7 +51,7 @@ export const columnsPaymentTypes = (editRow, deleteRow) => [
           severity="warning"
           aria-label="Notification"
           className="p-button p-component p-button-icon-only p-button-outlined p-button-rounded p-button-warning"
-          disabled={!utils.hasPermission("EditarGasto")}
+          disabled={!utils.hasPermission("EditarTipoDeGasto")}
         />
         <Button
           icon="pi pi-trash"
@@ -73,7 +73,7 @@ export const columnsPaymentTypes = (editRow, deleteRow) => [
               reject: () => {},
             });
           }}
-          disabled={!utils.hasPermission("EliminarGasto")}
+          disabled={!utils.hasPermission("EliminarTipoDeGasto")}
         />
       </div>
     ),

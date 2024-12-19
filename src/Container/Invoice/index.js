@@ -75,7 +75,7 @@ const Invoice = () => {
           icon: () => {
             return <FaPlus size={16} color="#84b6f4" />;
           },
-          disabled: !utils.hasPermission("CrearFactura"),
+          disabled: !utils.hasPermission("CrearRecibo"),
         },
         {
           label: "Recibo de Gasto",

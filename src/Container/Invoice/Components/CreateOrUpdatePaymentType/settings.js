@@ -51,7 +51,7 @@ export const columnsPaymentTypes = (editRow, deleteRow) => [
           severity="warning"
           aria-label="Notification"
           className="p-button p-component p-button-icon-only p-button-outlined p-button-rounded p-button-warning"
-          disabled={!utils.hasPermission("EliminarIngresos")}
+          disabled={!utils.hasPermission("EditarTipoDePago")}
         />
         <Button
           icon="pi pi-trash"
@@ -60,7 +60,7 @@ export const columnsPaymentTypes = (editRow, deleteRow) => [
           severity="warning"
           aria-label="Notification"
           className="p-button p-component p-button-icon-only p-button-outlined p-button-rounded p-button-danger"
-          disabled={!utils.hasPermission("EliminarIngresos")}
+          disabled={!utils.hasPermission("EliminarTipoDePago")}
           onClick={() => {
             confirmDialog({
               message: "¿Estas seguro que quieres eliminar este pago?",

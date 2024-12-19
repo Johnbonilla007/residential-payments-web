@@ -84,7 +84,7 @@ const SpendingInvoces = ({
         </div>
         <div
           onClick={
-            utils.hasPermission("EliminarGasto")
+            utils.hasPermission("EliminarTipoDeGasto")
               ? () => {
                   confirmDialog({
                     message: "¿Estas seguro que quieres eliminar este gasto?",
@@ -102,7 +102,7 @@ const SpendingInvoces = ({
           }
         >
           <FaTrash
-            color={utils.hasPermission("EliminarGasto") ? "#c94139" : "#ddd"}
+            color={utils.hasPermission("EliminarTipoDeGasto") ? "#c94139" : "#ddd"}
           />
         </div>
       </div>

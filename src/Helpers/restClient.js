@@ -9,8 +9,8 @@ export const getUrl = () => {
 
   switch (env) {
     case "localhost:3000":
-      // return "https://localhost:44317/api/v2";
-      return "https://dijoks3b3xwsy.cloudfront.net/api/v2";
+      return "https://localhost:44317/api/v2";
+      // return "https://dijoks3b3xwsy.cloudfront.net/api/v2";
 
     case "residencialquintasdelsol.netlify.app":
       return "https://dijoks3b3xwsy.cloudfront.net/api/v2";

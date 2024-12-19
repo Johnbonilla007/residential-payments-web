@@ -131,10 +131,10 @@ const InvoicesCard = ({
             {IsLastInvoice && !isReadOnly && (
               <AiFillDelete
                 color={
-                  utils.hasPermission("EliminarIngresos") ? "#f44336" : "#ccc"
+                  utils.hasPermission("EliminarTipoDePago") ? "#f44336" : "#ccc"
                 }
                 onClick={
-                  utils.hasPermission("EliminarIngresos")
+                  utils.hasPermission("EliminarTipoDePago")
                     ? (e) => {
                         e.stopPropagation();
                         onDelete(invoice);
