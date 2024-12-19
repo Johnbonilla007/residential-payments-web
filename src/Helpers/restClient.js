@@ -12,7 +12,7 @@ export const getUrl = () => {
       return "https://localhost:44317/api/v2";
 
     case "residencialquintasdelsol.netlify.app":
-      return "http://residential-payment-api.us-east-2.elasticbeanstalk.com/api/v2";
+      return "https://residential-payment-api.us-east-2.elasticbeanstalk.com/api/v2";
 
     default:
       return "http://apissaweb.ssahonduras.com/api/v2";
