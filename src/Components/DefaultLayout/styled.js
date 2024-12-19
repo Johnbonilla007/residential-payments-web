@@ -108,7 +108,7 @@ export const AppSidebarStyled = styled.div`
       width: 80%;
       height: 100%;
       left: ${(props) => (props.mobileSidebarVisible ? "0px" : "-100%")};
-      top: ${(props) => (props.mobileSidebarVisible ? "60px" : "-100%")};
+      top: ${(props) => (props.mobileSidebarVisible ? "100px" : "-100%")};
       transition: left 0.3s ease-in-out;
     }
   }
