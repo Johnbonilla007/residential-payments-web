@@ -13,6 +13,7 @@ import { utils } from "../../Helpers/utils";
 import { TipoCuentas } from "../../Helpers/Constant";
 import { setResidentials, setResidentialSelected } from "../Invoice/reducer";
 import { AiOutlineLogin } from "react-icons/ai";
+import { InvoiceServices } from "../Invoice/Invoice.Service";
 
 export const Login = () => {
   const [userName, setUserName] = useState("");
@@ -26,6 +27,7 @@ export const Login = () => {
       userName: userName,
       password: password,
     };
+    await InvoiceServices.getResidencePaymentsByResidence();
     const response = await restClient.httpPost(
       "/security/users/authentica-user",
       request
@@ -101,7 +103,7 @@ export const Login = () => {
                 src={require("../../Assets/login.jpeg")}
                 height="120"
               ></img> */}
-              <AiOutlineLogin size={80}/>
+              <AiOutlineLogin size={80} />
             </div>
             <div className="input">
               <InputText
