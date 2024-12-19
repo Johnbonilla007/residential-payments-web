@@ -102,13 +102,13 @@ export const AppSidebarStyled = styled.div`
     height: 100%;
 
     /* Responsive styling for smaller screens */
-    @media only screen (max-width: 600px) {
+    @media only screen and (max-width: 600px) {
       position: fixed;
       z-index: 9999;
       width: 80%;
       height: 100%;
       left: ${(props) => (props.mobileSidebarVisible ? "0px" : "-100%")};
-      top: ${(props) => (props.mobileSidebarVisible ? "100px" : "-100%")};
+      top: ${(props) => (props.mobileSidebarVisible ? "67px" : "-100%")};
       transition: left 0.3s ease-in-out;
     }
   }

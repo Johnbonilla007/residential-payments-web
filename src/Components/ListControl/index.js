@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ListControlStyled } from "./styled";
 import SearchControl from "./Components";
+import { utils } from "../../Helpers/utils";
 
 const ListControl = ({
   items,
@@ -11,9 +12,15 @@ const ListControl = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredItems = items.filter((item) =>
-    item[searchProperty].toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    if (utils.evaluateArray(items)) {
+      return items.filter((item) =>
+        item[searchProperty].toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return [];
+  }, [items, searchProperty, searchQuery]);
   return (
     <div style={{ position: "" }}>
       <ListControlStyled>

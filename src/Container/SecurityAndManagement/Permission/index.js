@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PermissionStyled } from "./styled";
 import ListControl from "../../../Components/ListControl";
 import Container from "../../../Components/ContainerControl";
@@ -379,13 +379,27 @@ const Permission = () => {
     );
   };
 
+  const roles = useMemo(() => {
+    if (utils.evaluateArray(rolesList)) {
+      const hasPermissionSuperRoot = utils.hasPermission("SuperRoot");
+
+      if (hasPermissionSuperRoot) {
+        return rolesList;
+      }
+
+      const _roles = rolesList?.where((x) => x.name !== "Root");
+
+      return _roles;
+    }
+  }, [rolesList]);
+
   return (
     <Container commands={commands}>
       <PermissionStyled>
         <ConfirmDialog />
         <Toast ref={toast} />
         <ListControl
-          items={rolesList}
+          items={roles}
           searchProperty="name"
           renderItem={renderItem}
           onSelectItem={(rol) => setRolSelected(rol)}
