@@ -86,7 +86,7 @@ const ChangePasswordModal = ({ isOpen, onClose, userSelected, toast }) => {
   };
 
   return (
-    <Dialog visible={isOpen} style={{ width: "20vw" }} onHide={onClose}>
+    <Dialog visible={isOpen} style={{ minWidth: "20vw" }} onHide={onClose}>
       <ChangePasswordModalStyled>
         <div className="modal-content">
           <h2>Cambiar Contraseña</h2>
