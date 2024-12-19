@@ -252,9 +252,9 @@ export const DefaultLayout = () => {
 
       {RenderRoutes()}
 
-      <div className="footer">
+      {/* <div className="footer">
         © 2024, Sistema de Pagos Residenciales. Todos los derechos reservados.
-      </div>
+      </div> */}
       <OverlayPanel
         ref={op}
         showCloseIcon
