@@ -13,7 +13,7 @@ export const getUrl = () => {
       return "https://dijoks3b3xwsy.cloudfront.net/api/v2";
 
     case "residencialquintasdelsol.netlify.app":
-      return "https://dxmwnutuoa2t2.cloudfront.net/api/v2";
+      return "https://dijoks3b3xwsy.cloudfront.net/api/v2";
 
     default:
       return "http://apissaweb.ssahonduras.com/api/v2";
