@@ -74,7 +74,7 @@ const PenaltyFee = () => {
   const loadResidences = async (request) => {
     let response = await UsersServices.getResidence(request);
 
-    const hasPermission = utils.hasPermission("VerTodasLasResidencias");
+    const hasPermission = utils.hasPermission("VerTodasLasPropiedades");
 
     const accountIds = userInfo.accounts.select((x) => x.id);
 
