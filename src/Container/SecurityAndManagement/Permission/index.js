@@ -474,7 +474,7 @@ const Permission = () => {
         {showModalPermission && (
           <DynamicFormDialog
             title={isEditPermission ? "Editar permiso" : "Crear permiso"}
-            fields={fieldsPermission(rolesList)}
+            fields={fieldsPermission(roles)}
             onSubmit={handleSubmitPermission}
             mode="modal"
             isOpen={showModalPermission}
@@ -486,7 +486,7 @@ const Permission = () => {
           <DynamicFormDialog
             title={"Asignar permiso"}
             fields={fieldsAsignPermission(
-              rolesList,
+              roles,
               permissionList,
               handleRolSelected,
               onPressEnter,
