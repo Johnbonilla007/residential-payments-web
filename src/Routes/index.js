@@ -44,7 +44,7 @@ const routes = [
     isMenu: false,
     isSecurity: true,
     color: "#ae976a",
-    accesses: "Facturas",
+    accesses: "Recibos",
     icon: <FaFileInvoiceDollar size={30} />,
     permissions: [TipoCuentas.administrador],
     Element: <BillingContainer />,
