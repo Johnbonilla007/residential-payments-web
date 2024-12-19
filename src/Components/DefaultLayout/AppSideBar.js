@@ -1,30 +1,46 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { FaBars, FaCalendar, FaShoppingCart, FaFileAlt } from "react-icons/fa";
-import { RiMenuUnfold4Line } from "react-icons/ri";
-import { RiMenuFold4Line } from "react-icons/ri";
+import { RiMenuUnfold4Line, RiMenuFold4Line } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { AppSidebarStyled } from "./styled";
-import { useDispatch } from "react-redux";
-import { setShowSideBar } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
 import routes from "../../Routes";
 import { utils } from "../../Helpers/utils";
 import { getRequestUserInfo } from "../../Helpers/restClient";
 
-const AppSidebar = () => {
+const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
   const { accesses } = useMemo(() => getRequestUserInfo(), []);
+  const { showMenuOnMobile } = useSelector((store) => store.DefaultLayout);
 
   const toggleSidebar = (event) => {
     event.preventDefault();
     setCollapsed(!collapsed);
-    dispacth(setShowSideBar(collapsed));
+    dispatch(setShowSideBar(collapsed));
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      const _value = window.innerWidth <= 768;
+      if (_value) {
+        setMobileSidebarVisible(false);
+        dispatch(setShowMenuOnMobile(false));
+      } else {
+        setMobileSidebarVisible(true);
+        dispatch(setShowMenuOnMobile(true));
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Para obtener el tamaño al cargar el componente
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <AppSidebarStyled>
+    <AppSidebarStyled mobileSidebarVisible={mobileSidebarVisible}>
       <Sidebar
         collapsed={collapsed}
         backgroundColor="#001f3f"
@@ -32,6 +48,9 @@ const AppSidebar = () => {
         collapsedWidth="70px"
         transitionDuration={500}
         className="side"
+        style={{
+          display: mobileSidebarVisible ? "block" : "none", // Toggle sidebar on mobile
+        }}
       >
         <Menu
           menuItemStyles={{
@@ -59,9 +78,7 @@ const AppSidebar = () => {
             }
             component={<Link to="/dashboard" />}
             onClick={toggleSidebar}
-            title={
-              !collapsed ? "" : "Dashboard"
-            } /* Tooltip only when collapsed */
+            title={collapsed ? "Dashboard" : ""} // Tooltip only when collapsed
           >
             <span
               onClick={(event) => {

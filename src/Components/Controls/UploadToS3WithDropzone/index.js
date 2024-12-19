@@ -151,6 +151,12 @@ const UploadToS3WithDropzone = ({
     accept: "image/*",
   });
 
+  const videoConstraints = {
+    facingMode: "environment", // Usar la cámara trasera
+    width: 1280, // Ancho del video
+    height: 720, // Alto del video
+  };
+
   return (
     <Dialog header={"Subir Imagen"} visible={isOpen} onHide={onDissmis}>
       <UploadToS3WithDropzoneStyled>
@@ -206,6 +212,7 @@ const UploadToS3WithDropzone = ({
                     audio={false}
                     screenshotFormat="image/jpeg"
                     className="webcam"
+                    videoConstraints={videoConstraints} // Establecer las restricciones de la cámara
                   />
                 </div>
                 <button className="capture-button" onClick={capturePhoto}>

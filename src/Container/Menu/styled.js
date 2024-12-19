@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const MenuStyled = styled.div`
   /* Contenedor principal para el menú */
   .container-menu {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(250px, 1fr)
-    ); /* Auto-fit columns */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
     gap: 20px; /* Space between cards */
     padding: 20px;
     max-width: 100%; /* Full width to utilize screen space */

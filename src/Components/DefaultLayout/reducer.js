@@ -9,8 +9,12 @@ export const DefaultLayoutSlice = createSlice({
     setShowSideBar: (state, action) => {
       state.showSideBar = action.payload;
     },
+    setShowMenuOnMobile: (state, action) => {
+      state.showMenuOnMobile = action.payload;
+    },
   },
 });
 
-export const { setShowSideBar } = DefaultLayoutSlice.actions;
+export const { setShowSideBar, setShowMenuOnMobile } =
+  DefaultLayoutSlice.actions;
 export default DefaultLayoutSlice.reducer;

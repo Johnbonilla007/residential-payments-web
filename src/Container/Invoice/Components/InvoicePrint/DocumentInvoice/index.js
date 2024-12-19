@@ -72,17 +72,23 @@ const DocumentInvoice = (props) => {
           className="p-button-rounded p-button-warning p-button-sm"
           icon="pi pi-pencil"
           onClick={() => {
-            confirmDialog({
-              message: "Ya tienes una firma guardada, ¿deseas reutilizarla?",
-              header: "Firma",
-              icon: "pi pi-info-circle",
-              acceptClassName: "p-button-danger",
-              position: "center",
-              accept: () => setShowSignatureSaved(true),
-              reject: () => {
-                setShowSignature(true);
-              },
-            });
+            if (invoice.signature) {
+              confirmDialog({
+                message: "Ya tienes una firma guardada, ¿deseas reutilizarla?",
+                header: "Firma",
+                icon: "pi pi-info-circle",
+                acceptClassName: "p-button-danger",
+                position: "center",
+                accept: () => setShowSignatureSaved(true),
+                reject: () => {
+                  setShowSignature(true);
+                },
+              });
+
+              return;
+            }
+
+            setShowSignature(true);
           }}
         />
         <Button

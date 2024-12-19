@@ -9,18 +9,21 @@ export const DefaultLayoutStyled = styled.div`
   text-align: center;
   overflow: hidden;
 
+  /* La barra superior */
   .top-bar {
-    ${({ authenticate, showSideBar }) =>
+    ${({ authenticate, showSideBar, showMenuOnMobile }) =>
       authenticate &&
-      `position: absolute; top: 0;  
-       right: 0;    
-       left: ${showSideBar ? "200px" : "70px"};`}
+      `position: absolute; top: 0;
+       right: 0;
+       left: ${showSideBar ? "200px" : showMenuOnMobile ? "70px" : "0"};`}
 
-    transition: left 0.3s ease, color 0.3s ease; /* Añadido left a la transición */
+    transition: left 0.3s ease, color 0.3s ease; /* Transición para el movimiento de izquierda a derecha */
+
     .p-menubar {
       box-shadow: 0px 0px 1px #000000;
       border-radius: 1px;
     }
+
     background: #002147;
     border: none;
 
@@ -46,6 +49,15 @@ export const DefaultLayoutStyled = styled.div`
       border-radius: 1px;
       flex-grow: 1;
     }
+
+    /* Estilo para dispositivos móviles */
+    @media (max-width: 768px) {
+      position: fixed; /* Para que la barra se quede fija en la parte superior */
+      left: 0; /* Aseguramos que esté alineada a la izquierda */
+      top: 0; /* Queda en la parte superior */
+      width: 100%; /* Asegura que ocupe todo el ancho en móvil */
+      z-index: 9999; /* Para que esté por encima de otros elementos */
+    }
   }
 
   .footer {
@@ -55,6 +67,8 @@ export const DefaultLayoutStyled = styled.div`
     color: #fff;
     font-weight: bold;
   }
+
+  /* Menú */
   .p-menubar
     .p-menubar-root-list
     > .p-menuitem
@@ -62,6 +76,7 @@ export const DefaultLayoutStyled = styled.div`
     .p-menuitem-text {
     color: #fff;
   }
+
   .p-menubar
     .p-menubar-root-list
     > .p-menuitem
@@ -82,24 +97,25 @@ export const AppSidebarStyled = styled.div`
     top: 0;
     left: 0;
     transition: left 0.4s ease-in-out;
+    width: 200px;
+    background-color: #001f3f;
+    height: 100%;
+
+    /* Responsive styling for smaller screens */
+    @media only screen (max-width: 600px) {
+      position: fixed;
+      z-index: 9999;
+      width: 80%;
+      height: 100%;
+      left: ${(props) => (props.mobileSidebarVisible ? "0px" : "-100%")};
+      top: ${(props) => (props.mobileSidebarVisible ? "60px" : "-100%")};
+      transition: left 0.3s ease-in-out;
+    }
   }
 
   .css-156uyio {
     border-color: gray;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .toggle-button {
-    cursor: pointer;
-    padding: 12px;
-    font-size: 1.5em;
-    z-index: 1000;
-    transition: color 0.3s ease, transform 0.3s ease;
-
-    &:hover {
-      color: #ffffff;
-      transform: scale(1.1);
-    }
   }
 
   /* Main menu item styles */

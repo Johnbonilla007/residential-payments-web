@@ -21,12 +21,14 @@ import { Link } from "react-router-dom";
 import AppSidebar from "./AppSideBar";
 import { TipoCuentas } from "../../Helpers/Constant";
 import { SiReactivex } from "react-icons/si";
+import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
 
 export const DefaultLayout = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [mobileSidebarVisible, setMobileSidebarVisible] = useState(false); // State for mobile sidebar visibility
   const dispacth = useDispatch();
   const op = useRef(null);
   const userInfo = getRequestUserInfo();
@@ -34,7 +36,9 @@ export const DefaultLayout = () => {
   const toast = useRef(null);
 
   const { authenticate } = useSelector((state) => state.Login);
-  const { showSideBar } = useSelector((state) => state.DefaultLayout);
+  const { showSideBar, showMenuOnMobile } = useSelector(
+    (state) => state.DefaultLayout
+  );
 
   useEffect(() => {
     if (authenticate) {
@@ -121,12 +125,21 @@ export const DefaultLayout = () => {
 
   const start = (
     <div className="app-icon">
-      {/* <img
-        alt="logo"
-        src={require("../../Assets/ssaicon.png")}
-        height="35"
-      ></img> */}
-      <SiReactivex size={40} color="white" title="SPR" />
+      <SiReactivex
+        size={40}
+        color="white"
+        title="SPR"
+        onClick={() => {
+          if (showMenuOnMobile) {
+            dispacth(setShowMenuOnMobile(false));
+            dispacth(setShowSideBar(false));
+          } else {
+            dispacth(setShowMenuOnMobile(true));
+          }
+
+          setMobileSidebarVisible(!mobileSidebarVisible);
+        }}
+      />
     </div>
   );
   const end = (
@@ -215,7 +228,11 @@ export const DefaultLayout = () => {
   );
 
   return (
-    <DefaultLayoutStyled authenticate={authenticate} showSideBar={showSideBar}>
+    <DefaultLayoutStyled
+      authenticate={authenticate}
+      showSideBar={showSideBar}
+      showMenuOnMobile={showMenuOnMobile}
+    >
       <Toast ref={toast} />
 
       <Menubar
@@ -225,7 +242,13 @@ export const DefaultLayout = () => {
         start={start}
         end={end}
       />
-      {authenticate && <AppSidebar />}
+
+      {authenticate && (
+        <AppSidebar
+          mobileSidebarVisible={mobileSidebarVisible}
+          setMobileSidebarVisible={setMobileSidebarVisible}
+        />
+      )}
 
       {RenderRoutes()}
 

@@ -16,6 +16,7 @@ import PartialPaymentModal from "./Components/PartialPaymentModal";
 import InvoicePrint from "../InvoicePrint";
 import { getMonth } from "../../../../Helpers/FormatDate";
 import { Checkbox } from "primereact/checkbox";
+import { addMonths, getMonth as getFcMonth } from "date-fns";
 
 const CreateOrUpdateInvoiceModal = ({
   isOpen,
@@ -501,7 +502,6 @@ const CreateOrUpdateInvoiceModal = ({
           const currentDay = currentDate.getDate();
 
           let resultDate;
-
           if (paymentMonth < currentMonth) {
             const ajustIndex = (currentMonth + 1) % 12;
             resultDate = new Date(currentYear, ajustIndex, paymentDay);
@@ -530,21 +530,25 @@ const CreateOrUpdateInvoiceModal = ({
       if (paymentInitial) {
         date = new Date(paymentInitial.initialPaymentDate);
       }
+
       let currentMonth = date.getMonth();
       let adjustedDatePaymentOld;
       let initialPaymentDay;
       if (detail?.paymentTypeNo !== "PT0000000") {
         const ajustIndex = (currentMonth + quantityAdd) % 12;
-        date.setMonth(ajustIndex);
-
+        date = addMonths(date, ajustIndex);
         const datePayment = date;
+
         initialPaymentDay = new Date(
           paymentInitial.initialPaymentDate
         ).getDate(); // Obtener el día 5
+
+        const _month = getFcMonth(datePayment);
+
         adjustedDatePaymentOld = new Date(
           datePayment.getFullYear(),
-          datePayment.getMonth(),
-          initialPaymentDay
+          _month,
+          _month === 1 ? 28 : initialPaymentDay
         );
       }
       // Aumentar un mes
