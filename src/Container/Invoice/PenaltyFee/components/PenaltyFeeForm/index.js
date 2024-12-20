@@ -239,7 +239,7 @@ export const PenaltyFeeForm = ({
           <UploadToS3WithDropzone
             handleCapturePhoto={handleCapturePhoto}
             isOpen={isOpenUploadImage}
-            folderPath="Residence00001"
+            folderPath={residenceNo}
             fileName={formData.paymentTypeNo}
             getUrl={(url) => {
               setFormData({ ...formData, imageUrl: url });

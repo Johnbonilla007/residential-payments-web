@@ -1,5 +1,6 @@
 {
-  "projectName": "ssaweb",
+  "whyContinueWithGen1": "I am a current Gen 1 user",
+  "projectName": "residentialpaymentsw",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {

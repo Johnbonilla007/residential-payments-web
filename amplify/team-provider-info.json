@@ -1,15 +1,23 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-ssaweb-dev-170851-authRole",
-      "UnauthRoleArn": "arn:aws:iam::789470153820:role/amplify-ssaweb-dev-170851-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::789470153820:role/amplify-ssaweb-dev-170851-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-ssaweb-dev-170851-deployment",
-      "UnauthRoleName": "amplify-ssaweb-dev-170851-unauthRole",
-      "StackName": "amplify-ssaweb-dev-170851",
-      "StackId": "arn:aws:cloudformation:us-east-1:789470153820:stack/amplify-ssaweb-dev-170851/4380d440-8f0c-11ee-8716-12044b827ce5",
-      "AmplifyAppId": "dltg5wyia54yt"
+      "AuthRoleName": "amplify-residentialpaymentsw-dev-123b2-authRole",
+      "UnauthRoleArn": "arn:aws:iam::442426887789:role/amplify-residentialpaymentsw-dev-123b2-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::442426887789:role/amplify-residentialpaymentsw-dev-123b2-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-residentialpaymentsw-dev-123b2-deployment",
+      "UnauthRoleName": "amplify-residentialpaymentsw-dev-123b2-unauthRole",
+      "StackName": "amplify-residentialpaymentsw-dev-123b2",
+      "StackId": "arn:aws:cloudformation:us-east-2:442426887789:stack/amplify-residentialpaymentsw-dev-123b2/81f92a30-be61-11ef-b088-0a882832fe03",
+      "AmplifyAppId": "d19gklh2fyw5mv"
+    },
+    "categories": {
+      "auth": {
+        "residentialpaymentsw5d9fbacd": {}
+      },
+      "storage": {
+        "s319066730": {}
+      }
     }
   }
 }

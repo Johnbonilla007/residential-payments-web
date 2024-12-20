@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Dialog } from "primereact/dialog";
 import { Amplify, Storage } from "aws-amplify";
-import awsConfig from "../../../aws-exports-ssa";
+import awsConfig from "../../../aws-exports";
 import { Toast } from "primereact/toast";
 import { UploadToS3WithDropzoneStyled } from "./styled";
 import { Button } from "primereact/button";
@@ -118,7 +118,7 @@ const UploadToS3WithDropzone = ({
         progressCallback: uploadProgress,
       });
 
-      const url = `https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/${result.key}`;
+      const url = `https://residential-payments-storage123b2-dev.s3.us-east-2.amazonaws.com/public/${result.key}`;
       setFileUrl(url);
       getUrl(url);
       toast.current.show({

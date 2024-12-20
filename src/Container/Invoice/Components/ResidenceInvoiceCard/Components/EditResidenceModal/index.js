@@ -214,7 +214,7 @@ const EditResidenceModal = ({
                   </div>
                   <UploadToS3WithDropzone
                     isOpen={isOpenUploadImage}
-                    folderPath="Residence00001"
+                    folderPath={residence?.residenceNo}
                     fileName={residence.residenceNo}
                     getUrl={(url) => {
                       setFormData({
