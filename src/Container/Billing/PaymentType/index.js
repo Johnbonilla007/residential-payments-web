@@ -13,6 +13,7 @@ import { CreateOrUpdatePaymentTypeService } from "../../Invoice/Components/Creat
 import DynamicFormDialog from "../../../Components/DynamicFormDialog";
 import { getRequestUserInfo } from "../../../Helpers/restClient";
 import { useSelector } from "react-redux";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const PaymentType = () => {
   const toast = useRef(null);
@@ -119,7 +120,7 @@ const PaymentType = () => {
   return (
     <Container>
       <Toast ref={toast} />
-
+      <ConfirmDialog />
       <PaymentTypeStyled>
         <div className="header-payment-type">
           <div>
