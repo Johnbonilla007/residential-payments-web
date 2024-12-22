@@ -395,9 +395,7 @@ const Users = () => {
     },
     {
       label: "Refrescar",
-      action: () => {
-        handleGetUsers();
-      },
+      action: handleGetUsers,
       icon: () => {
         return <FaCloudUploadAlt size={16} color="#84b6f4" />;
       },

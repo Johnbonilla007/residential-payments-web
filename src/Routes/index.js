@@ -37,6 +37,7 @@ import PaymentType from "../Container/Billing/PaymentType";
 import SpendingType from "../Container/SecurityAndManagement/SpendingType";
 import PenaltyFee from "../Container/Invoice/PenaltyFee";
 import PenaltyFeeReport from "../Container/Reports/PenaltyFeeReport";
+import VisitsManager from "../Container/Residentials/VisitsManager";
 const routes = [
   {
     path: "/billing",
@@ -250,7 +251,7 @@ const routes = [
   },
   {
     path: "/residential",
-    name: "Residenciales",
+    name: "Visitas",
     isMenu: false,
     isSecurity: true,
     color: "#87CEFA",
@@ -270,6 +271,17 @@ const routes = [
         permissions: [TipoCuentas.administrador],
         accesses: "VerVisitasEspeciales",
         Element: <SpecialVisit />,
+      },
+      {
+        path: "/residentials/visits-manager",
+        name: "Administrar Visitas",
+        isMenu: false,
+        isSecurity: true,
+        color: "#FFA07A",
+        icon: <FaPersonBurst size={30} />,
+        permissions: [TipoCuentas.administrador],
+        accesses: "VerVisitasEspeciales",
+        Element: <VisitsManager />,
       },
     ],
   },
