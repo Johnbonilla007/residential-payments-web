@@ -1,33 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "../../../Components/ContainerControl";
 import { VisitsManagerStyled } from "./styles";
-import { QrReader } from "react-qr-reader";
-
-import { QRCodeCanvas } from "qrcode.react";
+import { BrowserQRCodeReader } from "@zxing/browser";
 
 const VisitsManager = () => {
-  const handleScan = (data) => {
-    if (data) {
-      console.log(data);
-    }
-  };
+  const videoRef = useRef(null);
 
-  const handleError = (err) => {
-    console.error(err);
-  };
+  useEffect(() => {
+    const codeReader = new BrowserQRCodeReader();
+    codeReader.decodeFromVideoDevice(
+      null,
+      videoRef.current,
+      (result, error) => {
+        debugger;
+        if (result) {
+          console.log(result.getText());
+        }
+        if (error) {
+          debugger;
+
+          console.error(error);
+        }
+      }
+    );
+
+    return () => {
+      codeReader.reset();
+    };
+  }, []);
   return (
     <Container>
       <VisitsManagerStyled>
-        <QRCodeCanvas delay={300} onError={handleError} onScan={handleScan} />
-        <QrReader
-          delay={100}
-          onError={handleError}
-          onResult={(result, error) => {
-            debugger;
-            if (result) handleScan(result.text);
-            if (error) handleError(error);
-          }}
-        />
+        <video ref={videoRef} style={{ width: "100%" }} />
       </VisitsManagerStyled>
     </Container>
   );
