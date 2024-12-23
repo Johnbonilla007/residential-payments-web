@@ -65,8 +65,10 @@ const EditResidenceModal = ({
 
   const handleSaveClick = async () => {
     setEditMode(false);
-
-    let request = { residence: formData.residence };
+    formData.residence.accounts = formData?.residence?.accounts?.map((x) => {
+      return { ...formData.account };
+    });
+    let request = { residence: { ...formData.residence } };
     let response = await UsersServices.createOrUpdateResidence(request);
 
     if (response.success) {
