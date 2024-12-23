@@ -19,6 +19,7 @@
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primereact": "^8.7.2",
+    "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",

@@ -3,6 +3,7 @@ import Container from "../../../Components/ContainerControl";
 import { VisitsManagerStyled } from "./styles";
 import { BrowserQRCodeReader } from "@zxing/browser";
 import { Toast } from "primereact/toast";
+import { QRCodeCanvas } from "qrcode.react";
 
 const VisitsManager = () => {
   const videoRef = useRef(null);
@@ -26,13 +27,18 @@ const VisitsManager = () => {
           });
         }
         if (error) {
-          console.error(error);
+          // console.error(error);
         }
       }
     );
 
     return () => {
-      codeReader?.reset();
+      if (codeReader) {
+        const { reset } = codeReader;
+        if (reset) {
+          reset();
+        }
+      }
     };
   }, []);
   return (
@@ -41,6 +47,7 @@ const VisitsManager = () => {
 
       <VisitsManagerStyled>
         <video ref={videoRef} style={{ width: "100%" }} />
+        {/* <QRCodeCanvas value="Hola Jonathan, soy texto insertado en un QR" /> */}
       </VisitsManagerStyled>
     </Container>
   );
