@@ -253,7 +253,7 @@ const DynamicFormDialog = ({
         );
       case "date":
         const value = formData[field.fieldName];
-        const date = new Date(value);
+        const date = value ? new Date(value) : new Date();
         return (
           <div key={field.fieldName} className="container-input">
             <label htmlFor={field.fieldName}>{field.name}</label>

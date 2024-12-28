@@ -27,7 +27,7 @@ export const Login = () => {
       userName: userName,
       password: password,
     };
-    await InvoiceServices.getResidencePaymentsByResidence();
+
     const response = await restClient.httpPost(
       "/security/users/authentica-user",
       request

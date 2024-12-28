@@ -280,7 +280,7 @@ const routes = [
         color: "#FFA07A",
         icon: <FaPersonBurst size={30} />,
         permissions: [TipoCuentas.administrador],
-        accesses: "VerVisitasEspeciales",
+        accesses: "AdministrarVisitas",
         Element: <VisitsManager />,
       },
     ],

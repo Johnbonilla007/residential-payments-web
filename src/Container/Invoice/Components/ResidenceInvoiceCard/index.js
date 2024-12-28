@@ -42,12 +42,12 @@ const ResidenceInoviceCard = ({
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    getInvoicesByResidential();
+    loadResidences();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const userInfo = useMemo(() => getRequestUserInfo(), []);
 
-  const getInvoicesByResidential = async () => {
+  const loadResidences = async () => {
     const request = {
       searchValue: residentialSelected.residentialNo,
     };
@@ -205,7 +205,7 @@ const ResidenceInoviceCard = ({
           setInvoiceSelected={setInvoiceSelected}
           invoiceSelected={invoiceSelected}
           setisOpenInvoiceModal={setisOpenInvoiceModal}
-          getInvoicesByResidential={getInvoicesByResidential}
+          getInvoicesByResidential={loadResidences}
           confirmDialog={confirmDialog}
           toast={toast}
           setIsEdit={setIsEdit}
@@ -263,7 +263,7 @@ const ResidenceInoviceCard = ({
             setInvoiceSelected={setInvoiceSelected}
             invoiceSelected={invoiceSelected}
             setisOpenInvoiceModal={setisOpenInvoiceModal}
-            getInvoicesByResidential={getInvoicesByResidential}
+            getInvoicesByResidential={loadResidences}
             confirmDialog={confirmDialog}
             toast={toast}
             setIsEdit={setIsEdit}
