@@ -248,7 +248,7 @@ const Users = () => {
           }}
           className={"p-button-raised p-button-warning p-button-sm"}
         />
-        {row.accountType !== "ADMON" && (
+        {utils.hasPermission("CambiarContrasena") && (
           <Button
             icon={"pi pi-key"}
             loading={loading}
