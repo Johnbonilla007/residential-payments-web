@@ -137,7 +137,7 @@ const VisitsManager = () => {
     const account = accounts?.firstOrDefault();
 
     let visitCreateDate;
-    debugger;
+    
     if (values.visitCreateDate) {
       visitCreateDate = moment(values.visitCreateDate).format("YYYY-MM-DD");
     } else moment(new Date()).format("YYYY-MM-DD");

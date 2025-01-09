@@ -103,6 +103,7 @@ export const ResidenceComponent = ({
   const tryCreateAccount = async (residence) => {
     const request = {
       account: {
+        id: residence.accountId,
         userName: userSelected.userName,
         fullName: userSelected.fullName,
         email: userSelected.email,

@@ -8,7 +8,7 @@ const Camera = ({ handleCapturePhoto, showPreview = false }) => {
 
   const capturePhoto = () => {
     if (webcamRef.current) {
-      debugger;
+      
       const image = webcamRef.current.getScreenshot();
       setImageSrc(image);
       handleCapturePhoto(image);

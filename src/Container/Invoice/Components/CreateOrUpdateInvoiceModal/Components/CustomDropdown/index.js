@@ -8,7 +8,7 @@ const CustomDropdown = ({ customers, getPaymeType, invoice, setInvoice }) => {
   const [filterQuery, setFilterQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  debugger;
+  
   useEffect(() => {
     if (!utils.isNullOrEmpty(filterQuery)) {
       const query = filterQuery.toLowerCase();

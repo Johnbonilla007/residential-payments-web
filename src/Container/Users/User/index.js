@@ -423,6 +423,7 @@ const Users = () => {
   };
 
   const updateAccount = async (item) => {
+    
     const request = { gender: item.gender, account: { ...item } };
     request.account.detail = undefined;
 
@@ -451,6 +452,7 @@ const Users = () => {
   };
 
   const handleSubmitUser = async (item) => {
+    
     if (isEditUser) {
       await updateAccount(item);
 
@@ -469,6 +471,7 @@ const Users = () => {
         gender: item.gender,
         accounts: [
           {
+            id: residence.accountId,
             userName: item.userName,
             fullName: item.fullName,
             email: item.email,
