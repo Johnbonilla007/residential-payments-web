@@ -308,25 +308,23 @@ const Invoice = () => {
           )}
           {showViewResidence ? (
             <div>
-              {!utils.evaluateFullObjetct(residenceSelected) && (
-                <FilterControl
-                  items={residences}
-                  filter={filterResidences}
-                  setFilter={(value) => {
-                    dispatch(setFilterResidences(value));
-                  }}
-                  propertyFilter={[
-                    "name", // Top-level property
-                    "block", // Top-level property
-                    "houseNumber", // Top-level property
-                    { key: "accounts", subItems: ["fullName", "userName"] }, // Nested properties
-                  ]}
-                  combinedFilterProperties={["block", "houseNumber"]}
-                  onChange={(items) => {
-                    setResidenceList(items);
-                  }}
-                />
-              )}
+              <FilterControl
+                items={residences}
+                filter={filterResidences}
+                setFilter={(value) => {
+                  dispatch(setFilterResidences(value));
+                }}
+                propertyFilter={[
+                  "name", // Top-level property
+                  "block", // Top-level property
+                  "houseNumber", // Top-level property
+                  { key: "accounts", subItems: ["fullName", "userName"] }, // Nested properties
+                ]}
+                combinedFilterProperties={["block", "houseNumber"]}
+                onChange={(items) => {
+                  setResidenceList(items);
+                }}
+              />
             </div>
           ) : (
             <FilterControl
