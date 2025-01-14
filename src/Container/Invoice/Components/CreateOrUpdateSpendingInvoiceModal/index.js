@@ -58,7 +58,17 @@ const CreateOrUpdateSpendingInvoiceModal = ({
       residentialSelected.residentialNo
     );
     if (response?.success) {
+      if (utils.evaluateArray(response.spendingTypes)) {
+        response.spendingTypes.push({
+          spendingTypeNo: "SP0000000",
+          name: "OTROS",
+          Description: "",
+          Cost: 0,
+          isFollowing: false,
+        });
+      }
       setSpendingTypes(response.spendingTypes);
+
       return;
     }
   };
