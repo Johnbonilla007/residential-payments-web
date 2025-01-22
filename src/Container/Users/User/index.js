@@ -192,17 +192,16 @@ const Users = () => {
         return item;
       });
       const accounts = userList
-        .groupBy((x) => x.userName)
+        .where((x) => x.accountType !== "Root")
+        ?.groupBy((x) => x.userName)
         .select((x, index) => {
           return {
-            creationDate: `${getDate(x.creationDate)} - ${getHours(
-              x.creationDate
-            )}`,
+            creationDate: `${getDate(
+              x.values.firstOrDefault().creationDate
+            )} - ${getHours(x.values.firstOrDefault().creationDate)}`,
             index: index + 1,
             ...x.values.firstOrDefault(),
-            detail: x.values.where(
-              (y) => y.id !== x.values.firstOrDefault().id
-            ),
+            detail: [...x.values],
           };
         });
 
@@ -423,7 +422,6 @@ const Users = () => {
   };
 
   const updateAccount = async (item) => {
-    
     const request = { gender: item.gender, account: { ...item } };
     request.account.detail = undefined;
 
@@ -452,7 +450,6 @@ const Users = () => {
   };
 
   const handleSubmitUser = async (item) => {
-    
     if (isEditUser) {
       await updateAccount(item);
 

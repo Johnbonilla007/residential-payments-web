@@ -16,7 +16,7 @@ export const ResidenceComponent = ({
   userSelected,
 }) => {
   const [residences, setResidences] = useState([]);
-  const [residenceSelected, setResidenceSelected] = useState();
+  const [residenceSelected, setResidenceSelected] = useState(undefined);
   const { residentialSelected } = useSelector((store) => store.Invoice);
   const [showFormResidence, setShowFormResidence] = useState(false);
   useEffect(() => {
@@ -24,7 +24,10 @@ export const ResidenceComponent = ({
   }, []);
 
   const getResidenceByResidential = async () => {
-    const _searchValue = userSelected.detail.select((x) => x.id);
+    const _searchValue = userSelected.detail
+      .select((x) => x.residenceNo)
+      .distinct();
+
     _searchValue.push(accountId);
     const request = {
       searchValue: _searchValue.toString(),
@@ -103,7 +106,7 @@ export const ResidenceComponent = ({
   const tryCreateAccount = async (residence) => {
     const request = {
       account: {
-        id: residence.accountId,
+        id: residenceSelected ? residence.accountId : undefined,
         userName: userSelected.userName,
         fullName: userSelected.fullName,
         email: userSelected.email,
