@@ -164,8 +164,12 @@ const CreateOrUpdateInvoiceModal = ({
     ) {
       let currentDate = new Date(invoiceDetailOldSelected.paymentdate);
       let currentMonth = currentDate.getMonth();
-
-      if (currentMonth === 0 && detail.quantity === 1) {
+      const resultMonths = currentMonth + detail.quantity;
+      debugger;
+      if (
+        (currentMonth === 0 && detail.quantity === 1) ||
+        resultMonths === 13
+      ) {
         currentDate = addDays(currentDate, -2);
         currentDate.setMonth(currentMonth + detail.quantity);
       } else {
