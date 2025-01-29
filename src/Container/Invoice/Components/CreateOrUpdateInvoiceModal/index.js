@@ -16,7 +16,7 @@ import PartialPaymentModal from "./Components/PartialPaymentModal";
 import InvoicePrint from "../InvoicePrint";
 import { getMonth } from "../../../../Helpers/FormatDate";
 import { Checkbox } from "primereact/checkbox";
-import { addMonths, getMonth as getFcMonth } from "date-fns";
+import { addDays, addMonths, getDay, getMonth as getFcMonth } from "date-fns";
 
 const CreateOrUpdateInvoiceModal = ({
   isOpen,
@@ -164,12 +164,26 @@ const CreateOrUpdateInvoiceModal = ({
     ) {
       let currentDate = new Date(invoiceDetailOldSelected.paymentdate);
       let currentMonth = currentDate.getMonth();
-      currentDate.setMonth(currentMonth + 1);
+
+      if (currentMonth === 0 && detail.quantity === 1) {
+        currentDate = addDays(currentDate, -2);
+        currentDate.setMonth(currentMonth + detail.quantity);
+      } else {
+        currentDate.setMonth(currentMonth + detail.quantity);
+        const currentDay = currentDate.getDate();
+        if (currentDay === 28 && currentMonth === 1) {
+          currentDate = addDays(currentDate, 2);
+        }
+      }
       paymentDate = currentDate;
+      detail.paymentdate = paymentDate;
     }
 
+    const startDate = new Date(
+      invoiceDetailOldSelected?.paymentdate || paymentDate
+    );
     return utils.getMonthRangeText(
-      paymentDate,
+      startDate,
       detail.quantity,
       !utils.evaluateFullObjetct(invoiceDetailOldSelected),
       residentialSelected.chargeCurrentMonth
@@ -336,10 +350,11 @@ const CreateOrUpdateInvoiceModal = ({
       });
       return;
     }
+
     // Si el mes es diciembre, aumenta el año
     const adjustedYear = currentMonth === 11 ? currentYear + 1 : currentYear;
     // El mes ajustado se reinicia a enero (0) si era diciembre
-    const adjustedMonthIndex = (currentMonth + 2) % 12;
+    const adjustedMonthIndex = (currentMonth + detail.quantity) % 12;
 
     const resultDate = new Date(adjustedYear, adjustedMonthIndex, currentDay);
 
@@ -535,7 +550,7 @@ const CreateOrUpdateInvoiceModal = ({
       let adjustedDatePaymentOld;
       let initialPaymentDay;
       if (detail?.paymentTypeNo !== "PT0000000") {
-        const ajustIndex = (currentMonth + quantityAdd) % 12;
+        const ajustIndex = quantityAdd;
         date = addMonths(date, ajustIndex);
         const datePayment = date;
 
@@ -761,6 +776,25 @@ const CreateOrUpdateInvoiceModal = ({
   };
 
   const handleSaveInvoice = async () => {
+    invoice?.invoiceDetail
+      ?.where((x) => x.description?.toLowerCase().includes("seguridad"))
+      ?.forEach((detail) => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth(); // Los meses son 0-indexados en JavaScript
+        const paymentDateYear = detail.paymentdate.getFullYear();
+        const paymentDateMonth = detail.paymentdate.getMonth();
+
+        const isSameDate =
+          currentYear === paymentDateYear && currentMonth === paymentDateMonth;
+
+        if (isSameDate) {
+          detail.paymentdate = addMonths(detail.paymentdate, detail.quantity);
+        }
+
+        detail.paymentdate = detail.paymentdate.toLocaleDateString();
+      });
+
     const request = {
       invoice: {
         ...invoice,

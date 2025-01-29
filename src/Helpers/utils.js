@@ -103,7 +103,7 @@ export class utils {
         (startDate.getMonth() - valueToadd - paymentToAddWhenIsInitial + 12) %
         12;
     } else {
-      startMonthIndex = (startDate.getMonth() - valueToadd + 12) % 12;
+      startMonthIndex = startDate.getMonth();
     }
     // Empezamos desde el mes siguiente
 
@@ -111,7 +111,7 @@ export class utils {
     let startYear = startDate.getFullYear();
     if (startDate.getMonth() < valueToadd) {
       // Si enero (0) o febrero (1), cae en el año anterior
-      startYear -= 1;
+      // startYear -= 1;
     }
 
     // Obtenemos el nombre del mes inicial
