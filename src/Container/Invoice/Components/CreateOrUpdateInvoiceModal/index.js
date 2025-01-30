@@ -797,7 +797,7 @@ const CreateOrUpdateInvoiceModal = ({
         }
 
         if (currentMonth === 3) {
-          detail.paymentdate = detail.paymentdate.toLocaleDateString();
+          detail.paymentdate = detail.paymentdate.toString();
         }
       });
 
