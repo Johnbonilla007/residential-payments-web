@@ -97,7 +97,6 @@ export class utils {
     _endDate = undefined,
     _startDate = undefined
   ) {
-    debugger;
     let paymentToAddWhenIsInitial = monthsToAdd - 1;
     let startMonthIndex;
     let valueToadd = chargeCurrentMonth ? 1 : 2;
@@ -112,7 +111,10 @@ export class utils {
 
     // Si el mes ajustado está en el año anterior, ajustamos el año
     let startYear = startDate.getFullYear();
-    if (startDate.getMonth() < valueToadd) {
+    if (_startDate) {
+      startYear = _startDate.getFullYear();
+    }
+    if (!_startDate && startDate.getMonth() < valueToadd) {
       // Si enero (0) o febrero (1), cae en el año anterior
       startYear -= 1;
     }
@@ -129,19 +131,29 @@ export class utils {
 
     // Calculamos la fecha final sumando la cantidad de meses
     const endDate = new Date(_endDate || startDate);
-    endDate.setDate(1); // Ajustar al primer día del mes para evitar desbordamientos
-    endDate.setMonth(startMonthIndex + monthsToAdd); // Usamos startMonthIndex ajustado
+    let adjustedDate = {};
+    let endMonthName;
+    if (!_endDate) {
+      endDate.setDate(1); // Ajustar al primer día del mes para evitar desbordamientos
+      endDate.setMonth(startMonthIndex + monthsToAdd); // Usamos startMonthIndex ajustado
 
-    // Reajustamos al último día del mes si es necesario
-    endDate.setDate(
-      Math.min(
-        startDate.getDate(),
-        new Date(endDate.getFullYear(), endDate.getMonth() + 1, 0).getDate()
-      )
-    );
+      // Reajustamos al último día del mes si es necesario
+      endDate.setDate(
+        Math.min(
+          startDate.getDate(),
+          new Date(endDate.getFullYear(), endDate.getMonth() + 1, 0).getDate()
+        )
+      );
+      adjustedDate = getAdjustedDate(endDate);
+      endMonthName = getMonthName(adjustedDate.monthIndex);
+    } else {
+      adjustedDate = {
+        monthIndex: _endDate.getMonth(),
+        year: _endDate.getFullYear(),
+      };
 
-    const adjustedDate = getAdjustedDate(endDate);
-    const endMonthName = getMonthName(adjustedDate.monthIndex);
+      endMonthName = getMonthName(adjustedDate.monthIndex);
+    }
 
     return `${startMonthName}-${startYear} a ${endMonthName}-${adjustedDate.year}`;
   }

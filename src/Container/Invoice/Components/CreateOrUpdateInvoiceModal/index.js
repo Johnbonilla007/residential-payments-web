@@ -190,9 +190,9 @@ const CreateOrUpdateInvoiceModal = ({
       _endDate = undefined;
       _startDate = undefined;
     }
-
+    debugger;
     if (!utils.evaluateFullObjetct(invoiceDetailOldSelected)) {
-      _endDate = new Date(newDatePayment).setMonth(-1);
+      _endDate = addMonths(new Date(newDatePayment), -1);
       _startDate = new Date(_startDate);
     }
 
