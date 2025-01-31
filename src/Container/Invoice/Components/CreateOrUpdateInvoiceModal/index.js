@@ -121,11 +121,17 @@ const CreateOrUpdateInvoiceModal = ({
     maximumFractionDigits: 2,
   });
 
-  const handleDetermineMonth = (detail, newDatePayment, isPartialPayment) => {
+  const handleDetermineMonth = (
+    detail,
+    newDatePayment,
+    isPartialPayment,
+    _startDate
+  ) => {
     const invoiceDetailOldSelected = peymentOlds.firstOrDefault(
       (x) => x.paymentTypeNo === detail.paymentTypeNo
     );
-
+    let startDate;
+    let _endDate;
     let paymentDate = newDatePayment;
 
     if (isPartialPayment) {
@@ -157,7 +163,6 @@ const CreateOrUpdateInvoiceModal = ({
         paymentDate = resultDate;
       }
     }
-
     if (
       utils.evaluateFullObjetct(invoiceDetailOldSelected) &&
       !isPartialPayment
@@ -181,16 +186,27 @@ const CreateOrUpdateInvoiceModal = ({
       }
       paymentDate = currentDate;
       detail.paymentdate = paymentDate;
+      startDate = new Date(invoiceDetailOldSelected.paymentdate);
+      _endDate = undefined;
+      _startDate = undefined;
     }
 
-    const startDate = new Date(
-      invoiceDetailOldSelected?.paymentdate || paymentDate
-    );
+    if (!utils.evaluateFullObjetct(invoiceDetailOldSelected)) {
+      _endDate = new Date(newDatePayment).setMonth(-1);
+      _startDate = new Date(_startDate);
+    }
+
+    if (!startDate) {
+      startDate = new Date(paymentDate);
+    }
+
     const montgRange = utils.getMonthRangeText(
       startDate,
       detail.quantity,
       !utils.evaluateFullObjetct(invoiceDetailOldSelected),
-      residentialSelected.chargeCurrentMonth
+      residentialSelected.chargeCurrentMonth,
+      _endDate,
+      _startDate
     );
 
     return montgRange;
@@ -629,7 +645,8 @@ const CreateOrUpdateInvoiceModal = ({
           comments += `${detail.description} del mes de ${handleDetermineMonth(
             detail,
             detail.paymentdate,
-            isPartialPayment
+            isPartialPayment,
+            paymentInitial.initialPaymentDate
           )}${
             isPartialMoth
               ? ` y pago parcial de ${detail.amountPartial} del mes de ${partialMoth}`

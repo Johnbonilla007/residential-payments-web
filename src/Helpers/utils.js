@@ -93,8 +93,11 @@ export class utils {
     startDate,
     monthsToAdd,
     isInitialPay,
-    chargeCurrentMonth
+    chargeCurrentMonth,
+    _endDate = undefined,
+    _startDate = undefined
   ) {
+    debugger;
     let paymentToAddWhenIsInitial = monthsToAdd - 1;
     let startMonthIndex;
     let valueToadd = chargeCurrentMonth ? 1 : 2;
@@ -114,6 +117,9 @@ export class utils {
       startYear -= 1;
     }
 
+    if (_startDate) {
+      startMonthIndex = _startDate.getMonth();
+    }
     // Obtenemos el nombre del mes inicial
     const startMonthName = getMonthName(startMonthIndex);
 
@@ -122,7 +128,7 @@ export class utils {
     }
 
     // Calculamos la fecha final sumando la cantidad de meses
-    const endDate = new Date(startDate);
+    const endDate = new Date(_endDate || startDate);
     endDate.setDate(1); // Ajustar al primer día del mes para evitar desbordamientos
     endDate.setMonth(startMonthIndex + monthsToAdd); // Usamos startMonthIndex ajustado
 
