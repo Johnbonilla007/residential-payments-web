@@ -111,7 +111,7 @@ export class utils {
     let startYear = startDate.getFullYear();
     if (startDate.getMonth() < valueToadd) {
       // Si enero (0) o febrero (1), cae en el año anterior
-      // startYear -= 1;
+      startYear -= 1;
     }
 
     // Obtenemos el nombre del mes inicial
