@@ -116,7 +116,7 @@ export class utils {
     }
     if (!_startDate && startDate.getMonth() < valueToadd) {
       // Si enero (0) o febrero (1), cae en el año anterior
-      startYear -= 1;
+      // startYear -= 1;
     }
 
     if (_startDate) {
