@@ -186,12 +186,14 @@ const CreateOrUpdateInvoiceModal = ({
     const startDate = new Date(
       invoiceDetailOldSelected?.paymentdate || paymentDate
     );
-    return utils.getMonthRangeText(
+    const montgRange = utils.getMonthRangeText(
       startDate,
       detail.quantity,
       !utils.evaluateFullObjetct(invoiceDetailOldSelected),
       residentialSelected.chargeCurrentMonth
     );
+
+    return montgRange;
   };
 
   const getPaymeType = async (residenceSelected) => {
@@ -796,9 +798,7 @@ const CreateOrUpdateInvoiceModal = ({
           detail.paymentdate = addMonths(detail.paymentdate, detail.quantity);
         }
 
-        if (currentMonth === 3) {
-          detail.paymentdate = detail.paymentdate.toString();
-        }
+        detail.paymentdate = utils.FormatDate(detail.paymentdate);
       });
 
     const request = {
