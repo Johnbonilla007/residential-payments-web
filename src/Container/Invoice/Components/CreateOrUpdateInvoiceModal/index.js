@@ -494,7 +494,7 @@ const CreateOrUpdateInvoiceModal = ({
       (x) =>
         x.paymentTypeNo === detailToAdd.paymentTypeNo && x.initialPaymentDate
     );
-
+    debugger;
     if (
       detail.isPartialMothPay &&
       detail.amountPartial >= paymentInitial.cost
@@ -802,18 +802,18 @@ const CreateOrUpdateInvoiceModal = ({
     invoice?.invoiceDetail
       ?.where((x) => x.description?.toLowerCase().includes("seguridad"))
       ?.forEach((detail) => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth(); // Los meses son 0-indexados en JavaScript
-        const paymentDateYear = detail.paymentdate.getFullYear();
-        const paymentDateMonth = detail.paymentdate.getMonth();
+        // const currentDate = new Date();
+        // const currentYear = currentDate.getFullYear();
+        // const currentMonth = currentDate.getMonth(); // Los meses son 0-indexados en JavaScript
+        // const paymentDateYear = detail.paymentdate.getFullYear();
+        // const paymentDateMonth = detail.paymentdate.getMonth();
 
-        const isSameDate =
-          currentYear === paymentDateYear && currentMonth === paymentDateMonth;
+        // const isSameDate =
+        //   currentYear === paymentDateYear && currentMonth === paymentDateMonth;
 
-        if (isSameDate) {
-          detail.paymentdate = addMonths(detail.paymentdate, detail.quantity);
-        }
+        // if (isSameDate) {
+        //   detail.paymentdate = addMonths(detail.paymentdate, detail.quantity);
+        // }
 
         detail.paymentdate = utils.FormatDate(detail.paymentdate);
       });
