@@ -49,7 +49,7 @@ export const columnsIncomesReport = [
   },
   {
     fieldName: "lastPaidMonth",
-    name: "Mes Pagado",
+    name: "Úlitmo Mes Pagado",
     width: "150px",
     filter: true,
   },
