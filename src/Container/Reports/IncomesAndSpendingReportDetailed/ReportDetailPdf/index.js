@@ -99,7 +99,7 @@ const ReportDetailPdf = ({
               </div>
               {filters.reportType === "Incomes" && (
                 <div>
-                  <strong>Mes Pagado</strong>
+                  <strong>Úlitmo Mes Pagado</strong>
                 </div>
               )}
               <div>
