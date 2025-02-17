@@ -97,25 +97,25 @@ const Invoice = () => {
           },
           disabled: !utils.hasPermission("VerRecibosDeGastos"),
         },
-        // {
-        //   label: "Crear Movimiento Financiero",
-        //   action: () => {
-        //     setShowAddFinancialMovement(true);
-        //   },
-        //   icon: () => {
-        //     return <FaPlus size={16} color="#84b6f4" />;
-        //   },
-        //   disabled: !utils.hasPermission("CrearMovimientoFinanciero"),
-        // },
-        // {
-        //   label: "Movimientos Financieros",
-        //   action: () => {
-        //     setShowFinancialMovement(true);
-        //   },
-        //   icon: () => {
-        //     return <FaMoneyBillTransfer size={16} color="#007111" />;
-        //   },
-        // },
+        {
+          label: "Crear Movimiento Financiero",
+          action: () => {
+            setShowAddFinancialMovement(true);
+          },
+          icon: () => {
+            return <FaPlus size={16} color="#84b6f4" />;
+          },
+          disabled: !utils.hasPermission("CrearMovimientoFinanciero"),
+        },
+        {
+          label: "Movimientos Financieros",
+          action: () => {
+            setShowFinancialMovement(true);
+          },
+          icon: () => {
+            return <FaMoneyBillTransfer size={16} color="#007111" />;
+          },
+        },
       ];
 
       const allowGoBack = userInfo.accesses?.some((x) =>
