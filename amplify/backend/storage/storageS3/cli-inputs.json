@@ -1,7 +1,7 @@
 {
-  "resourceName": "s319066730",
-  "policyUUID": "19066730",
-  "bucketName": "residential-payments-storage",
+  "resourceName": "storageS3",
+  "policyUUID": "368eec45",
+  "bucketName": "residentialpaymentsstorage",
   "storageAccess": "authAndGuest",
   "guestAccess": [
     "CREATE_AND_UPDATE",

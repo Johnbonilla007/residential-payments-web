@@ -1,6 +1,6 @@
 {
   "auth": {
-    "residentialpaymentsw5d9fbacd": {
+    "residentialpaymentsw06496f2b": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -28,7 +28,7 @@
     }
   },
   "storage": {
-    "s319066730": {
+    "storageS3": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

@@ -74,6 +74,8 @@ const UploadToS3WithDropzone = ({
     setFileUrl(previewUrl);
   };
   const uploadProgress = (progress) => {
+    debugger;
+
     const percentage = Math.round((progress.loaded / progress.total) * 100);
     console.log(`Upload is ${percentage}% done`);
     setProgress(percentage);
@@ -118,7 +120,7 @@ const UploadToS3WithDropzone = ({
         progressCallback: uploadProgress,
       });
 
-      const url = `https://residential-payments-storage123b2-dev.s3.us-east-2.amazonaws.com/public/${result.key}`;
+      const url = `https://residentialpaymentsstorage44a1f-dev.s3.us-east-2.amazonaws.com/public/${result.key}`;
       setFileUrl(url);
       getUrl(url);
       toast.current.show({
@@ -128,6 +130,8 @@ const UploadToS3WithDropzone = ({
         life: 3000,
       });
     } catch (error) {
+      debugger;
+
       console.error("Error uploading file:", error);
       toast.current.show({
         severity: "error",
