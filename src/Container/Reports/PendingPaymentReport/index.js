@@ -272,6 +272,7 @@ const PendingPaymentReport = () => {
           filterFields={filterFields}
           columns={pendingPaymentColumns}
           emptyMessage="No hay registros para mostrar"
+          isExportExcel
         />
       </PendingPaymentReportStyled>
     </Container>
