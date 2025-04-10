@@ -32,13 +32,15 @@ const ReportSumarizePdf = ({
     return 0;
   };
   const getAvailableInBank = () => {
+    debugger;
     if (reportSumarize) {
       const bankIncoming =
         (reportSumarize?.previousMonthlyBalance?.bank || 0) +
         (reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeBank || 0);
       const totalBank =
         bankIncoming -
-        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingBank || 0);
+        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingBank || 0) +
+        bankIncoming?.currentMonthlyBalance?.bankFinancialMovement;
 
       return totalBank;
     }
@@ -52,7 +54,9 @@ const ReportSumarizePdf = ({
         (reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeCash || 0);
       const totalCash =
         cashIncoming -
-        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingCash || 0);
+        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
+        reportSumarize?.currentMonthlyBalance?.bankFinancialMovement;
+
       return totalCash;
     }
     return 0;
@@ -218,14 +222,15 @@ const ReportSumarizePdf = ({
                 </div>
                 <div
                   className={`total ${
-                    reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeBank  >
-                    0
+                    reportSumarize?.currentMonthlyBalance
+                      ?.totalAmounthIncomeBank > 0
                       ? "positive"
                       : "negative"
                   }`}
                 >
                   {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeBank 
+                    reportSumarize?.currentMonthlyBalance
+                      ?.totalAmounthIncomeBank
                   )}
                 </div>
               </div>
@@ -236,14 +241,15 @@ const ReportSumarizePdf = ({
                 </div>
                 <div
                   className={`total ${
-                    reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeCash  >
-                    0
+                    reportSumarize?.currentMonthlyBalance
+                      ?.totalAmounthIncomeCash > 0
                       ? "positive"
                       : "negative"
                   }`}
                 >
                   {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeCash 
+                    reportSumarize?.currentMonthlyBalance
+                      ?.totalAmounthIncomeCash
                   )}
                 </div>
               </div>
