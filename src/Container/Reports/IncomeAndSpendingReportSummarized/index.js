@@ -127,8 +127,7 @@ const IncomeAndSpendingReportSummarized = () => {
       const bankIncoming =
         (report?.previousMonthlyBalance?.bank || 0) +
         (report?.currentMonthlyBalance?.totalAmounthIncomeBank || 0);
-    debugger;
-
+        
       const totalBank =
         bankIncoming -
         (report?.currentMonthlyBalance?.totalAmounthSpendingBank || 0) +
