@@ -32,7 +32,6 @@ const ReportSumarizePdf = ({
     return 0;
   };
   const getAvailableInBank = () => {
-    debugger;
     if (reportSumarize) {
       const bankIncoming =
         (reportSumarize?.previousMonthlyBalance?.bank || 0) +
@@ -40,7 +39,7 @@ const ReportSumarizePdf = ({
       const totalBank =
         bankIncoming -
         (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingBank || 0) +
-        bankIncoming?.currentMonthlyBalance?.bankFinancialMovement;
+        reportSumarize?.currentMonthlyBalance?.bankFinancialMovement;
 
       return totalBank;
     }
