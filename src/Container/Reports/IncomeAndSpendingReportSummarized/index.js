@@ -127,7 +127,7 @@ const IncomeAndSpendingReportSummarized = () => {
       const bankIncoming =
         (report?.previousMonthlyBalance?.bank || 0) +
         (report?.currentMonthlyBalance?.totalAmounthIncomeBank || 0);
-        
+
       const totalBank =
         bankIncoming -
         (report?.currentMonthlyBalance?.totalAmounthSpendingBank || 0) +
@@ -143,10 +143,17 @@ const IncomeAndSpendingReportSummarized = () => {
       const cashIncoming =
         (report?.previousMonthlyBalance?.cash || 0) +
         (report?.currentMonthlyBalance?.totalAmounthIncomeCash || 0);
-      const totalCash =
+      let totalCash =
         cashIncoming -
         (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
         cashIncoming?.currentMonthlyBalance?.bankFinancialMovement;
+
+      if (!totalCash) {
+        totalCash =
+          report?.currentMonthlyBalance?.totalAmounthIncomeCash -
+          report?.currentMonthlyBalance?.totalAmounthSpendingCash;
+      }
+
       return totalCash;
     }
     return 0;
