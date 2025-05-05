@@ -138,7 +138,7 @@ const IncomeAndSpendingReportSummarized = () => {
     return 0;
   };
 
-  const getAvailableInCash = () => {
+  const availableInCash = useMemo(() => {
     if (report) {
       const cashIncoming =
         (report?.previousMonthlyBalance?.cash || 0) +
@@ -148,7 +148,7 @@ const IncomeAndSpendingReportSummarized = () => {
         (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
         cashIncoming?.currentMonthlyBalance?.bankFinancialMovement;
 
-      if (!totalCash) {
+      if (!totalCash && !report.currentMonthlyBalance?.bankFinancialMovement) {
         totalCash =
           report?.currentMonthlyBalance?.totalAmounthIncomeCash -
           report?.currentMonthlyBalance?.totalAmounthSpendingCash;
@@ -157,7 +157,7 @@ const IncomeAndSpendingReportSummarized = () => {
       return totalCash;
     }
     return 0;
-  };
+  }, [report, report?.previousMonthlyBalance, report?.currentMonthlyBalance]);
 
   return (
     <Container>
@@ -357,10 +357,10 @@ const IncomeAndSpendingReportSummarized = () => {
                 </div>
                 <div
                   className={`total ${
-                    getAvailableInCash() > 0 ? "positive" : "negative"
+                    availableInCash > 0 ? "positive" : "negative"
                   }`}
                 >
-                  {utils.formateLps(getAvailableInCash())}
+                  {utils.formateLps(availableInCash)}
                 </div>
               </div>
               <div className="item">
