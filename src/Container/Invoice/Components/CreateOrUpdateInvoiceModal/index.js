@@ -276,19 +276,19 @@ const CreateOrUpdateInvoiceModal = ({
   const toast = useRef(null);
 
   const addDetail = () => {
-    if (
-      invoice.invoiceDetail.some(
-        (x) => x.paymentTypeNo === detail.paymentTypeNo
-      )
-    ) {
-      toast.current.show({
-        severity: "warn",
-        summary: "Advertencia",
-        detail: "Ya existe este tipo de pago en el detalle",
-        life: 3000,
-      });
-      return;
-    }
+    // if (
+    //   invoice.invoiceDetail.some(
+    //     (x) => x.paymentTypeNo === detail.paymentTypeNo
+    //   )
+    // ) {
+    //   toast.current.show({
+    //     severity: "warn",
+    //     summary: "Advertencia",
+    //     detail: "Ya existe este tipo de pago en el detalle",
+    //     life: 3000,
+    //   });
+    //   return;
+    // }
 
     if (
       !utils.evaluateArray(invoice.partialPayments) &&
