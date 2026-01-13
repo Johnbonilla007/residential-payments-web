@@ -146,9 +146,12 @@ const IncomeAndSpendingReportSummarized = () => {
       let totalCash =
         cashIncoming -
         (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
-        cashIncoming?.currentMonthlyBalance?.bankFinancialMovement;
+        (cashIncoming?.currentMonthlyBalance?.bankFinancialMovement || 0);
+      debugger;
 
       if (!totalCash && !report.currentMonthlyBalance?.bankFinancialMovement) {
+        debugger;
+
         totalCash =
           report?.currentMonthlyBalance?.totalAmounthIncomeCash -
           report?.currentMonthlyBalance?.totalAmounthSpendingCash;

@@ -190,7 +190,7 @@ const CreateOrUpdateInvoiceModal = ({
       _endDate = undefined;
       _startDate = undefined;
     }
-    debugger;
+
     if (!utils.evaluateFullObjetct(invoiceDetailOldSelected)) {
       _endDate = addMonths(new Date(newDatePayment), -1);
       _startDate = new Date(_startDate);
@@ -387,6 +387,8 @@ const CreateOrUpdateInvoiceModal = ({
 
     if (newDetails.length > 0) {
       newDetails.forEach((detail, index) => {
+    debugger;
+
         const isPartialPayment = invoice?.partialPayments?.some(
           (x) => x.paymentNo === detail.paymentTypeNo
         );
@@ -432,7 +434,7 @@ const CreateOrUpdateInvoiceModal = ({
         }
       });
     }
-
+    debugger;
     let total = newDetails.reduce((total, item) => {
       return total + item.quantity * item.cost + (item?.amountEx || 0);
     }, 0);
