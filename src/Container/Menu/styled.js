@@ -1,32 +1,60 @@
 import styled from "styled-components";
 
 export const MenuStyled = styled.div`
-  /* Contenedor principal para el menú */
+  /* Main container with premium styling */
   .container-menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
-    gap: 20px; /* Space between cards */
-    padding: 20px;
-    max-width: 100%; /* Full width to utilize screen space */
-    margin: 0 auto; /* Center content */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease-out;
   }
 
-  /* Media query for very small screens */
-  @media (max-width: 480px) {
-    .container-menu {
-      grid-template-columns: 1fr; /* Stacks cards on small screens */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  /* Estilo para cada tarjeta individual */
-  .container-menu > div {
-    flex: 1 1 300px; /* Hace que las tarjetas sean flexibles y tengan un ancho mínimo */
-    max-width: 300px; /* Máximo ancho de cada tarjeta */
-    max-height: 150px; /* Máximo ancho de cada tarjeta */
+  /* Tablet view */
+  @media (max-width: 1024px) {
+    .container-menu {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.75rem;
+      padding: 2rem;
+    }
   }
 
-  /* Media query para pantallas pequeñas */
+  /* Mobile landscape */
+  @media (max-width: 768px) {
+    .container-menu {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+  }
+
+  /* Mobile portrait */
+  @media (max-width: 480px) {
+    .container-menu {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding: 1.25rem;
+    }
+  }
+
+  /* Small mobile devices */
+  @media (max-width: 360px) {
+    .container-menu {
+      gap: 1rem;
+      padding: 1rem;
+    }
+  }
 `;

@@ -3,6 +3,7 @@ import { utils } from "../../../../Helpers/utils";
 import { CardComponentPenaltyFeeStyled } from "./styles";
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
+import { FaUser } from "react-icons/fa";
 
 export const CardComponentPenaltyFee = ({
   residence,
@@ -44,19 +45,28 @@ export const CardComponentPenaltyFee = ({
 
       {/* Contenido */}
       <div className="residence-content">
-        <p>
-          <strong>Nombre del Propietario:</strong>{" "}
-          {residence.accounts?.firstOrDefault()?.fullName}
-        </p>
-        <p>
-          <strong>Nombre:</strong> {residence.name}
-        </p>
-        <p>
-          <strong>Bloque:</strong> {residence.block}
-        </p>
-        <p>
-          <strong>Número de Casa:</strong> {residence.houseNumber}
-        </p>
+        <div className="owner-title">
+          <FaUser className="info-icon" />
+          <span>
+            {residence.accounts?.firstOrDefault()?.fullName ||
+              "Propietario no asignado"}
+          </span>
+        </div>
+
+        <div className="residence-name">
+          <strong>{residence.name || "Sin nombre"}</strong>
+        </div>
+
+        <div className="residence-details-grid">
+          <div className="detail-item">
+            <strong>Bloque</strong>
+            <span>{residence.block || "-"}</span>
+          </div>
+          <div className="detail-item">
+            <strong>Casa</strong>
+            <span>{residence.houseNumber || "-"}</span>
+          </div>
+        </div>
       </div>
 
       {/* Botones */}

@@ -30,7 +30,7 @@ export const Login = () => {
 
     const response = await restClient.httpPost(
       "/security/users/authentica-user",
-      request
+      request,
     );
 
     if (response && response.success) {
@@ -40,7 +40,7 @@ export const Login = () => {
       window.sessionStorage.setItem("userInfo", JSON.stringify(response.user));
       handleFechtResidential(response.user);
       const isResidenceRol = response.user.accesses.any(
-        (x) => x.rolName === TipoCuentas.Rol_Residente
+        (x) => x.rolName === TipoCuentas.Rol_Residente,
       );
       if (isResidenceRol) {
         navigate("/billing/receipt");
@@ -75,7 +75,7 @@ export const Login = () => {
       };
       const response = await restClient.httpGet(
         "/security/residentials/get-residentials",
-        request
+        request,
       );
       if (response?.success) {
         dispatch(setResidentials([response.residential]));
@@ -104,6 +104,8 @@ export const Login = () => {
                 height="120"
               ></img> */}
               <AiOutlineLogin size={80} />
+              <h2>Bienvenido</h2>
+              <p>Sistema de Pagos Residenciales</p>
             </div>
             <div className="input">
               <InputText

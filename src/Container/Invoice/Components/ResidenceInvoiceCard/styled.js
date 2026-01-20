@@ -4,34 +4,51 @@ export const ResidenceInvoiceCardStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  gap: 5px;
-  padding: 20px;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
   height: 75vh;
   overflow: auto;
-  scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #002147 #fff; /* Para Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) #f0f0f0;
+
+  /* Custom scrollbar for webkit browsers */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+  }
 `;
 
 export const CardComponentStyled = styled.div`
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to bottom, #ffffff, #fafbfd);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 300px;
-  max-height: 290px;
-  margin: 20px;
+  /* Removed max-height to allow content to flow naturally */
+  margin: 15px;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-y: auto;
-  justify-content: space-around;
+  border: 1px solid rgba(143, 163, 232, 0.15);
 
   :hover {
-    transform: scale(1.05);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--color-primary);
   }
 
-  /* Botón flotante */
+  /* Botón flotante mejorado */
   .edit-button {
     position: absolute;
     top: 10px;
@@ -39,37 +56,101 @@ export const CardComponentStyled = styled.div`
     z-index: 10;
 
     .p-button {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(143, 163, 232, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s ease;
+
+      &:hover:not(:disabled) {
+        background: var(--primary-gradient);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(106, 159, 245, 0.3);
+
+        svg {
+          color: white;
+        }
+      }
     }
   }
 
   .residence-image {
     width: 100%;
-    height: 120px;
-    background-color: #f5f5f5;
+    height: 110px;
+    background: linear-gradient(135deg, #e8f0ff, #f0f4ff);
+    border-bottom: 1px solid rgba(143, 163, 232, 0.1);
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
     }
   }
 
   .residence-content {
-    padding: 10px 20px;
+    padding: 12px 16px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
-    p {
-      margin: 5px 0;
-      font-size: 1em;
-      color: #333;
+    .owner-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
 
-      strong {
-        color: #555;
+      .info-icon {
+        font-size: 0.85rem;
+        opacity: 0.8;
+      }
+    }
+
+    .residence-name {
+      font-size: 0.9rem;
+      color: #546e7a;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .residence-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(143, 163, 232, 0.2);
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+
+        strong {
+          font-size: 0.75rem;
+          color: #90a4ae;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 2px;
+        }
+
+        span {
+          font-size: 0.9rem;
+          color: #37474f;
+          font-weight: 600;
+        }
       }
     }
   }
@@ -80,11 +161,36 @@ export const CardComponentStyled = styled.div`
     justify-content: center;
     gap: 8px;
     padding: 10px;
+    background: linear-gradient(to top, rgba(143, 163, 232, 0.03), transparent);
+    border-top: 1px solid rgba(143, 163, 232, 0.08);
 
     button {
-      flex: 1 1 calc(33% - 16px);
+      flex: 1 1 calc(50% - 4px);
       min-width: 120px;
-      height: 40px;
+      height: 38px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+
+      &.p-button-info {
+        background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+        border: none;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(129, 212, 250, 0.3);
+        }
+      }
+
+      &.p-button-primary {
+        background: var(--primary-gradient);
+        border: none;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 31, 63, 0.3);
+        }
+      }
     }
   }
 `;

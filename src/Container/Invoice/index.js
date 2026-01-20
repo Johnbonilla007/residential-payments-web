@@ -119,7 +119,7 @@ const Invoice = () => {
       ];
 
       const allowGoBack = userInfo.accesses?.some((x) =>
-        x?.permissions?.some((y) => y.name === "SuperRoot")
+        x?.permissions?.some((y) => y.name === "SuperRoot"),
       );
 
       if (allowGoBack) {
@@ -291,7 +291,7 @@ const Invoice = () => {
 
   const isReadOnly = useMemo(() => {
     return userInfo.accesses?.some(
-      (x) => x.rolName === TipoCuentas.Rol_Residente
+      (x) => x.rolName === TipoCuentas.Rol_Residente,
     );
   }, [userInfo]);
 
@@ -444,9 +444,8 @@ const Invoice = () => {
                     residentialNo: residentialSelected.residentialNo,
                   },
                 };
-                const response = await InvoiceServices.addUrlResidentialLogo(
-                  request
-                );
+                const response =
+                  await InvoiceServices.addUrlResidentialLogo(request);
                 if (!response?.success) {
                   toast.current.show({
                     severity: "warn",

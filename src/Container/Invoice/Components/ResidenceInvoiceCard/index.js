@@ -14,7 +14,7 @@ import InvoicesByUser from "../InvoicesByUser";
 import { getRequestUserInfo } from "../../../../Helpers/restClient";
 import { Dialog } from "primereact/dialog";
 import EditResidenceModal from "./Components/EditResidenceModal";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaUser } from "react-icons/fa";
 
 const ResidenceInoviceCard = ({
   residenceSelected,
@@ -55,13 +55,13 @@ const ResidenceInoviceCard = ({
     let response = await UsersServices.getResidence(request);
 
     const hasPermissionToSeeAllResidences = utils.hasPermission(
-      "VerTodasLasResidencias"
+      "VerTodasLasResidencias",
     );
     const accountIds = userInfo.accounts.select((x) => x.id);
 
     if (!hasPermissionToSeeAllResidences) {
       response.residences = response.residences.filter((x) =>
-        accountIds.includes(x.accountId)
+        accountIds.includes(x.accountId),
       );
     }
 
@@ -137,19 +137,25 @@ const ResidenceInoviceCard = ({
 
         {/* Contenido de la tarjeta */}
         <div className="residence-content">
-          <p>
-            <strong>Nombre Propietario:</strong>{" "}
-            {accounts?.[0]?.fullName || "N/A"}
-          </p>
-          <p>
-            <strong>Nombre:</strong> {name}
-          </p>
-          <p>
-            <strong>Bloque:</strong> {block}
-          </p>
-          <p>
-            <strong>Número de Casa:</strong> {houseNumber}
-          </p>
+          <div className="owner-title">
+            <FaUser className="info-icon" />
+            <span>{accounts?.[0]?.fullName || "Propietario no asignado"}</span>
+          </div>
+
+          <div className="residence-name">
+            <strong>{name || "Sin nombre"}</strong>
+          </div>
+
+          <div className="residence-details-grid">
+            <div className="detail-item">
+              <strong>Bloque</strong>
+              <span>{block || "-"}</span>
+            </div>
+            <div className="detail-item">
+              <strong>Casa</strong>
+              <span>{houseNumber || "-"}</span>
+            </div>
+          </div>
         </div>
 
         {/* Botones de acción */}
@@ -163,7 +169,7 @@ const ResidenceInoviceCard = ({
                   className={`p-button-raised ${button.className}`}
                   onClick={button.onClick}
                 />
-              )
+              ),
           )}
         </div>
 
