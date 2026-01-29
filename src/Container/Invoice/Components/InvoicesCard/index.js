@@ -92,7 +92,7 @@ const InvoicesCard = ({
 
   const isReadOnly = useMemo(() => {
     return userInfo.accesses?.some((x) =>
-      x?.permissions?.some((y) => y.name === "SoloLectura")
+      x?.permissions?.some((y) => y.name === "SoloLectura"),
     );
   }, [userInfo]);
 
@@ -146,22 +146,43 @@ const InvoicesCard = ({
           </div>
         </div>
         <div className="invoice-content">
-          <p>
-            <strong>Depósito:</strong> {invoice.depositNo}
-          </p>
-          <p>
-            <strong>Cliente:</strong> {invoice.customer}
-          </p>
-          <p>
-            <strong>Bloque:</strong> {invoice.block}
-          </p>
-          <p>
-            <strong>Número de Casa:</strong> {invoice.houseNumber}
-          </p>
-          <p>
-            <strong>Fecha Factura:</strong>{" "}
-            {utils.FormatDate(invoice.invoiceDate)}
-          </p>
+          <div className="info-row full-width">
+            <span className="label">Cliente:</span>
+            <span className="value">{invoice.customer}</span>
+          </div>
+
+          <div className="info-row full-width">
+            <span className="label">Depósito:</span>
+            <span className="value">{invoice.depositNo || "N/D"}</span>
+          </div>
+
+          <div className="info-grid">
+            <div className="info-item">
+              <span className="label">Bloque</span>
+              <span className="value">{invoice.block}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Casa</span>
+              <span className="value">{invoice.houseNumber}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Fecha</span>
+              <span className="value">
+                {utils.FormatDate(invoice.invoiceDate)}
+              </span>
+            </div>
+          </div>
+
+          <div className="invoice-footer">
+            <span className="total-label">Total</span>
+            <span className="total-amount">
+              L{" "}
+              {Number(invoice.total || 0).toLocaleString("es-HN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </span>
+          </div>
         </div>
       </div>
     );

@@ -10,6 +10,7 @@ export const CustomDropdownStyled = styled.div`
     box-sizing: border-box;
   }
 
+  /* LISTA DESPLEGABLE */
   .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -17,12 +18,22 @@ export const CustomDropdownStyled = styled.div`
     right: 0;
     max-height: 200px;
     overflow-y: auto;
-    background: white;
-    border: 1px solid #ccc;
+    background: ${(props) => props.theme.colors.cardBg || "white"};
+    border: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
     z-index: 1000;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0 0 6px 6px;
+  }
+
+  .dropdown-item {
+    color: ${(props) => props.theme.colors.text || "#333"};
+    transition: background-color 0.2s;
   }
 
   .dropdown-item:hover {
-    background-color: #f1f1f1;
+    background-color: ${(props) => props.theme.colors.hoverBg || "#f1f1f1"};
+    cursor: pointer;
   }
 `;

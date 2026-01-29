@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { InvoiceDocumentNormalStyled } from "./styles";
 import { getDate } from "../../../Helpers/FormatDate";
 import { utils } from "../../../Helpers/utils";
-import { InputText } from "primereact/inputtext";
+import logo from "../../../Assets/Logo.png";
 
 const InvoiceDocumentNormal = ({
   invoice,
@@ -20,7 +20,7 @@ const InvoiceDocumentNormal = ({
         headers: {
           "Cache-Control": "no-cache", // Evita que el navegador almacene en caché
         },
-      }
+      },
     );
     const blob = await response.blob();
     const imageUrls = URL.createObjectURL(blob);
@@ -38,10 +38,15 @@ const InvoiceDocumentNormal = ({
   });
 
   return (
-    <InvoiceDocumentNormalStyled logoResidential={imageUrl}>
+    <InvoiceDocumentNormalStyled>
+      <img className="watermark-img" src={imageUrl || logo} alt="" />
       <div className="header">
         <div className="logo">
-          <img src={imageUrl} alt="Descripción de la imagen" width={60} />
+          <img
+            src={imageUrl}
+            alt="Logo Residencial"
+            style={{ width: "100%", height: "80px", objectFit: "contain" }}
+          />
         </div>
         <div className="residential-name">{residentialSelected.name}</div>
         <div
@@ -74,6 +79,7 @@ const InvoiceDocumentNormal = ({
         </div> */}
       </div>
       <div
+        className="receipt-title"
         style={{
           textAlign: "center",
           width: "100%",

@@ -30,14 +30,17 @@ export const InvoiceCardStyled = styled.div`
     .invoice-card {
       background-color: ${(props) => props.theme.colors.cardBg};
       border: 1px solid ${(props) => props.theme.colors.border};
-      border-radius: 10px;
-      box-shadow: ${(props) => props.theme.colors.cardShadow};
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       overflow: hidden;
-      transition: transform 0.2s;
-      width: 300px;
-      height: 220px;
-      margin: 20px;
+      transition: all 0.3s ease;
+      width: 320px;
+      height: auto;
+      min-height: 220px;
+      margin: 10px;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
 
     .invoice-card:hover {
@@ -46,18 +49,21 @@ export const InvoiceCardStyled = styled.div`
     }
 
     .invoice-header {
-      background-color: ${(props) => props.theme.colors.surfaceHighlight};
-      padding: 10px;
-      border-bottom: 1px solid ${(props) => props.theme.colors.border};
+      background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: white;
     }
 
     .invoice-header h3 {
       margin: 0;
-      font-size: 1.2em;
-      color: ${(props) => props.theme.colors.text};
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.5px;
     }
 
     .card-actions {
@@ -80,21 +86,69 @@ export const InvoiceCardStyled = styled.div`
     }
 
     .invoice-content {
-      padding-left: 10px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      gap: 12px;
+      flex: 1;
       color: ${(props) => props.theme.colors.text};
     }
 
-    .invoice-content p {
-      margin: 10px 0;
-      font-size: 1em;
+    .info-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: ${(props) => props.theme.colors.textSecondary};
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .value {
+      font-size: 0.95rem;
+      color: ${(props) => props.theme.colors.text};
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 10px;
+      margin-top: 5px;
+      padding-top: 10px;
+      border-top: 1px solid ${(props) => props.theme.colors.border};
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .invoice-footer {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px dashed ${(props) => props.theme.colors.border};
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total-label {
+      font-size: 0.9rem;
+      font-weight: 600;
       color: ${(props) => props.theme.colors.textSecondary};
     }
 
-    .invoice-content p strong {
-      color: ${(props) => props.theme.colors.text};
+    .total-amount {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #2e7d32; /* Verde dinero */
     }
   }
 `;

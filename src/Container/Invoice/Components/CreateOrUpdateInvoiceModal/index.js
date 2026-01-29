@@ -1061,373 +1061,410 @@ const CreateOrUpdateInvoiceModal = ({
     >
       <CreateOrUpdateInvoiceModalStyled>
         <Toast ref={toast} />
-        <div>
-          <label
-            style={{
-              fontSize: "12pt",
-              fontWeight: "700",
-            }}
-          >
-            General
-          </label>
-        </div>
+        {/* SECCION GENERAL */}
+        <div className="section-card">
+          <label className="section-title">General</label>
 
-        <div className="header-fields">
-          <div>
-            <Dropdown
-              className="commandbox"
-              value={invoice.paymentWay}
-              options={paymentWays}
-              onChange={(e) => setInvoice({ ...invoice, paymentWay: e.value })}
-              optionLabel="name"
-              optionValue="name"
-              placeholder="Seleccione el metodo de pago"
-              disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
-            />
-          </div>
-          {!utils.isNullOrEmpty(invoice.paymentWay) &&
-            invoice?.paymentWay !== "Efectivo" && (
-              <div>
-                <span className="p-float-label">
-                  <InputText
-                    id="depositNo"
-                    value={invoice.depositNo}
-                    onChange={(e) =>
-                      setInvoice({ ...invoice, depositNo: e.target.value })
-                    }
+          <div className="header-fields">
+            {/* 1. CLIENTE */}
+            <div>
+              {!utils.isNullOrEmpty(invoice?.customer) ? (
+                <div
+                  style={{ alignItems: "center", display: "flex", gap: "5px" }}
+                >
+                  <span className="p-float-label" style={{ flex: 1 }}>
+                    <InputText
+                      id="customerName"
+                      value={invoice.customer}
+                      readOnly={true}
+                    />
+                    <label htmlFor="customerName">Cliente</label>
+                  </span>
+                  <Button
+                    icon="pi pi-times"
+                    className="p-button-rounded p-button-danger p-button-text"
+                    aria-label="Cancel"
+                    onClick={() => handleClean()}
                     disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
                   />
-                  <label htmlFor="depositNo">
-                    {`${invoice?.paymentWay} No`}
-                  </label>
-                </span>
-              </div>
-            )}
-          <div>
-            <span className="p-float-label">
-              <Calendar
-                id="invoiceDate"
-                value={dateInvoice}
-                onChange={(e) => setDateInvoice(e.value)}
-                showIcon
+                </div>
+              ) : (
+                <CustomDropdown
+                  customers={customers}
+                  getPaymeType={getPaymeType}
+                  invoice={invoice}
+                  setInvoice={setInvoice}
+                />
+              )}
+            </div>
+
+            {/* 2. METODO DE PAGO */}
+            <div>
+              <Dropdown
+                className="commandbox"
+                value={invoice.paymentWay}
+                options={paymentWays}
+                onChange={(e) =>
+                  setInvoice({ ...invoice, paymentWay: e.value })
+                }
+                optionLabel="name"
+                optionValue="name"
+                placeholder="Seleccione el metodo de pago"
                 disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
               />
-              <label htmlFor="invoiceDate">Fecha</label>
-            </span>
-          </div>
-          <div>
-            {!utils.isNullOrEmpty(invoice?.customer) ? (
-              <div style={{ alignItems: "center", display: "flex" }}>
-                <InputText value={invoice.customer} readOnly={true} />
-                <Button
-                  icon="pi pi-times"
-                  className="p-button-rounded p-button-danger p-button-text"
-                  aria-label="Cancel"
-                  onClick={() => handleClean()}
-                  disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
-                />
-              </div>
-            ) : (
-              <CustomDropdown
-                customers={customers}
-                getPaymeType={getPaymeType}
-                invoice={invoice}
-                setInvoice={setInvoice}
-              />
-            )}
-          </div>
+            </div>
 
-          <div>
-            <span className="p-float-label">
-              <InputNumber id="total" value={invoice.total} readOnly />
-              <label htmlFor="total">Total</label>
-            </span>
-          </div>
-          <div>
-            <span className="p-float-label">
-              <InputTextarea
-                id="comments"
-                value={invoice.comments}
-                readOnly
-                style={{ width: "100%" }}
-              />
-              <label htmlFor="comments">Concepto</label>
-            </span>
+            {/* 3. DEPOSITO (Condicional) */}
+            {!utils.isNullOrEmpty(invoice.paymentWay) &&
+              invoice?.paymentWay !== "Efectivo" && (
+                <div>
+                  <span className="p-float-label">
+                    <InputText
+                      id="depositNo"
+                      value={invoice.depositNo}
+                      onChange={(e) =>
+                        setInvoice({ ...invoice, depositNo: e.target.value })
+                      }
+                      disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
+                    />
+                    <label htmlFor="depositNo">
+                      {`${invoice?.paymentWay} No`}
+                    </label>
+                  </span>
+                </div>
+              )}
+
+            {/* 4. FECHA */}
+            <div>
+              <span className="p-float-label">
+                <Calendar
+                  id="invoiceDate"
+                  value={dateInvoice}
+                  onChange={(e) => setDateInvoice(e.value)}
+                  showIcon
+                  disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
+                  className="p-calendar-w-btn"
+                />
+                <label htmlFor="invoiceDate">Fecha</label>
+              </span>
+            </div>
+
+            {/* 5. TOTAL */}
+            <div>
+              <span className="p-float-label">
+                <InputNumber
+                  id="total"
+                  value={invoice.total}
+                  readOnly
+                  mode="currency"
+                  currency="HNL"
+                  locale="es-HN"
+                />
+                <label htmlFor="total">Total</label>
+              </span>
+            </div>
+
+            {/* 6. CONCEPTO */}
+            <div style={{ gridColumn: "1 / -1" }}>
+              {" "}
+              {/* Concepto full width si es posible */}
+              <span className="p-float-label">
+                <InputTextarea
+                  id="comments"
+                  value={invoice.comments}
+                  readOnly
+                  style={{ width: "100%", height: "38px", resize: "none" }}
+                  autoResize
+                />
+                <label htmlFor="comments">Concepto</label>
+              </span>
+            </div>
           </div>
         </div>
-        <strong>Detalle</strong>
-        {utils.isNullOrEmpty(invoice?.invoiceNo) && (
-          <div>
-            <div className="detail-fields">
-              <div>
-                <span className="p-float-label">
-                  <Dropdown
-                    id="paymentTypeNo"
-                    value={getPaymentType()}
-                    options={paymentTypeList}
-                    onChange={(e) => {
-                      const paymentOld = peymentOlds.find(
-                        (x) => x.paymentTypeNo === e.value.paymentTypeNo,
-                      );
-                      const valueToAdd = residentialSelected.chargeCurrentMonth
-                        ? 0
-                        : 1;
+        {/* SECCION DETALLE */}
+        <div className="section-card">
+          <label className="section-title">Detalle</label>
+          {utils.isNullOrEmpty(invoice?.invoiceNo) && (
+            <div>
+              <div className="detail-fields">
+                <div>
+                  <span className="p-float-label">
+                    <Dropdown
+                      id="paymentTypeNo"
+                      value={getPaymentType()}
+                      options={paymentTypeList}
+                      onChange={(e) => {
+                        const paymentOld = peymentOlds.find(
+                          (x) => x.paymentTypeNo === e.value.paymentTypeNo,
+                        );
+                        const valueToAdd =
+                          residentialSelected.chargeCurrentMonth ? 0 : 1;
 
-                      const date = utils.evaluateFullObjetct(paymentOld)
-                        ? new Date(paymentOld?.paymentdate)
-                        : new Date(e.value.initialPaymentDate);
+                        const date = utils.evaluateFullObjetct(paymentOld)
+                          ? new Date(paymentOld?.paymentdate)
+                          : new Date(e.value.initialPaymentDate);
 
-                      const getAdjustedDate = (date, adjustment) => {
-                        const newDate = new Date(date);
-                        newDate.setMonth(date.getMonth() - adjustment);
-                        return newDate;
-                      };
+                        const getAdjustedDate = (date, adjustment) => {
+                          const newDate = new Date(date);
+                          newDate.setMonth(date.getMonth() - adjustment);
+                          return newDate;
+                        };
 
-                      const actualDate = getAdjustedDate(date, valueToAdd);
-                      const lastDate = utils.evaluateFullObjetct(paymentOld)
-                        ? getAdjustedDate(date, 1)
-                        : null;
+                        const actualDate = getAdjustedDate(date, valueToAdd);
+                        const lastDate = utils.evaluateFullObjetct(paymentOld)
+                          ? getAdjustedDate(date, 1)
+                          : null;
 
-                      const actualMonth = getMonth(actualDate);
-                      const actualYear = actualDate.getFullYear();
+                        const actualMonth = getMonth(actualDate);
+                        const actualYear = actualDate.getFullYear();
 
-                      const lastMonthPayment = lastDate
-                        ? getMonth(lastDate)
-                        : "";
-                      const lastYear = lastDate ? lastDate.getFullYear() : "";
+                        const lastMonthPayment = lastDate
+                          ? getMonth(lastDate)
+                          : "";
+                        const lastYear = lastDate ? lastDate.getFullYear() : "";
 
-                      setDetail({
-                        ...detail,
-                        paymentTypeNo: e.value.paymentTypeNo,
-                        description:
-                          e.value.paymentTypeNo === "PT0000000"
-                            ? ""
-                            : e.value.name,
-                        cost: e.value.cost - e.value.discount,
-                        isFollowing: e.value.isFollowing,
-                        lastMonthPayment: `${lastMonthPayment} - ${lastYear}`,
-                        monthPayment: `${actualMonth} - ${actualYear}`,
-                      });
-                    }}
-                    placeholder="Seleccione el Tipo de Ingreso"
-                    optionLabel="name"
-                  />
-                  <label htmlFor="paymentTypeNo">Tipo de Ingreso</label>
-                </span>
-              </div>
-              <div>
-                <span className="p-float-label">
-                  <InputText
-                    id="description"
-                    value={detail.description}
-                    onChange={(e) =>
-                      setDetail({ ...detail, description: e.target.value })
-                    }
-                    readOnly={handleBlockDescription()}
-                  />
-                  <label htmlFor="description">Descripción</label>
-                </span>
-              </div>
-              <div>
-                <span className="p-float-label">
-                  <InputNumber
-                    id="quantity"
-                    value={detail.quantity}
-                    onChange={(e) => {
-                      setDetail({
-                        ...detail,
-                        quantity: parseInt(e.value || 0),
-                      });
-                    }}
-                    size={2}
-                  />
-                  <label htmlFor="quantity">Cantidad</label>
-                </span>
-              </div>
-
-              <div>
-                <span className="p-float-label">
-                  <InputNumber
-                    id="cost"
-                    value={detail.cost || 0}
-                    onChange={(e) =>
-                      setDetail({ ...detail, cost: parseFloat(e.value || 0) })
-                    }
-                    readOnly={detail?.paymentTypeNo !== "PT0000000"}
-                    mode="decimal"
-                    minFractionDigits={2}
-                    maxFractionDigits={5}
-                    size={10}
-                  />
-                  <label htmlFor="cost">Costo</label>
-                </span>
-              </div>
-              {detail?.paymentTypeNo !== "PT0000000" &&
-                !hasPendingPayment() &&
-                detail.isFollowing && (
-                  <div style={{ textAlign: "center" }}>
-                    <div>
-                      <Checkbox
-                        icon="pi pi-check"
-                        checked={detail.isPartialMothPay}
-                        onChange={(e) => {
-                          setDetail({
-                            ...detail,
-                            isPartialMothPay: e.checked,
-                          });
-                        }}
-                      />
-                    </div>
-                    <div>Pago Parcial</div>
-                  </div>
-                )}
-              {detail.isPartialMothPay && (
+                        setDetail({
+                          ...detail,
+                          paymentTypeNo: e.value.paymentTypeNo,
+                          description:
+                            e.value.paymentTypeNo === "PT0000000"
+                              ? ""
+                              : e.value.name,
+                          cost: e.value.cost - e.value.discount,
+                          isFollowing: e.value.isFollowing,
+                          lastMonthPayment: `${lastMonthPayment} - ${lastYear}`,
+                          monthPayment: `${actualMonth} - ${actualYear}`,
+                        });
+                      }}
+                      placeholder="Seleccione el Tipo de Ingreso"
+                      optionLabel="name"
+                    />
+                    <label htmlFor="paymentTypeNo">Tipo de Ingreso</label>
+                  </span>
+                </div>
+                <div>
+                  <span className="p-float-label">
+                    <InputText
+                      id="description"
+                      value={detail.description}
+                      onChange={(e) =>
+                        setDetail({ ...detail, description: e.target.value })
+                      }
+                      readOnly={handleBlockDescription()}
+                    />
+                    <label htmlFor="description">Descripción</label>
+                  </span>
+                </div>
                 <div>
                   <span className="p-float-label">
                     <InputNumber
-                      id="amountPartial"
-                      value={detail.amountPartial || 0}
-                      onChange={(e) =>
+                      id="quantity"
+                      value={detail.quantity}
+                      onChange={(e) => {
                         setDetail({
                           ...detail,
-                          amountPartial: parseFloat(e.value || 0),
-                        })
+                          quantity: parseInt(e.value || 0),
+                        });
+                      }}
+                      size={2}
+                    />
+                    <label htmlFor="quantity">Cantidad</label>
+                  </span>
+                </div>
+
+                <div>
+                  <span className="p-float-label">
+                    <InputNumber
+                      id="cost"
+                      value={detail.cost || 0}
+                      onChange={(e) =>
+                        setDetail({ ...detail, cost: parseFloat(e.value || 0) })
                       }
+                      readOnly={detail?.paymentTypeNo !== "PT0000000"}
                       mode="decimal"
                       minFractionDigits={2}
                       maxFractionDigits={5}
                       size={10}
                     />
-                    <label htmlFor="amountPartial">Costo Parcial</label>
+                    <label htmlFor="cost">Costo</label>
                   </span>
                 </div>
-              )}
-              {detail?.paymentTypeNo !== "PT0000000" && (
-                <div>
-                  <span className="p-float-label">
-                    <InputNumber
-                      id="amountEx"
-                      value={detail.amountEx}
-                      onChange={(e) =>
-                        setDetail({
-                          ...detail,
-                          amountEx: parseFloat(e.value || 0),
-                        })
-                      }
-                      size={10}
-                    />
-                    <label htmlFor="amountEx">Pago Extra</label>
-                  </span>
-                </div>
-              )}
-              {detail?.amountEx > 0 &&
-                detail?.paymentTypeNo !== "PT0000000" && (
-                  <div>
-                    <span className="p-float-label">
-                      <InputText
-                        id="descriptionEx"
-                        value={detail?.descriptionEx}
-                        onChange={(e) =>
-                          setDetail({
-                            ...detail,
-                            descriptionEx: e.target.value,
-                          })
-                        }
-                      />
-                      <label htmlFor="descriptionEx">Descripción Extra</label>
-                    </span>
-                  </div>
-                )}
-              {!utils.isNullOrEmpty(detail?.paymentTypeNo) &&
-                detail?.paymentTypeNo !== "PT0000000" &&
-                paymentTypeList.some(
-                  (x) =>
-                    x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
-                ) && (
-                  <div>
-                    {invoice?.partialPayments?.length > 0 ? (
+                {detail?.paymentTypeNo !== "PT0000000" &&
+                  !hasPendingPayment() &&
+                  detail.isFollowing && (
+                    <div style={{ textAlign: "center" }}>
                       <div>
-                        <Button
-                          label="Eliminar Abono"
-                          icon="pi pi-wallet"
-                          className="p-button-rounded p-button-danger p-button-sm"
-                          onClick={() => {
-                            setInvoice({ ...invoice, partialPayments: [] });
+                        <Checkbox
+                          icon="pi pi-check"
+                          checked={detail.isPartialMothPay}
+                          onChange={(e) => {
+                            setDetail({
+                              ...detail,
+                              isPartialMothPay: e.checked,
+                            });
                           }}
                         />
                       </div>
-                    ) : (
-                      <div>
-                        {hasPendingPayment() && (
-                          <Button
-                            label="Abonar a deuda"
-                            icon="pi pi-wallet"
-                            className="p-button-rounded p-button-secondary p-button-sm"
-                            onClick={() => {
-                              setShowPartialPayment(true);
-                            }}
-                          />
-                        )}
-                      </div>
-                    )}
+                      <div>Pago Parcial</div>
+                    </div>
+                  )}
+                {detail.isPartialMothPay && (
+                  <div>
+                    <span className="p-float-label">
+                      <InputNumber
+                        id="amountPartial"
+                        value={detail.amountPartial || 0}
+                        onChange={(e) =>
+                          setDetail({
+                            ...detail,
+                            amountPartial: parseFloat(e.value || 0),
+                          })
+                        }
+                        mode="decimal"
+                        minFractionDigits={2}
+                        maxFractionDigits={5}
+                        size={10}
+                      />
+                      <label htmlFor="amountPartial">Costo Parcial</label>
+                    </span>
                   </div>
                 )}
-              <div>
-                <lable>Ultimo Mes Pagado: </lable>
-                <strong>{detail?.lastMonthPayment}</strong>
-              </div>
-              {paymentTypeList.some(
-                (x) =>
-                  x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
-              ) && (
-                <div>
-                  <lable>Mes a Pagar: </lable>
-                  <strong>{detail?.monthPayment}</strong>
-                </div>
-              )}
-            </div>
+                {detail?.paymentTypeNo !== "PT0000000" && (
+                  <div>
+                    <span className="p-float-label">
+                      <InputNumber
+                        id="amountEx"
+                        value={detail.amountEx}
+                        onChange={(e) =>
+                          setDetail({
+                            ...detail,
+                            amountEx: parseFloat(e.value || 0),
+                          })
+                        }
+                        size={10}
+                      />
+                      <label htmlFor="amountEx">Pago Extra</label>
+                    </span>
+                  </div>
+                )}
+                {detail?.amountEx > 0 &&
+                  detail?.paymentTypeNo !== "PT0000000" && (
+                    <div>
+                      <span className="p-float-label">
+                        <InputText
+                          id="descriptionEx"
+                          value={detail?.descriptionEx}
+                          onChange={(e) =>
+                            setDetail({
+                              ...detail,
+                              descriptionEx: e.target.value,
+                            })
+                          }
+                        />
+                        <label htmlFor="descriptionEx">Descripción Extra</label>
+                      </span>
+                    </div>
+                  )}
+                {!utils.isNullOrEmpty(detail?.paymentTypeNo) &&
+                  detail?.paymentTypeNo !== "PT0000000" &&
+                  paymentTypeList.some(
+                    (x) =>
+                      x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
+                  ) && (
+                    <div>
+                      {invoice?.partialPayments?.length > 0 ? (
+                        <div>
+                          <Button
+                            label="Eliminar Abono"
+                            icon="pi pi-wallet"
+                            className="p-button-rounded p-button-danger p-button-sm"
+                            onClick={() => {
+                              setInvoice({ ...invoice, partialPayments: [] });
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div>
+                          {hasPendingPayment() && (
+                            <Button
+                              label="Abonar a deuda"
+                              icon="pi pi-wallet"
+                              className="p-button-rounded p-button-secondary p-button-sm"
+                              onClick={() => {
+                                setShowPartialPayment(true);
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                {/* BARRA DE INFORMACIÓN DE PAGO */}
+                <div className="info-payment-container">
+                  <div className="info-tag">
+                    <span className="info-label">Ultimo Mes Pagado:</span>
+                    <span className="info-value">
+                      {detail?.lastMonthPayment || "-"}
+                    </span>
+                  </div>
 
-            <div style={{ marginLeft: "10px" }}>
-              <Button
-                label="Agregar Detalle"
-                icon="pi pi-plus"
-                className="p-button-raised p-button-info p-button-sm"
-                onClick={addDetail}
-                style={{ height: "30px" }}
-              />
-            </div>
-          </div>
-        )}
-        <div className="header-detail">
-          <div></div>
-          <div>Tipo de Ingreso</div>
-          <div>Descripción</div>
-          <div>Cantidad</div>
-          <div>Costo</div>
-          <div>Total</div>
-          <div></div>
-        </div>
-        <div className="detail-list">
-          {invoice.invoiceDetail.map((d, index) => (
-            <div className="detail-item" key={index}>
-              <div>{index + 1}</div>
-              <div>{d.paymentTypeNo}</div>
-              <div>{d.description}</div>
-              <div>{d.quantity}</div>
-              <div>{formatter.format(d.cost)}</div>
-              <div>{formatter.format(d.amount)}</div>
-              <div>
+                  {paymentTypeList.some(
+                    (x) =>
+                      x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
+                  ) && (
+                    <div className="info-tag highlight">
+                      <span className="info-label">Mes a Pagar:</span>
+                      <span className="info-value">{detail?.monthPayment}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="add-btn-container">
                 <Button
-                  icon="pi pi-times"
-                  className="p-button-rounded p-button-danger p-button-text"
-                  aria-label="Cancel"
-                  onClick={() => deleteDetail(d, index)}
-                  disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
+                  label="Agregar"
+                  icon="pi pi-plus"
+                  className="p-button-raised p-button-info"
+                  onClick={addDetail}
                 />
               </div>
             </div>
-          ))}
-        </div>
+          )}
+
+          <div className="detail-table-container">
+            <div className="header-detail">
+              <div></div>
+              <div>Tipo de Ingreso</div>
+              <div>Descripción</div>
+              <div>Cantidad</div>
+              <div>Costo</div>
+              <div>Total</div>
+              <div></div>
+            </div>
+            <div className="detail-list">
+              {invoice.invoiceDetail.map((d, index) => (
+                <div className="detail-item" key={index}>
+                  <div>{index + 1}</div>
+                  <div>{d.paymentTypeNo}</div>
+                  <div>{d.description}</div>
+                  <div>{d.quantity}</div>
+                  <div>{formatter.format(d.cost)}</div>
+                  <div>{formatter.format(d.amount)}</div>
+                  <div>
+                    <Button
+                      icon="pi pi-times"
+                      className="p-button-rounded p-button-danger p-button-text"
+                      aria-label="Cancel"
+                      onClick={() => deleteDetail(d, index)}
+                      disabled={!utils.isNullOrEmpty(invoice?.invoiceNo)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>{" "}
+        {/* Cierre section-card detalle */}
         {showPartialPayment && (
           <PartialPaymentModal
             isOpen={showPartialPayment}

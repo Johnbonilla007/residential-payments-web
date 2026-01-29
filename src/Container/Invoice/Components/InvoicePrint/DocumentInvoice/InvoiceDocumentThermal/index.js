@@ -15,7 +15,7 @@ const InvoiceDocumentThermal = ({ invoice, residentialSelected }) => {
         headers: {
           "Cache-Control": "no-cache", // Evita que el navegador almacene en caché
         },
-      }
+      },
     );
     const blob = await response.blob();
     const imageUrls = URL.createObjectURL(blob);
@@ -25,7 +25,7 @@ const InvoiceDocumentThermal = ({ invoice, residentialSelected }) => {
   useEffect(() => {
     fetchResource();
   }, []);
-  
+
   const formatter = new Intl.NumberFormat("es-HN", {
     style: "currency",
     currency: "HNL",
@@ -42,7 +42,7 @@ const InvoiceDocumentThermal = ({ invoice, residentialSelected }) => {
           <div style={{ textAlign: "center" }}>
             <strong>Sistema de Pagos Residenciales</strong>
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               fontSize: "5pt",
@@ -54,7 +54,7 @@ const InvoiceDocumentThermal = ({ invoice, residentialSelected }) => {
             <label style={{ fontSize: "6pt", marginLeft: 3 }}>
               +504 9443-2877
             </label>
-          </div>
+          </div> */}
           <div
             style={{
               display: "flex",

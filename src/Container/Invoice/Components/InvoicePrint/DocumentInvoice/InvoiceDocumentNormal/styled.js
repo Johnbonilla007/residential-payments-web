@@ -6,24 +6,37 @@ export const InvoiceDocumentNormalStyled = styled.div`
   border-radius: 3px;
   margin: 10px;
   width: 1000px;
-  align-items: center;
-  ::before {
-    content: "";
+  /* Fondo y posición */
+  background-color: white;
+
+  /* MARCA DE AGUA (IMG DOM) */
+  .watermark-img {
     position: absolute;
-    top: 110px;
-    left: 400px;
-    width: 200px;
-    height: 200px;
-    background-image:  url(${(props) => (props.logoResidential ? props.logoResidential : logo)});
-    background-size: contain; /* Ajusta la imagen al contenedor sin cortarla */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que se repita la imagen */
-    opacity: 0.2;
-    z-index: 1;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    opacity: 0.05; /* Muy sutil */
+    z-index: 0;
+    pointer-events: none;
+    filter: grayscale(100%);
+  }
+
+  /* CONTENIDO DEL RECIBO (TEXTO) - Siempre encima */
+  .header,
+  .residential,
+  .concepto,
+  .payment-way-container,
+  .receipt-title {
+    position: relative;
+    z-index: 10; /* Z-index alto explícito */
+    background: transparent;
   }
   .header {
     display: grid;
-    grid-template-columns: 10% 50% 30% 10%;
+    grid-template-columns: 15% 45% 30% 10%;
     border-bottom: 1px solid #ccc;
     border-radius: 10px 10px 0px 0px;
     .invoice {
@@ -173,7 +186,7 @@ export const InvoiceDocumentNormalStyled = styled.div`
       justify-content: right;
       align-items: center;
       margin-right: 10px;
-      .signature-item{
+      .signature-item {
         display: grid;
         justify-content: center;
         font-weight: 800;
