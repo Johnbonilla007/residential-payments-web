@@ -74,8 +74,6 @@ const UploadToS3WithDropzone = ({
     setFileUrl(previewUrl);
   };
   const uploadProgress = (progress) => {
-    debugger;
-
     const percentage = Math.round((progress.loaded / progress.total) * 100);
     console.log(`Upload is ${percentage}% done`);
     setProgress(percentage);
@@ -130,8 +128,6 @@ const UploadToS3WithDropzone = ({
         life: 3000,
       });
     } catch (error) {
-      debugger;
-
       console.error("Error uploading file:", error);
       toast.current.show({
         severity: "error",

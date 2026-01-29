@@ -6,7 +6,8 @@ export const UploadToS3WithDropzoneStyled = styled.div`
   gap: 20px;
   align-items: center;
   padding: 20px;
-  background: #f9f9f9;
+  padding: 20px;
+  background: ${(props) => props.theme.colors.cardBg};
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -44,9 +45,9 @@ export const UploadToS3WithDropzoneStyled = styled.div`
       width: 100%;
       max-width: 400px;
       padding: 20px;
-      border: 2px dashed #007bff;
+      border: 2px dashed ${(props) => props.theme.colors.primary};
       border-radius: 8px;
-      background-color: #eaf4ff;
+      background-color: ${(props) => props.theme.colors.surface};
       text-align: center;
       cursor: pointer;
       transition: border-color 0.3s ease;
@@ -57,7 +58,7 @@ export const UploadToS3WithDropzoneStyled = styled.div`
 
       p {
         font-size: 14px;
-        color: #333;
+        color: ${(props) => props.theme.colors.text};
       }
     }
 

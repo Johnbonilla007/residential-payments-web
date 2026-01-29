@@ -300,7 +300,7 @@ const Invoice = () => {
       <InvoiceStyled>
         <ConfirmDialog />
         <Toast ref={toast} />
-        <div>
+        <div className="search-container">
           {!utils.evaluateFullObjetct(residenceSelected) && (
             <strong>
               Buscar por {showViewResidence ? "Residencia" : "Residencial"}

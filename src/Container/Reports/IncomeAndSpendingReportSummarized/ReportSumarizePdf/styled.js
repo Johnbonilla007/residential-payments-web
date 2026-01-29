@@ -9,11 +9,15 @@ export const ReportSumarizePdfStyled = styled.div`
   width: 96%;
   margin: 20px;
   .container-header {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 150px 1fr 150px; /* Logos laterales fijos, titulo flexible */
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
+
+    > div:nth-child(2) {
+      text-align: center;
+    }
   }
 
   .date-range {
@@ -25,7 +29,7 @@ export const ReportSumarizePdfStyled = styled.div`
     margin-top: 20px;
   }
   .table {
-    border: 2px solid #ccc;
+    border: 2px solid ${(props) => props.theme.colors.border || "#ccc"};
     width: 48%;
     align-self: self-start;
     .header-title {
@@ -44,12 +48,18 @@ export const ReportSumarizePdfStyled = styled.div`
       }
     }
     .item-container {
+      /* Permitir salto de página dentro del contenedor de items */
+      display: block;
+
       .item {
         display: grid;
-        font-size: 10pt;
+        font-size: 9pt; /* Reducir ligeramente */
         grid-template-columns: 30% 50% 20%;
-        border-top: 1px solid #000;
+        border-top: 1px solid ${(props) => props.theme.colors.border || "#000"};
+        color: ${(props) => props.theme.colors.text || "#000"};
         text-align: left;
+        page-break-inside: avoid; /* Evitar partir una fila */
+        break-inside: avoid;
       }
       .total {
         display: grid;
@@ -58,15 +68,12 @@ export const ReportSumarizePdfStyled = styled.div`
         justify-content: center;
         align-items: center;
         padding: 10px;
-        border-top: 2px solid #000;
+        border-top: 2px solid ${(props) => props.theme.colors.border || "#000"};
+        color: ${(props) => props.theme.colors.text || "#000"};
+        page-break-inside: avoid;
+        break-inside: avoid;
       }
     }
-  }
-
-  .table-summarize-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
   }
 
   .table-summarize {
@@ -75,31 +82,43 @@ export const ReportSumarizePdfStyled = styled.div`
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
+    width: 100%;
+    page-break-inside: avoid; /* Tratar de mantener el resumen junto */
+    break-inside: avoid;
+
     .section-container {
       display: flex;
       gap: 10px;
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap; /* Permitir wrap si es necesario */
     }
   }
 
   .table-summarize .item {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    padding: 8px; /* Reducir padding */
+    background-color: ${(props) => props.theme.colors.cardBg || "#f9f9f9"};
+    border: 1px solid ${(props) => props.theme.colors.border || "#ddd"};
     border-radius: 3px;
+    font-size: 9pt; /* Texto más pequeño */
+    color: ${(props) => props.theme.colors.text || "#333"};
   }
 
   .title {
     font-weight: bold;
-    color: #333;
-    width: 250px;
+    color: ${(props) => props.theme.colors.text || "#333"};
+    width: auto;
+    flex: 1;
+    margin-right: 10px;
   }
 
   .total {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    white-space: nowrap;
   }
 
   .total.positive {
@@ -139,6 +158,27 @@ export const ReportSumarizePdfStyled = styled.div`
   }
 
   .table-available .total {
-    color: #005aa0; /* Color especial para el disponible del mes */
+    color: ${(props) => props.theme.colors.primary || "#005aa0"};
+  }
+
+  /* Overrides para impresión: forzar estilo papel limpio */
+  @media print {
+    .table-summarize .item {
+      background-color: #fff !important;
+      border: 1px solid #ddd !important;
+      color: #000 !important;
+      -webkit-print-color-adjust: exact;
+    }
+    .title {
+      color: #000 !important;
+    }
+    .table .item-container .item,
+    .table .item-container .total {
+      color: #000 !important;
+      border-color: #000 !important;
+    }
+    .table {
+      border-color: #ccc !important;
+    }
   }
 `;

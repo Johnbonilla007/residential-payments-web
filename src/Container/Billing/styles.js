@@ -1,20 +1,58 @@
 import styled from "styled-components";
 
 export const BillingContainerSyled = styled.div`
-  display: flex;
-  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan */
-  justify-content: center; /* Centra las tarjetas horizontalmente */
-  gap: 10px; /* Espacio entre las tarjetas */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   overflow: auto;
-  padding: 30px;
+  padding: 2rem;
   max-height: 80vh;
-  scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #002147 #fff; /* Para Firefox */
-  margin-top: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary, #002147) #f0f0f0;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-primary, #002147);
+    border-radius: 10px;
+  }
+
   .item {
-    margin: 10px;
-    flex: 1 1 300px; /* Hace que las tarjetas sean flexibles y tengan un ancho mínimo */
-    max-width: 300px; /* Máximo ancho de cada tarjeta */
-    max-height: 150px; /* Máximo ancho de cada tarjeta */
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 33, 71, 0.08);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+    padding: 1.75rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.25rem;
   }
 `;

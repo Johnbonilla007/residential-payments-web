@@ -15,13 +15,11 @@ import {
   FaLock,
   FaFileInvoiceDollar,
   FaPuzzlePiece,
+  FaChartLine,
+  FaBell,
+  FaUnlockAlt,
+  FaMoneyBillWave,
 } from "react-icons/fa";
-import {
-  TbPaywall,
-  TbReport,
-  TbReportAnalytics,
-  TbReportSearch,
-} from "react-icons/tb";
 import {
   FaHouse,
   FaPersonBurst,
@@ -38,6 +36,7 @@ import SpendingType from "../Container/SecurityAndManagement/SpendingType";
 import PenaltyFee from "../Container/Invoice/PenaltyFee";
 import PenaltyFeeReport from "../Container/Reports/PenaltyFeeReport";
 import VisitsManager from "../Container/Residentials/VisitsManager";
+import { IoIosWarning } from "react-icons/io";
 const routes = [
   {
     path: "/billing",
@@ -93,7 +92,7 @@ const routes = [
         isMenu: false,
         isSecurity: true,
         color: "#FFA07A",
-        icon: <FaPersonMilitaryToPerson />,
+        icon: <FaPersonMilitaryToPerson size={30} />,
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         accesses: "ReportesVisitas",
         Element: <Report />,
@@ -104,7 +103,7 @@ const routes = [
         isMenu: false,
         isSecurity: true,
         color: "#A2C8CC",
-        icon: <TbReportAnalytics />,
+        icon: <FaChartLine size={30} />,
         accesses: "ReporteIngresoEgresoDetallado",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <IncomeAndSpendingReportDetailed />,
@@ -114,8 +113,8 @@ const routes = [
         name: "Reporte de Pagos Pendientes",
         isMenu: false,
         isSecurity: true,
-        color: "orange",
-        icon: <TbReportSearch />,
+        color: "#FFA500",
+        icon: <IoIosWarning size={30} />,
         accesses: "ReportesPendientes",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <PendingPaymentReport />,
@@ -125,8 +124,8 @@ const routes = [
         name: "Reporte de Ingresos y Gastos Sumarizado",
         isMenu: false,
         isSecurity: true,
-        color: "lightgreen",
-        icon: <TbReport />,
+        color: "#90EE90",
+        icon: <FaFileInvoiceDollar size={30} />,
         accesses: "ReporteIngresoEgresoSumarizado",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <IncomeAndSpendingReportSummarized />,
@@ -136,8 +135,8 @@ const routes = [
         name: "Reporte de Alertas",
         isMenu: false,
         isSecurity: true,
-        color: "lightblue",
-        icon: <TbReport />,
+        color: "#ADD8E6",
+        icon: <FaBell size={30} />,
         accesses: "ReporteAlertas",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <AlertReport />,
@@ -147,8 +146,8 @@ const routes = [
         name: "Reporte de Accesos",
         isMenu: false,
         isSecurity: true,
-        color: "lightpink",
-        icon: <TbReport />,
+        color: "#FFB6C1",
+        icon: <FaUnlockAlt size={30} />,
         accesses: "AccessosReporte",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <AccessReport />,
@@ -158,8 +157,8 @@ const routes = [
         name: "Reporte de Multas",
         isMenu: false,
         isSecurity: true,
-        color: "lightblue",
-        icon: <TbPaywall />,
+        color: "#ADD8E6",
+        icon: <FaMoneyBillWave size={30} />,
         accesses: "ReporteMultas",
         permissions: [TipoCuentas.administrador, TipoCuentas.subAdministrador],
         Element: <PenaltyFeeReport />,

@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import routes from "../../Routes";
 import { Menubar } from "primereact/menubar";
-import { menuItems } from "./setting";
 import { Button } from "primereact/button";
 import { DefaultLayoutStyled } from "./styled";
 import { OverlayPanel } from "primereact/overlaypanel";
@@ -13,14 +12,12 @@ import { getRequestUserInfo, restClient } from "../../Helpers/restClient";
 import { utils } from "../../Helpers/utils";
 import { Login } from "../../Container/Login";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthenticate } from "../../Container/Login/reducer";
+import { setAuthenticate, setUserInfo } from "../../Container/Login/reducer";
 import { Toast } from "primereact/toast";
+import { ThemeToggle } from "../ThemeToggle";
 import DashboardMenu from "../../Container/Menu";
-import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
 import AppSidebar from "./AppSideBar";
 import { TipoCuentas } from "../../Helpers/Constant";
-import { SiReactivex } from "react-icons/si";
 import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
 
 export const DefaultLayout = () => {
@@ -37,7 +34,7 @@ export const DefaultLayout = () => {
 
   const { authenticate } = useSelector((state) => state.Login);
   const { showSideBar, showMenuOnMobile } = useSelector(
-    (state) => state.DefaultLayout
+    (state) => state.DefaultLayout,
   );
 
   useEffect(() => {
@@ -48,7 +45,7 @@ export const DefaultLayout = () => {
         return;
       }
     }
-    navigate("/");
+    navigate("/login");
     dispacth(setAuthenticate(false));
     window.sessionStorage.setItem("userInfo", JSON.stringify({}));
 
@@ -65,7 +62,7 @@ export const DefaultLayout = () => {
 
   const isResidenceRol = useMemo(() => {
     return userInfo?.accesses?.any(
-      (x) => x.rolName === TipoCuentas.Rol_Residente
+      (x) => x.rolName === TipoCuentas.Rol_Residente,
     );
   }, [userInfo]);
 
@@ -77,7 +74,7 @@ export const DefaultLayout = () => {
 
     const response = await restClient.httpPost(
       "/security/users/authentica-user",
-      request
+      request,
     );
 
     if (response && response.success) {
@@ -88,7 +85,7 @@ export const DefaultLayout = () => {
       setIsLogin(true);
       window.sessionStorage.setItem("userInfo", JSON.stringify(response.user));
       const isResidenceRol = response.user.accesses.any(
-        (x) => x.rolName === TipoCuentas.Rol_Residente
+        (x) => x.rolName === TipoCuentas.Rol_Residente,
       );
       if (isResidenceRol) {
         navigate("/billing/receipt");
@@ -124,44 +121,53 @@ export const DefaultLayout = () => {
   };
 
   const start = (
-    <div className="app-icon">
-      <SiReactivex
-        size={40}
-        color="white"
-        title="SPR"
-        onClick={() => {
-          if (showMenuOnMobile) {
-            dispacth(setShowMenuOnMobile(false));
-            dispacth(setShowSideBar(false));
-          } else {
-            dispacth(setShowMenuOnMobile(true));
-          }
+    <div
+      className="header-brand"
+      onClick={homeOption}
+      style={{ cursor: "pointer" }}
+    >
+      <div className="app-icon">
+        <img
+          src={require("../../Assets/Logo.png")}
+          alt="Quintas del Sol"
+          className="logo-img"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (showMenuOnMobile) {
+              dispacth(setShowMenuOnMobile(false));
+              dispacth(setShowSideBar(false));
+            } else {
+              dispacth(setShowMenuOnMobile(true));
+            }
 
-          setMobileSidebarVisible(!mobileSidebarVisible);
+            setMobileSidebarVisible(!mobileSidebarVisible);
+          }}
+        />
+      </div>
+      {authenticate && (
+        <div className="system-title">
+          <span className="title-main">Residencial</span>
+          <span className="title-sub">Quintas del Sol</span>
+        </div>
+      )}
+    </div>
+  );
+
+  const end = authenticate && (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <ThemeToggle />
+      <Button
+        label="Cerrar Sesión"
+        icon="pi pi-sign-out"
+        className="p-button-danger logout-btn"
+        onClick={() => {
+          dispacth(setAuthenticate(false));
+          dispacth(setUserInfo({}));
+          window.sessionStorage.setItem("userInfo", JSON.stringify({}));
+          navigate("/login");
         }}
       />
     </div>
-  );
-  const end = (
-    <Button
-      type="button"
-      label={authenticate ? "Cerrar Sesión" : "Iniciar Sesión"}
-      onClick={(e) => {
-        if (authenticate) {
-          handelOnLogOut();
-          return;
-        }
-        navigate("/login");
-      }}
-      aria-haspopup
-      aria-controls="overlay_panel"
-      className={
-        authenticate
-          ? "p-button-raised p-button-danger"
-          : "p-button-raised p-button-info"
-      }
-      style={{ marginRight: "30px" }}
-    />
   );
 
   const RenderRoutes = () => (
@@ -178,7 +184,7 @@ export const DefaultLayout = () => {
         const allowView = accesses?.some(
           (x) =>
             x.rolName === route.accesses ||
-            x?.permissions?.some((y) => y.name === "SuperRoot")
+            x?.permissions?.some((y) => y.name === "SuperRoot"),
         );
 
         let hasSubRoutes = route.subRoutes !== undefined;
@@ -194,7 +200,7 @@ export const DefaultLayout = () => {
               {route.subRoutes.map((subRoute) => {
                 let allowAccess = utils.hasPermission(subRoute.accesses);
                 const isSuperRoot = accesses?.some((x) =>
-                  x?.permissions?.some((y) => y.name === "SuperRoot")
+                  x?.permissions?.some((y) => y.name === "SuperRoot"),
                 );
 
                 if (!allowAccess && isSuperRoot) {
@@ -238,7 +244,6 @@ export const DefaultLayout = () => {
       <Menubar
         style={{ borderRadius: 1 }}
         className="top-bar"
-        model={menuItems(homeOption)}
         start={start}
         end={end}
       />
@@ -250,7 +255,15 @@ export const DefaultLayout = () => {
         />
       )}
 
-      {RenderRoutes()}
+      <div
+        style={{
+          paddingTop: authenticate ? "80px" : "0",
+          flex: 1,
+          width: "100%",
+        }}
+      >
+        {RenderRoutes()}
+      </div>
 
       {/* <div className="footer">
         © 2024, Sistema de Pagos Residenciales. Todos los derechos reservados.

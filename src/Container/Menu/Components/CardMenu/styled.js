@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
 export const CardMenuStyled = styled.div`
+  height: 100%;
+
   .card {
     width: 100%;
+    height: 100%;
     min-height: 140px;
     border-radius: var(--radius-xl);
-    background: white;
-    border: 1px solid rgba(102, 126, 234, 0.15);
-    box-shadow: var(--shadow-md);
+    background: ${(props) => props.theme.colors.cardBg};
+    border: 1px solid ${(props) => props.theme.colors.border};
+    box-shadow: ${(props) => props.theme.colors.cardShadow};
     transition: all var(--transition-base);
     position: relative;
     display: flex;
@@ -25,7 +28,7 @@ export const CardMenuStyled = styled.div`
       right: 0;
       bottom: 0;
       background: ${(props) => {
-        const color = props.color || "#667eea";
+        const color = props.color || props.theme.colors.secondary;
         return `linear-gradient(135deg, ${color}15 0%, ${color}05 100%)`;
       }};
       opacity: 0;
@@ -39,8 +42,8 @@ export const CardMenuStyled = styled.div`
 
     &:hover {
       transform: translateY(-8px) scale(1.02);
-      box-shadow: var(--shadow-2xl);
-      border-color: ${(props) => props.color || "#667eea"};
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Keep shadow distinct */
+      border-color: ${(props) => props.color || props.theme.colors.secondary};
     }
 
     &:active {
@@ -50,7 +53,7 @@ export const CardMenuStyled = styled.div`
 
   .icon {
     background: ${(props) => {
-      const color = props.color || "#667eea";
+      const color = props.color || props.theme.colors.secondary;
       return `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`;
     }};
     width: 70px;
@@ -63,7 +66,7 @@ export const CardMenuStyled = styled.div`
     color: #fff;
     font-size: 2rem;
     margin-right: 1.25rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
     transition: all var(--transition-base);
@@ -73,7 +76,7 @@ export const CardMenuStyled = styled.div`
       content: "";
       position: absolute;
       inset: -2px;
-      background: ${(props) => props.color || "#667eea"};
+      background: ${(props) => props.color || props.theme.colors.secondary};
       border-radius: var(--radius-xl);
       opacity: 0;
       filter: blur(10px);
@@ -83,7 +86,7 @@ export const CardMenuStyled = styled.div`
 
     .card:hover & {
       transform: rotate(5deg) scale(1.1);
-      box-shadow: var(--shadow-xl);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 
       &::after {
         opacity: 0.4;
@@ -102,7 +105,7 @@ export const CardMenuStyled = styled.div`
 
     label {
       font-weight: 600;
-      color: var(--color-dark);
+      color: ${(props) => props.theme.colors.text};
       margin: 0;
       line-height: 1.4;
       cursor: pointer;
@@ -110,7 +113,7 @@ export const CardMenuStyled = styled.div`
     }
 
     .card:hover & label {
-      color: ${(props) => props.color || "var(--color-primary)"};
+      color: ${(props) => props.color || props.theme.colors.primary};
     }
   }
 

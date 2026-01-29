@@ -118,7 +118,6 @@ const TableControl = ({
           className="p-datatable-customers"
           rows={rows ? rows : 10}
           dataKey="id"
-          size="small"
           filters={filter}
           filterDisplay="row"
           header={isExportExcel ? header : null}

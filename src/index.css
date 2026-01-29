@@ -1,14 +1,263 @@
+/* ====================================
+   VARIABLES & THEMING
+   ==================================== */
+:root {
+  --primary-color: #002147;
+  --background-color: #f8f8f2;
+  --surface-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #cbd5e1;
+  --input-bg: #ffffff;
+  --card-bg: #ffffff;
+  --table-head-bg: #f8f9fa;
+}
+
+body.dark-mode {
+  --primary-color: #60a5fa;
+  --background-color: #0f172a;
+  --surface-color: #1e293b;
+  --text-color: #f1f5f9;
+  --border-color: #334155;
+  --input-bg: #0f172a;
+  --card-bg: #1e293b;
+  --table-head-bg: #1e293b;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ====================================
+     GLOBAL PRIMEREACT DIALOG FIXES
+     ==================================== */
+
+/* Dialog container */
+.p-dialog .p-dialog-content {
+  padding: 1.5rem !important;
+  margin: 0 !important;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+/* Dialog header */
+.p-dialog .p-dialog-header {
+  padding: 1.25rem 1.5rem !important;
+  background: linear-gradient(135deg, #002147 0%, #004080 100%);
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.dark-mode .p-dialog .p-dialog-header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+}
+
+.p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: white;
+}
+
+/* Close button */
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 3rem !important;
+  height: 3rem !important;
+  color: white !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon:hover {
+  background: rgba(255, 68, 68, 0.9) !important;
+  transform: scale(1.1);
+}
+
+/* Dialog footer */
+.p-dialog .p-dialog-footer {
+  padding: 1rem 1.5rem !important;
+  background: var(--surface-color) !important; /* Changed to variable */
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top: 1px solid var(--border-color) !important; /* Changed to variable */
+}
+
+/* Dialog styling */
+.p-dialog {
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  border: none !important;
+}
+
+/* ====================================
+     GLOBAL PRIMEREACT DROPDOWN FIXES
+     ==================================== */
+
+.p-dropdown {
+  border: 2px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  background: var(--input-bg) !important;
+  transition: all 0.3s ease !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--primary-color) !important;
+}
+
+.p-dropdown .p-dropdown-label {
+  color: var(--text-color) !important;
+}
+
+.p-dropdown-panel {
+  background: var(--card-bg) !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.p-dropdown-panel .p-dropdown-header {
+  background: var(--surface-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.p-dropdown-panel .p-dropdown-item {
+  color: var(--text-color) !important;
+}
+
+.p-dropdown-panel .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
+  background: var(--surface-color) !important;
+  color: var(--primary-color) !important;
+}
+
+/* ====================================
+     GLOBAL PRIMEREACT INPUT FIXES
+     ==================================== */
+
+.p-inputtext {
+  background: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 2px solid var(--border-color) !important;
+  width: 100% !important;
+}
+
+.p-inputtext:enabled:hover {
+  border-color: var(--primary-color) !important;
+}
+
+.p-inputtext:enabled:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* ====================================
+   GLOBAL PRIMEREACT INPUT ICON FIXES
+   ==================================== */
+
+.p-input-icon-left,
+.p-input-icon-right {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.p-input-icon-left > i,
+.p-input-icon-left > svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 0;
+  left: 1rem;
+  color: var(--text-color) !important;
+  font-size: 1.1rem;
+  z-index: 1;
+}
+
+.p-input-icon-left > .p-inputtext {
+  padding-left: 2.5rem !important;
+}
+
+/* ====================================
+     GLOBAL PRIMEREACT TOGGLEBUTTON
+     ==================================== */
+.p-togglebutton.p-button {
+  background: var(--input-bg) !important;
+  border: 2px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.p-togglebutton.p-button:not(.p-disabled):hover {
+  background: var(--surface-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.p-togglebutton.p-button.p-highlight {
+  background: rgba(59, 130, 246, 0.1) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+/* ====================================
+   GLOBAL PRIMEREACT DATATABLE
+   ==================================== */
+
+.p-datatable .p-datatable-header {
+  background: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--table-head-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+  padding: 1rem !important;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+.p-datatable .p-datatable-tbody > tr:not(.p-highlight):hover {
+  background: var(--surface-color) !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  border-color: var(--border-color) !important;
+  padding: 1rem !important; /* Más espaciado (UX crowded fix) */
+}
+
+/* Pagination */
+.p-datatable .p-paginator {
+  background: var(--surface-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  color: var(--text-color) !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+.p-datatable .p-sortable-column-icon {
+  color: var(--text-color) !important;
+}
+
+/* Title on tables */
+.p-datatable .p-datatable-header {
+  font-weight: bold;
+  font-size: 1.25rem;
 }

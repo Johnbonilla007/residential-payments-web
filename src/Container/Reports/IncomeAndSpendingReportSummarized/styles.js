@@ -8,12 +8,15 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
 
   .tables {
     display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: space-around;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 
-  
   .table-summarize-container {
     display: flex;
     justify-content: space-between;
@@ -37,14 +40,17 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    background-color: ${(props) => props.theme.colors.cardBg};
+    border: 1px solid ${(props) => props.theme.colors.border};
+    color: ${(props) => props.theme.colors.text};
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
   .title {
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: ${(props) => props.theme.colors.text};
     width: 300px;
   }
 
@@ -83,8 +89,8 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    background-color: #f1f1f1;
-    border: 1px solid #bbb;
+    background-color: ${(props) => props.theme.colors.surfaceHighlight};
+    border: 1px solid ${(props) => props.theme.colors.border};
     border-radius: 8px;
     font-size: 1.3rem;
   }
@@ -92,5 +98,4 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
   .table-available .total {
     color: #005aa0; /* Color especial para el disponible del mes */
   }
-
 `;

@@ -17,12 +17,13 @@ export const CustomDropDownStyled = styled.div`
     right: 0;
     max-height: 200px;
     overflow-y: auto;
-    background: white;
-    border: 1px solid #ccc;
+    background: ${(props) => props.theme.colors.cardBg};
+    border: 1px solid ${(props) => props.theme.colors.border};
     z-index: 1000;
   }
 
   .dropdown-item:hover {
-    background-color: #f1f1f1;
+    background-color: ${(props) => props.theme.colors.surfaceHighlight};
+    color: ${(props) => props.theme.colors.text};
   }
 `;

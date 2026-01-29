@@ -36,7 +36,7 @@ const CreateOrUpdateInvoiceModal = ({
           invoiceDate: null,
           customer: null,
           invoiceDetail: [],
-        }
+        },
   );
   const [paymentTypeList, setPaymentTypeList] = useState([]);
   const [detail, setDetail] = useState({
@@ -56,7 +56,7 @@ const CreateOrUpdateInvoiceModal = ({
   const [dateInvoice, setDateInvoice] = useState(
     !utils.isNullOrEmpty(invoiceSelected?.invoiceDate)
       ? new Date(invoiceSelected?.invoiceDate)
-      : new Date()
+      : new Date(),
   );
   const [showPartialPayment, setShowPartialPayment] = useState(false);
   const [paymentWays, setPaymentWays] = useState([]);
@@ -73,7 +73,7 @@ const CreateOrUpdateInvoiceModal = ({
 
     if (response?.paymentTypes) {
       setPaymentTypeList(
-        response.paymentTypes?.where((x) => !x.canBeUseToPenaltyFee)
+        response.paymentTypes?.where((x) => !x.canBeUseToPenaltyFee),
       );
     }
   };
@@ -84,7 +84,7 @@ const CreateOrUpdateInvoiceModal = ({
           (item) =>
             item.accounts !== null &&
             item.accounts !== undefined &&
-            utils.evaluateArray(item.accounts)
+            utils.evaluateArray(item.accounts),
         )
         .map((item) => {
           const account =
@@ -125,10 +125,10 @@ const CreateOrUpdateInvoiceModal = ({
     detail,
     newDatePayment,
     isPartialPayment,
-    _startDate
+    _startDate,
   ) => {
     const invoiceDetailOldSelected = peymentOlds.firstOrDefault(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo
+      (x) => x.paymentTypeNo === detail.paymentTypeNo,
     );
     let startDate;
     let _endDate;
@@ -206,7 +206,7 @@ const CreateOrUpdateInvoiceModal = ({
       !utils.evaluateFullObjetct(invoiceDetailOldSelected),
       residentialSelected.chargeCurrentMonth,
       _endDate,
-      _startDate
+      _startDate,
     );
 
     return montgRange;
@@ -240,7 +240,7 @@ const CreateOrUpdateInvoiceModal = ({
         };
         newPaymentList.push(paymentoOther);
         setPaymentTypeList(
-          newPaymentList?.where((x) => !x.canBeUseToPenaltyFee)
+          newPaymentList?.where((x) => !x.canBeUseToPenaltyFee),
         );
         setPeymentOlds(response.invoiceDetailOld);
         setPartialPeymentOlds(response?.partialPaymentOld);
@@ -278,7 +278,7 @@ const CreateOrUpdateInvoiceModal = ({
   const addDetail = () => {
     if (
       invoice.invoiceDetail.some(
-        (x) => x.paymentTypeNo === detail.paymentTypeNo
+        (x) => x.paymentTypeNo === detail.paymentTypeNo,
       )
     ) {
       toast.current.show({
@@ -343,7 +343,7 @@ const CreateOrUpdateInvoiceModal = ({
     let detailToAdd = { ...detail };
     let date = new Date();
     const isFollowDate = paymentTypeList.some(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing
+      (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
     );
 
     if (isFollowDate) {
@@ -359,7 +359,7 @@ const CreateOrUpdateInvoiceModal = ({
     const currentDay = date.getDate();
     const paymentInitial = paymentTypeList.firstOrDefault(
       (x) =>
-        x.paymentTypeNo === detailToAdd.paymentTypeNo && x.initialPaymentDate
+        x.paymentTypeNo === detailToAdd.paymentTypeNo && x.initialPaymentDate,
     );
 
     if (detail.isPartialMothPay && detail.amount >= paymentInitial.cost) {
@@ -387,13 +387,11 @@ const CreateOrUpdateInvoiceModal = ({
 
     if (newDetails.length > 0) {
       newDetails.forEach((detail, index) => {
-    debugger;
-
         const isPartialPayment = invoice?.partialPayments?.some(
-          (x) => x.paymentNo === detail.paymentTypeNo
+          (x) => x.paymentNo === detail.paymentTypeNo,
         );
         const isFollowDate = paymentTypeList.some(
-          (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing
+          (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
         );
 
         const isPartialMoth = detail.isPartialMothPay;
@@ -403,7 +401,7 @@ const CreateOrUpdateInvoiceModal = ({
           } del mes de ${handleDetermineMonth(
             detail,
             detail.paymentdate,
-            isPartialPayment
+            isPartialPayment,
           )}${
             newDetails.length === index + 1
               ? `. ${
@@ -434,7 +432,7 @@ const CreateOrUpdateInvoiceModal = ({
         }
       });
     }
-    debugger;
+
     let total = newDetails.reduce((total, item) => {
       return total + item.quantity * item.cost + (item?.amountEx || 0);
     }, 0);
@@ -442,7 +440,7 @@ const CreateOrUpdateInvoiceModal = ({
     if (invoice?.partialPayments?.length > 0) {
       const totalPartialPay = invoice.partialPayments.reduce(
         (acc, current) => acc + current.partialPay,
-        0
+        0,
       );
       total += totalPartialPay;
       const commentsPartial = generatePaymentSummary(invoice.partialPayments);
@@ -456,13 +454,13 @@ const CreateOrUpdateInvoiceModal = ({
     newDetails = newDetails.map((detail) => {
       if (detail.description === detailToAdd.description) {
         const partialPayments = invoice.partialPayments?.filter(
-          (x) => x.paymentNo === detail.paymentTypeNo
+          (x) => x.paymentNo === detail.paymentTypeNo,
         );
         let partialTotal = 0;
         if (partialPayments?.length > 0) {
           const totalPartialPay = partialPayments.reduce(
             (acc, current) => acc + current.partialPay,
-            0
+            0,
           );
           partialTotal = totalPartialPay;
         }
@@ -494,9 +492,9 @@ const CreateOrUpdateInvoiceModal = ({
   const detailWithTracking = (detailToAdd, newDetails, date) => {
     const paymentInitial = paymentTypeList.firstOrDefault(
       (x) =>
-        x.paymentTypeNo === detailToAdd.paymentTypeNo && x.initialPaymentDate
+        x.paymentTypeNo === detailToAdd.paymentTypeNo && x.initialPaymentDate,
     );
-    debugger;
+
     if (
       detail.isPartialMothPay &&
       detail.amountPartial >= paymentInitial.cost
@@ -512,7 +510,7 @@ const CreateOrUpdateInvoiceModal = ({
     }
 
     const invoiceDetailOldSelected = peymentOlds.firstOrDefault(
-      (x) => x.paymentTypeNo === detailToAdd.paymentTypeNo
+      (x) => x.paymentTypeNo === detailToAdd.paymentTypeNo,
     );
     const quantityAdd = detailToAdd.quantity;
     if (invoiceDetailOldSelected) {
@@ -520,13 +518,13 @@ const CreateOrUpdateInvoiceModal = ({
 
       const datePayment = utils.addMonths(date, quantityAdd);
       const initialPaymentDay = new Date(
-        paymentInitial.initialPaymentDate
+        paymentInitial.initialPaymentDate,
       ).getDate(); // Obtener el día 5
       const month = datePayment.getMonth();
       let adjustedDatePayment = new Date(
         datePayment.getFullYear(),
         month,
-        initialPaymentDay
+        initialPaymentDay,
       );
 
       if (utils.evaluateArray(invoice.partialPayments)) {
@@ -579,7 +577,7 @@ const CreateOrUpdateInvoiceModal = ({
         const datePayment = date;
 
         initialPaymentDay = new Date(
-          paymentInitial.initialPaymentDate
+          paymentInitial.initialPaymentDate,
         ).getDate(); // Obtener el día 5
 
         const _month = getFcMonth(datePayment);
@@ -587,7 +585,7 @@ const CreateOrUpdateInvoiceModal = ({
         adjustedDatePaymentOld = new Date(
           datePayment.getFullYear(),
           _month,
-          _month === 1 ? 28 : initialPaymentDay
+          _month === 1 ? 28 : initialPaymentDay,
         );
       }
       // Aumentar un mes
@@ -635,10 +633,10 @@ const CreateOrUpdateInvoiceModal = ({
     if (newDetails.length > 0) {
       newDetails.forEach((detail, index) => {
         const isPartialPayment = invoice?.partialPayments?.some(
-          (x) => x.paymentNo === detail.paymentTypeNo
+          (x) => x.paymentNo === detail.paymentTypeNo,
         );
         const isFollowDate = paymentTypeList.some(
-          (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing
+          (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
         );
         const isPartialMoth = detail.isPartialMothPay;
         const currentMonthPartial = detail.paymentdate.getMonth();
@@ -648,7 +646,7 @@ const CreateOrUpdateInvoiceModal = ({
             detail,
             detail.paymentdate,
             isPartialPayment,
-            paymentInitial.initialPaymentDate
+            paymentInitial.initialPaymentDate,
           )}${
             isPartialMoth
               ? ` y pago parcial de ${detail.amountPartial} del mes de ${partialMoth}`
@@ -696,7 +694,7 @@ const CreateOrUpdateInvoiceModal = ({
     if (invoice?.partialPayments?.length > 0) {
       const totalPartialPay = invoice.partialPayments.reduce(
         (acc, current) => acc + current.partialPay,
-        0
+        0,
       );
       total += totalPartialPay;
       const commentsPartial = generatePaymentSummary(invoice.partialPayments);
@@ -710,13 +708,13 @@ const CreateOrUpdateInvoiceModal = ({
     newDetails = newDetails.map((detail) => {
       if (detail.description === detailToAdd.description) {
         const partialPayments = invoice.partialPayments?.filter(
-          (x) => x.paymentNo === detail.paymentTypeNo
+          (x) => x.paymentNo === detail.paymentTypeNo,
         );
         let partialTotal = 0;
         if (partialPayments?.length > 0) {
           const totalPartialPay = partialPayments.reduce(
             (acc, current) => acc + current.partialPay,
-            0
+            0,
           );
           partialTotal = totalPartialPay;
         }
@@ -761,10 +759,10 @@ const CreateOrUpdateInvoiceModal = ({
 
     // Separar pagos completos y parciales
     const completedPayments = partialPaymentsList.filter(
-      (payment) => payment.isCompleted
+      (payment) => payment.isCompleted,
     );
     const partialPayments = partialPaymentsList.filter(
-      (payment) => !payment.isCompleted
+      (payment) => !payment.isCompleted,
     );
 
     const getMonthRange = (payments) => {
@@ -776,7 +774,7 @@ const CreateOrUpdateInvoiceModal = ({
       }
       const startMonth = utils.getMonthName(utils.getMonthIndex(monthValue));
       const endMonth = utils.getMonthName(
-        utils.getMonthIndex(monthValueBefore)
+        utils.getMonthIndex(monthValueBefore),
       );
       return `${startMonth}-${year} a ${endMonth}-${yearBefore}`;
     };
@@ -916,7 +914,7 @@ const CreateOrUpdateInvoiceModal = ({
     if (utils.isNullOrEmpty(detail.paymentTypeNo)) return false;
     if (utils.evaluateArray(partialPeymentOlds)) return true;
     const invoiceDetailOldSelected = peymentOlds.firstOrDefault(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo
+      (x) => x.paymentTypeNo === detail.paymentTypeNo,
     );
 
     if (utils.evaluateFullObjetct(invoiceDetailOldSelected)) {
@@ -927,7 +925,7 @@ const CreateOrUpdateInvoiceModal = ({
     }
 
     const paymentInitial = paymentTypeList.firstOrDefault(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo && x.initialPaymentDate
+      (x) => x.paymentTypeNo === detail.paymentTypeNo && x.initialPaymentDate,
     );
 
     if (utils.evaluateFullObjetct(paymentInitial)) {
@@ -944,21 +942,21 @@ const CreateOrUpdateInvoiceModal = ({
     let newInvoice = { ...invoice };
     if (newInvoice?.partialPayments) {
       newInvoice.partialPayments = newInvoice.partialPayments.filter(
-        (x) => x.paymentNo !== detail.paymentTypeNo
+        (x) => x.paymentNo !== detail.paymentTypeNo,
       );
     }
     let comments = "Por concepto de pago de ";
     if (newDetail.length > 0) {
       newDetail.forEach((detail, index) => {
         const isPartialPayment = newInvoice?.partialPayments?.some(
-          (x) => x.paymentNo === detail.paymentTypeNo
+          (x) => x.paymentNo === detail.paymentTypeNo,
         );
 
         if (detail?.paymentTypeNo !== "PT0000000") {
           comments += `${detail.description} del mes de ${handleDetermineMonth(
             detail,
             detail.paymentdate,
-            isPartialPayment
+            isPartialPayment,
           )}${
             newDetail.length === index + 1
               ? `. ${
@@ -984,7 +982,7 @@ const CreateOrUpdateInvoiceModal = ({
     if (invoice?.partialPayments?.length > 0) {
       const totalPartialPay = invoice.partialPayments.reduce(
         (acc, current) => acc + current.partialPay,
-        0
+        0,
       );
       total += totalPartialPay;
       comments += generatePaymentSummary(invoice.partialPayments);
@@ -999,7 +997,7 @@ const CreateOrUpdateInvoiceModal = ({
 
   const getPaymentType = () => {
     const paymentType = paymentTypeList.firstOrDefault(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo
+      (x) => x.paymentTypeNo === detail.paymentTypeNo,
     );
     return paymentType || null;
   };
@@ -1039,7 +1037,7 @@ const CreateOrUpdateInvoiceModal = ({
   const handleBlockDescription = () => {
     if (detail?.paymentTypeNo === "PT0000000") return false;
     const payment = paymentTypeList.firstOrDefault(
-      (x) => x.paymentTypeNo === detail.paymentTypeNo
+      (x) => x.paymentTypeNo === detail.paymentTypeNo,
     );
     if (payment) {
       return payment.isFollowing;
@@ -1169,7 +1167,7 @@ const CreateOrUpdateInvoiceModal = ({
                     options={paymentTypeList}
                     onChange={(e) => {
                       const paymentOld = peymentOlds.find(
-                        (x) => x.paymentTypeNo === e.value.paymentTypeNo
+                        (x) => x.paymentTypeNo === e.value.paymentTypeNo,
                       );
                       const valueToAdd = residentialSelected.chargeCurrentMonth
                         ? 0
@@ -1344,7 +1342,7 @@ const CreateOrUpdateInvoiceModal = ({
                 detail?.paymentTypeNo !== "PT0000000" &&
                 paymentTypeList.some(
                   (x) =>
-                    x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing
+                    x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
                 ) && (
                   <div>
                     {invoice?.partialPayments?.length > 0 ? (
@@ -1379,7 +1377,8 @@ const CreateOrUpdateInvoiceModal = ({
                 <strong>{detail?.lastMonthPayment}</strong>
               </div>
               {paymentTypeList.some(
-                (x) => x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing
+                (x) =>
+                  x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
               ) && (
                 <div>
                   <lable>Mes a Pagar: </lable>

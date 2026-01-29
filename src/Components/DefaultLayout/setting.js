@@ -8,14 +8,6 @@ export const menuItems = (homeOption) => {
       icon: "pi pi-home",
       command: homeOption,
     },
-    {
-      label: "Politicas de Privacidad",
-      icon: "pi pi-shield",
-    },
-    {
-      label: "Contactenos",
-      icon: "pi pi-phone",
-    },
   ];
 
   return view;

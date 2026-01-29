@@ -24,7 +24,7 @@ import EditResidenceModal from "../Components/ResidenceInvoiceCard/Components/Ed
 
 const PenaltyFee = () => {
   const { residentialSelected, residences, filterResidences } = useSelector(
-    (state) => state.Invoice
+    (state) => state.Invoice,
   );
   const [residenceSelected, setResidenceSelected] = useState({});
   const [residenceList, setResidenceList] = useState([]);
@@ -66,7 +66,7 @@ const PenaltyFee = () => {
 
     if (response?.paymentTypes) {
       setPaymentTypeList(
-        response.paymentTypes?.where((x) => x.canBeUseToPenaltyFee)
+        response.paymentTypes?.where((x) => x.canBeUseToPenaltyFee),
       );
     }
   };
@@ -80,7 +80,7 @@ const PenaltyFee = () => {
 
     if (!hasPermission) {
       response.residences = response.residences.filter((x) =>
-        accountIds.includes(x.accountId)
+        accountIds.includes(x.accountId),
       );
     }
 
@@ -153,10 +153,10 @@ const PenaltyFee = () => {
             checked={onlyEmptyLot}
             onLabel="Solo Lotes Baldíos"
             offLabel="Todos"
-            invalid
             onIcon="pi pi-check"
             offIcon="pi pi-times"
             onChange={handleOnChangeEmptyLot}
+            className="w-auto"
           />
         </div>
         <ResidenceInvoiceCardStyled

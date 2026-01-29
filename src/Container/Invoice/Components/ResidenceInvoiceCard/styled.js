@@ -29,18 +29,23 @@ export const ResidenceInvoiceCardStyled = styled.div`
 `;
 
 export const CardComponentStyled = styled.div`
-  background: linear-gradient(to bottom, #ffffff, #fafbfd);
+  background-color: ${(props) => props.theme.colors.cardBg};
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: ${(props) => props.theme.colors.cardShadow};
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 300px;
+  /* Removed max-height to allow content to flow naturally */
+  border: 1px solid ${(props) => props.theme.colors.border};
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
   /* Removed max-height to allow content to flow naturally */
   margin: 15px;
   display: flex;
   flex-direction: column;
   position: relative;
-  border: 1px solid rgba(143, 163, 232, 0.15);
 
   :hover {
     transform: translateY(-6px);
@@ -56,16 +61,17 @@ export const CardComponentStyled = styled.div`
     z-index: 10;
 
     .p-button {
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(143, 163, 232, 0.2);
+      background: ${(props) => props.theme.colors.surface};
+      border: 1px solid ${(props) => props.theme.colors.border};
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: all 0.25s ease;
+      color: ${(props) => props.theme.colors.text};
 
       &:hover:not(:disabled) {
         background: var(--primary-gradient);
@@ -107,7 +113,7 @@ export const CardComponentStyled = styled.div`
     .owner-title {
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--color-primary);
+      color: ${(props) => props.theme.colors.text};
       display: flex;
       align-items: center;
       gap: 6px;
@@ -121,7 +127,7 @@ export const CardComponentStyled = styled.div`
 
     .residence-name {
       font-size: 0.9rem;
-      color: #546e7a;
+      color: ${(props) => props.theme.colors.textSecondary};
       font-weight: 500;
       margin-bottom: 4px;
     }
@@ -140,7 +146,7 @@ export const CardComponentStyled = styled.div`
 
         strong {
           font-size: 0.75rem;
-          color: #90a4ae;
+          color: ${(props) => props.theme.colors.textSecondary};
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-bottom: 2px;
@@ -148,7 +154,7 @@ export const CardComponentStyled = styled.div`
 
         span {
           font-size: 0.9rem;
-          color: #37474f;
+          color: ${(props) => props.theme.colors.text};
           font-weight: 600;
         }
       }
@@ -167,7 +173,8 @@ export const CardComponentStyled = styled.div`
     button {
       flex: 1 1 calc(50% - 4px);
       min-width: 120px;
-      height: 38px;
+      min-height: 44px;
+      height: auto;
       font-size: 0.85rem;
       border-radius: 8px;
       transition: all 0.2s ease;
@@ -190,6 +197,113 @@ export const CardComponentStyled = styled.div`
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 31, 63, 0.3);
         }
+      }
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    width: 280px;
+    margin: 12px;
+
+    .residence-image {
+      height: 100px;
+    }
+
+    .residence-content {
+      padding: 10px 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+
+    .residence-image {
+      height: 120px;
+    }
+
+    .residence-content {
+      padding: 14px 16px;
+
+      .residence-details-grid {
+        gap: 10px;
+      }
+    }
+
+    .buttons-container {
+      gap: 6px;
+      padding: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin: 8px 0;
+    border-radius: 12px;
+
+    .edit-button .p-button {
+      width: 44px;
+      height: 44px;
+    }
+
+    .residence-image {
+      height: 100px;
+    }
+
+    .residence-content {
+      padding: 12px;
+
+      .owner-title {
+        font-size: 0.9rem;
+      }
+
+      .residence-name {
+        font-size: 0.85rem;
+      }
+
+      .residence-details-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+
+        .detail-item {
+          strong {
+            font-size: 0.7rem;
+          }
+
+          span {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+
+    .buttons-container {
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+
+      button {
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: unset;
+        min-height: 48px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .residence-content {
+      padding: 10px;
+    }
+
+    .buttons-container {
+      padding: 10px;
+
+      button {
+        font-size: 0.85rem;
       }
     }
   }

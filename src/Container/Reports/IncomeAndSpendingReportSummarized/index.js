@@ -23,7 +23,7 @@ const IncomeAndSpendingReportSummarized = () => {
   const toast = useRef(null);
   const userInfo = getRequestUserInfo();
   const { residentialSelected, residentials } = useSelector(
-    (store) => store.Invoice
+    (store) => store.Invoice,
   );
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ const IncomeAndSpendingReportSummarized = () => {
           (item) => ({
             ...item,
             amount: utils.formateLps(item.amount),
-          })
+          }),
         ),
         totalIncomesMonthly: response.totalIncomesMonthly,
         totalMonthlyDifference: response.totalMonthlyDifference,
@@ -147,11 +147,8 @@ const IncomeAndSpendingReportSummarized = () => {
         cashIncoming -
         (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
         (cashIncoming?.currentMonthlyBalance?.bankFinancialMovement || 0);
-      debugger;
 
       if (!totalCash && !report.currentMonthlyBalance?.bankFinancialMovement) {
-        debugger;
-
         totalCash =
           report?.currentMonthlyBalance?.totalAmounthIncomeCash -
           report?.currentMonthlyBalance?.totalAmounthSpendingCash;
@@ -267,7 +264,7 @@ const IncomeAndSpendingReportSummarized = () => {
                   }`}
                 >
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthIncomeBank
+                    report?.currentMonthlyBalance?.totalAmounthIncomeBank,
                   )}
                 </div>
               </div>
@@ -284,7 +281,7 @@ const IncomeAndSpendingReportSummarized = () => {
                   }`}
                 >
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthIncomeCash
+                    report?.currentMonthlyBalance?.totalAmounthIncomeCash,
                   )}
                 </div>
               </div>
@@ -311,7 +308,7 @@ const IncomeAndSpendingReportSummarized = () => {
                 </div>
                 <div className="total negative">
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthSpendingBank
+                    report?.currentMonthlyBalance?.totalAmounthSpendingBank,
                   )}
                 </div>
               </div>
@@ -322,7 +319,7 @@ const IncomeAndSpendingReportSummarized = () => {
                 </div>
                 <div className="total negative">
                   {utils.formateLps(
-                    report?.currentMonthlyBalance?.totalAmounthSpendingCash
+                    report?.currentMonthlyBalance?.totalAmounthSpendingCash,
                   )}
                 </div>
               </div>
@@ -334,7 +331,7 @@ const IncomeAndSpendingReportSummarized = () => {
                 <div className="total negative">
                   {utils.formateLps(
                     report?.currentMonthlyBalance?.totalAmounthSpendingCash +
-                      report?.currentMonthlyBalance?.totalAmounthSpendingBank
+                      report?.currentMonthlyBalance?.totalAmounthSpendingBank,
                   )}
                 </div>
               </div>

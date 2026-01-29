@@ -6,11 +6,12 @@ import "primeicons/primeicons.css"; //icons
 import "primereact/resources/themes/fluent-light/theme.css";
 import GlobalStyles from "./AppStyled";
 import { WaitControlContainer } from "./Components/Controls/WaitControl";
+import { ThemeProvider } from "./Context/ThemeContext";
 require("mini-linq-js");
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <WaitControlContainer />
       <GlobalStyles />
       <BrowserRouter>
@@ -18,7 +19,7 @@ function App() {
           <Route path="/*" element={<DefaultLayout />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </ThemeProvider>
   );
 }
 

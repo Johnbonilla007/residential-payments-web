@@ -1,20 +1,32 @@
 import styled from "styled-components";
 
 export const ReportContainerStyled = styled.div`
-  display: flex;
-  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan */
-  justify-content: center; /* Centra las tarjetas horizontalmente */
-  gap: 10px; /* Espacio entre las tarjetas */
-  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
   padding: 30px;
-  max-height: 80vh;
-  scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #002147 #fff; /* Para Firefox */
-  margin-top: 20px;
+  max-height: 85vh;
+  overflow-y: auto;
+  margin-top: 10px;
+
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
   .item {
-    margin: 10px;
-    flex: 1 1 300px; /* Hace que las tarjetas sean flexibles y tengan un ancho mínimo */
-    max-width: 300px; /* Máximo ancho de cada tarjeta */
-    max-height: 150px; /* Máximo ancho de cada tarjeta */
+    height: 100%;
+    /* Eliminamos max-width/height para dejar que el grid controle el tamaño */
   }
 `;
