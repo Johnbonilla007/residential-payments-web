@@ -144,12 +144,12 @@ export const DefaultLayout = () => {
           }}
         />
       </div>
-      {authenticate && (
+      {/* {authenticate && (
         <div className="system-title">
           <span className="title-main">Residencial</span>
           <span className="title-sub">Quintas del Sol</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 
