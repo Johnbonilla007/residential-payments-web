@@ -53,8 +53,7 @@ const ReportSumarizePdf = ({
         (reportSumarize?.currentMonthlyBalance?.totalAmounthIncomeCash || 0);
       const totalCash =
         cashIncoming -
-        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
-        (reportSumarize?.currentMonthlyBalance?.bankFinancialMovement || 0);
+        (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingCash || 0);
 
       return totalCash;
     }

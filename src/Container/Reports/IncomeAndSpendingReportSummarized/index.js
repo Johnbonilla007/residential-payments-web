@@ -145,8 +145,7 @@ const IncomeAndSpendingReportSummarized = () => {
         (report?.currentMonthlyBalance?.totalAmounthIncomeCash || 0);
       const totalCash =
         cashIncoming -
-        (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
-        (report?.currentMonthlyBalance?.bankFinancialMovement || 0);
+        (report?.currentMonthlyBalance?.totalAmounthSpendingCash || 0);
 
       return totalCash;
     }
