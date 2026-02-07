@@ -39,7 +39,7 @@ const ReportSumarizePdf = ({
       const totalBank =
         bankIncoming -
         (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingBank || 0) +
-        reportSumarize?.currentMonthlyBalance?.bankFinancialMovement;
+        (reportSumarize?.currentMonthlyBalance?.bankFinancialMovement || 0);
 
       return totalBank;
     }
@@ -54,7 +54,7 @@ const ReportSumarizePdf = ({
       const totalCash =
         cashIncoming -
         (reportSumarize?.currentMonthlyBalance?.totalAmounthSpendingCash || 0) -
-        reportSumarize?.currentMonthlyBalance?.bankFinancialMovement;
+        (reportSumarize?.currentMonthlyBalance?.bankFinancialMovement || 0);
 
       return totalCash;
     }
