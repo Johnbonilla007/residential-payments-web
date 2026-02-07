@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { utils } from "../../../Helpers/utils";
 
@@ -12,6 +12,22 @@ export const FilterControl = ({
   combinedFilterProperties = [],
   placeholder,
 }) => {
+  const [localFilter, setLocalFilter] = useState(filter || "");
+
+  useEffect(() => {
+    setLocalFilter(filter || "");
+  }, [filter]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (filter !== localFilter) {
+        setFilter(localFilter);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [localFilter]);
+
   useEffect(() => {
     if (!utils.isNullOrEmpty(filter)) {
       const newItems = items.filter((item) => {
@@ -37,8 +53,8 @@ export const FilterControl = ({
                     subItem[subProp]
                       .toString()
                       .toLowerCase()
-                      .includes(filter.toLowerCase())
-                )
+                      .includes(filter.toLowerCase()),
+                ),
               );
             }
             return false;
@@ -72,8 +88,8 @@ export const FilterControl = ({
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          value={localFilter}
+          onChange={(e) => setLocalFilter(e.target.value)}
           placeholder={placeholder || "Buscar"}
         />
       </span>
