@@ -346,7 +346,7 @@ const IncomeAndSpendingReportSummarized = () => {
 
               <div className="item">
                 <div className="title">
-                  <strong>Disponible en Efectivo:</strong>
+                  <strong>Depósito a cuenta en efectivo</strong>
                 </div>
                 <div
                   className={`total ${
