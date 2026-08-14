@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import {
+  SIDEBAR_COLLAPSED_WIDTH,
+  SIDEBAR_WIDTH,
+  px,
+} from "../../Styles/layout";
+import { media } from "../../Styles/themes";
 
 export const DefaultLayoutStyled = styled.div`
   margin: 0;
@@ -22,7 +28,13 @@ export const DefaultLayoutStyled = styled.div`
       `position: fixed; 
        top: 0;
        right: 0;
-       left: ${showSideBar ? "260px" : showMenuOnMobile ? "70px" : "0"};
+       left: ${
+         showSideBar
+           ? px(SIDEBAR_WIDTH)
+           : showMenuOnMobile
+           ? px(SIDEBAR_COLLAPSED_WIDTH)
+           : "0"
+       };
        z-index: 1000;`}
 
     transition: left var(--transition-base), background var(--transition-base);
@@ -450,8 +462,15 @@ export const AppSidebarStyled = styled.div`
       }
     }
 
-    /* Responsive behavior for mobile */
-    @media only screen and (max-width: 600px) {
+    /**
+     * Overlay drawer on mobile.
+     *
+     * This breakpoint must match MOBILE_BREAKPOINT, which the resize handler
+     * uses to flip showMenuOnMobile. It used to be 600px against the handler's
+     * 768px, so between those widths the content was offset for a sidebar that
+     * was already behaving as a full-width rail — it overlapped instead.
+     */
+    ${media.md} {
       position: fixed;
       z-index: 9998;
       width: 80%;

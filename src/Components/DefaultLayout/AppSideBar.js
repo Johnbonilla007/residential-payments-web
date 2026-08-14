@@ -9,6 +9,12 @@ import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
 import routes from "../../Routes";
 import { utils } from "../../Helpers/utils";
 import { getRequestUserInfo } from "../../Helpers/restClient";
+import {
+  MOBILE_BREAKPOINT,
+  SIDEBAR_COLLAPSED_WIDTH,
+  SIDEBAR_WIDTH,
+  px,
+} from "../../Styles/layout";
 
 const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
   const [collapsed, setCollapsed] = useState(true);
@@ -25,7 +31,7 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      const _value = window.innerWidth <= 768;
+      const _value = window.innerWidth <= MOBILE_BREAKPOINT;
       if (_value) {
         setMobileSidebarVisible(false);
         dispatch(setShowMenuOnMobile(false));
@@ -44,8 +50,8 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
       <Sidebar
         collapsed={collapsed}
         backgroundColor="transparent"
-        width="260px"
-        collapsedWidth="70px"
+        width={px(SIDEBAR_WIDTH)}
+        collapsedWidth={px(SIDEBAR_COLLAPSED_WIDTH)}
         transitionDuration={500}
         className={`side ${collapsed ? "side--collapsed" : ""}`}
         style={{
