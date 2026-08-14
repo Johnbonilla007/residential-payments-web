@@ -379,6 +379,21 @@ export const DefaultLayoutStyled = styled.div`
 `;
 
 export const AppSidebarStyled = styled.div`
+  /**
+   * Dismiss layer for the mobile drawer.
+   *
+   * It must outrank the top bar (9999) because the drawer does: an open modal
+   * drawer covers the bar rather than starting below it, which avoids pinning
+   * the drawer's offset to the bar's measured height — that number changes with
+   * the root font size and would silently hide the first menu item again.
+   */
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--maskbg);
+  }
+
   .side {
     position: fixed;
     bottom: 0;
@@ -610,12 +625,14 @@ export const AppSidebarStyled = styled.div`
     }
   }
 
-  /* Responsive adjustments for tablets */
-  @media only screen and (max-width: 1024px) and (min-width: 601px) {
-    .side {
-      width: 180px;
-    }
-
+  /**
+   * Tablet adjustments.
+   *
+   * Type and padding only. This block used to override the sidebar width to
+   * 180px, a third value competing with SIDEBAR_WIDTH and the content offset —
+   * any width set here desynchronises the layout.
+   */
+  @media only screen and (max-width: 1024px) and (min-width: 769px) {
     .side .menuItem,
     .side .submenuItem {
       font-size: 0.9rem;
@@ -624,7 +641,7 @@ export const AppSidebarStyled = styled.div`
   }
 
   /* Mobile-specific adjustments */
-  @media only screen and (max-width: 600px) {
+  ${media.md} {
     .side .menuItem {
       padding: 0.875rem 1rem;
       margin: 0.25rem 0.75rem;

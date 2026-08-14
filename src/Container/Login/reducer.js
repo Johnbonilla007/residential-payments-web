@@ -4,7 +4,7 @@ export const LoginSlice = createSlice({
   name: "Login",
   initialState: {
     userInfo: undefined,
-    authenticate: false,
+    authenticate: true, // TEMP verificacion visual
     permission: {}
   },
   reducers: {

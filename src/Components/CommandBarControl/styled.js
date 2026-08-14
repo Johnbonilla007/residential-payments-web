@@ -6,7 +6,11 @@ const commandButton = `
   border: 1px solid transparent;
   color: var(--text-color);
   height: 32px;
-  width: 185px;
+  /* Grows to fill the row and shrinks on narrow screens; a fixed 185px forced
+     the bar wider than its container. */
+  flex: 0 1 185px;
+  min-width: 0;
+  max-width: 100%;
   cursor: pointer;
   font-size: 12px;
   border-radius: var(--radius-sm);
@@ -31,11 +35,18 @@ const commandButton = `
     transition: border-color var(--transition-fast);
   }
 
+  .icon {
+    flex: 0 0 auto;
+  }
+
   .title {
-    width: 100%;
+    min-width: 0;
     font-size: 10pt;
     text-align: left;
     padding-left: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
@@ -80,10 +91,10 @@ export const CommandBarControlStyled = styled.div`
   }
 
   /* Buttons take the full row on narrow screens instead of overflowing. */
-  ${media.sm} {
+  ${media.md} {
     .command-button,
     .command-button-disabled {
-      width: 100%;
+      flex: 1 1 100%;
       margin-right: 0;
     }
   }

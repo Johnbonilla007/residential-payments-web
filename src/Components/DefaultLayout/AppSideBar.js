@@ -18,13 +18,28 @@ import {
 
 const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [isMobile, setIsMobile] = useState(
+    () => window.innerWidth <= MOBILE_BREAKPOINT
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { accesses } = useMemo(() => getRequestUserInfo(), []);
   const { showMenuOnMobile } = useSelector((store) => store.DefaultLayout);
 
+  /**
+   * On mobile the sidebar is an overlay drawer that the user opens on purpose,
+   * so it always shows full labels. Collapsing only makes sense on desktop,
+   * where the rail is permanently on screen and competes with the content for
+   * width — in a 300px drawer a 70px icon rail is just a worse menu.
+   */
+  const isCollapsed = isMobile ? false : collapsed;
+
   const toggleSidebar = (event) => {
     event.preventDefault();
+    if (isMobile) {
+      setMobileSidebarVisible(!mobileSidebarVisible);
+      return;
+    }
     setCollapsed(!collapsed);
     dispatch(setShowSideBar(collapsed));
   };
@@ -32,6 +47,7 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
   useEffect(() => {
     const handleResize = () => {
       const _value = window.innerWidth <= MOBILE_BREAKPOINT;
+      setIsMobile(_value);
       if (_value) {
         setMobileSidebarVisible(false);
         dispatch(setShowMenuOnMobile(false));
@@ -47,13 +63,20 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
 
   return (
     <AppSidebarStyled mobileSidebarVisible={mobileSidebarVisible}>
+      {isMobile && mobileSidebarVisible && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMobileSidebarVisible(false)}
+          aria-hidden="true"
+        />
+      )}
       <Sidebar
-        collapsed={collapsed}
+        collapsed={isCollapsed}
         backgroundColor="transparent"
         width={px(SIDEBAR_WIDTH)}
         collapsedWidth={px(SIDEBAR_COLLAPSED_WIDTH)}
         transitionDuration={500}
-        className={`side ${collapsed ? "side--collapsed" : ""}`}
+        className={`side ${isCollapsed ? "side--collapsed" : ""}`}
         style={{
           display: mobileSidebarVisible ? "block" : "none", // Toggle sidebar on mobile
         }}

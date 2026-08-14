@@ -3,7 +3,10 @@
     "allow": [
       "Bash(command -v chromium-cli)",
       "Bash(command -v npx)",
-      "Bash(npx playwright *)"
+      "Bash(npx playwright *)",
+      "Bash(rg -n \"authenticate\" Container/Login/reducer.js Container/Login/*.js)",
+      "Bash(cp src/Container/Login/reducer.js \"C:/Users/JDBONI~1/AppData/Local/Temp/claude/c--Users-jdbonilla-source-repos-residential-payments-web/ccf2d917-6d1a-4995-9247-27aba1c85a2c/scratchpad/reducer.orig.js\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
