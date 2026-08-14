@@ -43,26 +43,32 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
     <AppSidebarStyled mobileSidebarVisible={mobileSidebarVisible}>
       <Sidebar
         collapsed={collapsed}
-        backgroundColor="#001f3f"
-        width="200px"
+        backgroundColor="transparent"
+        width="260px"
         collapsedWidth="70px"
         transitionDuration={500}
-        className="side"
+        className={`side ${collapsed ? "side--collapsed" : ""}`}
         style={{
           display: mobileSidebarVisible ? "block" : "none", // Toggle sidebar on mobile
         }}
       >
+        {/*
+          Colours come from tokens rather than literals so the sidebar follows
+          the theme. The previous active state painted #ffffff text on an
+          #f8f8f2 background, which made the selected item unreadable.
+        */}
         <Menu
           menuItemStyles={{
             button: {
-              color: "#b6c8d9",
+              color: "var(--app-nav-text)",
               "&:hover": {
-                backgroundColor: "#f8f8f2",
-                color: "#333333",
+                backgroundColor: "rgba(255, 255, 255, 0.14)",
+                color: "var(--app-nav-text)",
               },
               "&.active": {
-                backgroundColor: "#f8f8f2",
-                color: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.22)",
+                color: "var(--app-nav-text)",
+                fontWeight: 600,
               },
             },
           }}

@@ -372,27 +372,21 @@ export const AppSidebarStyled = styled.div`
     bottom: 0;
     top: 0;
     left: 0;
-    transition: left var(--transition-base);
+    /* Width is set inline by react-pro-sidebar and animates on collapse. */
     transition:
       left var(--transition-base),
-      width var(--transition-base);
-    width: 260px; /* Aumentado para mejor lectura */
-    background: var(--primary-gradient);
+      background var(--transition-base);
+    background: var(--app-nav-gradient);
     height: 100%;
-    box-shadow: var(--shadow-xl);
-    height: 100%;
-    box-shadow: var(--shadow-xl);
-    z-index: 1001; /* Mayor que top-bar (1000) */
+    box-shadow: var(--app-shadow-lg);
     z-index: 1001; /* Mayor que top-bar (1000) */
     overflow-y: auto;
     overflow-x: hidden;
 
-    /* Mejorar labels para evitar cortes de texto */
+    /* Labels wrap instead of truncating while the sidebar is expanded. */
     .ps-menu-label {
-      white-space: normal !important;
-      text-overflow: clip !important;
-      overflow: visible !important;
-      line-height: 1.3 !important;
+      white-space: normal;
+      line-height: 1.3;
       padding-top: 5px;
       padding-bottom: 5px;
     }
@@ -402,12 +396,42 @@ export const AppSidebarStyled = styled.div`
       min-height: 45px;
     }
 
-    /* Iconos alineados arriba si el texto es multi-linea */
+    /* Icons align to the top only when the label wraps to several lines. */
     .ps-menu-icon {
       align-self: flex-start;
       margin-top: 12px;
     }
+  }
 
+  /**
+   * Collapsed rail.
+   *
+   * react-pro-sidebar hides labels on collapse by clipping them, which the
+   * rules above used to defeat with an overflow: visible override — so labels
+   * kept rendering into a 70px rail and were cut mid-word. At this width the
+   * label has no room at all, so remove it from layout and centre the icon;
+   * the item's title attribute still carries the name as a tooltip.
+   */
+  .side--collapsed {
+    .ps-menu-label,
+    .ps-submenu-expand-icon {
+      display: none;
+    }
+
+    .ps-menu-button {
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .ps-menu-icon {
+      align-self: center;
+      margin-top: 0;
+      margin-right: 0;
+    }
+  }
+
+  .side {
     /* Custom scrollbar for sidebar */
     &::-webkit-scrollbar {
       width: 6px;

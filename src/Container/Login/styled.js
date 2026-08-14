@@ -175,31 +175,45 @@ export const LoginStyled = styled.div`
     }
   }
 
-  /* Premium button styling */
+  /**
+   * The login hero is dark in both themes, so its button takes the navigation
+   * tokens rather than the primary ones. Using --app-primary here put a light
+   * blue on white in the dark theme, well under the 4.5:1 minimum.
+   */
   button {
     width: 100%;
     padding: 1rem;
     font-size: 1.05rem;
     font-weight: 600;
-    background: white;
-    color: var(--color-primary);
+    background: var(--app-nav-text);
+    color: var(--app-nav-bg);
     border: none;
     border-radius: var(--radius-lg);
     cursor: pointer;
-    transition: all var(--transition-base);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition:
+      background var(--transition-base),
+      color var(--transition-base),
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+    box-shadow: var(--app-shadow-md);
     margin-top: 0.5rem;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--app-shadow-lg);
       background: var(--app-nav-gradient);
-      color: white;
+      color: var(--app-nav-text);
+      outline: 1px solid var(--app-nav-text);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--app-shadow-sm);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--app-nav-text);
+      outline-offset: 2px;
     }
   }
 
