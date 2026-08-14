@@ -487,7 +487,8 @@ export const AppSidebarStyled = styled.div`
      */
     ${media.md} {
       position: fixed;
-      z-index: 9998;
+      /* Above the top bar (9999) and the backdrop (10000). */
+      z-index: 10001;
       width: 80%;
       max-width: 300px;
       height: 100%;

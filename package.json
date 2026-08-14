@@ -63,7 +63,6 @@
     ]
   },
   "devDependencies": {
-    "playwright-core": "^1.62.1",
     "plop": "^4.0.1"
   }
 }
