@@ -4,7 +4,7 @@ export const UserByPermissionModalStyled = styled.div`
   .item {
     display: grid;
     grid-template-columns: 20% 76% 4%;
-    box-shadow: 1px 1px 6px #00000090;
+    box-shadow: var(--app-shadow-md);
     margin: 10px;
  
     border-radius: 10px;

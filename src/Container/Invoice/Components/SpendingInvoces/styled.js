@@ -6,7 +6,7 @@ export const SpendingInvocesStyled = styled.div`
     grid-template-columns: 20% 40% 10% 15% 5% 5% 5%;
     margin: 5px;
     background-color: white;
-    box-shadow: 1px 1px 4px #00000090;
+    box-shadow: var(--app-shadow-sm);
     border-radius: 5px;
     div {
       display: flex;

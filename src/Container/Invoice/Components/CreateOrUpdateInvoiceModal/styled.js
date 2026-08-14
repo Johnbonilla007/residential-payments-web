@@ -22,7 +22,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     margin-bottom: 0.5rem;
     display: block;
     border-bottom: 1px solid
-      ${(props) => props.theme.colors.border || "#f0f0f0"};
+      var(--surface-border);
     padding-bottom: 0.2rem;
   }
 
@@ -154,7 +154,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     grid-template-columns: 50px 1.5fr 2fr 0.8fr 1fr 1fr 50px;
     padding: 6px 8px;
     border-bottom: 1px solid
-      ${(props) => props.theme.colors.border || "#f0f0f0"};
+      var(--surface-border);
     align-items: center;
     text-align: center;
     font-size: 0.9rem;

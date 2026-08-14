@@ -59,6 +59,11 @@ const light = {
     navBackground: "#002147",
     navText: "#ffffff",
     navGradient: "linear-gradient(135deg, #001f3f 0%, #003366 100%)",
+    groundGradient: "linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%)",
+    surfaceGradient: "linear-gradient(to bottom, #ffffff, #fafbfd)",
+    highlightGradient: "linear-gradient(135deg, #e8f0ff, #f0f4ff)",
+    successGradient: "linear-gradient(135deg, #81c784, #4caf50)",
+    infoGradient: "linear-gradient(135deg, #b3e5fc, #81d4fa)",
 
     // Elevation
     shadowSm: "0 1px 2px rgba(15, 23, 42, 0.06)",
@@ -100,6 +105,11 @@ const dark = {
     navBackground: "#0b1220",
     navText: "#e6edf6",
     navGradient: "linear-gradient(135deg, #0b1220 0%, #16233a 100%)",
+    groundGradient: "linear-gradient(135deg, #0b1220 0%, #111c2e 100%)",
+    surfaceGradient: "linear-gradient(to bottom, #16233a, #111c2e)",
+    highlightGradient: "linear-gradient(135deg, #1e3a5f, #16233a)",
+    successGradient: "linear-gradient(135deg, #2f6b34, #245029)",
+    infoGradient: "linear-gradient(135deg, #1e4a63, #16354a)",
 
     shadowSm: "0 1px 2px rgba(0, 0, 0, 0.4)",
     shadowMd: "0 2px 6px rgba(0, 0, 0, 0.45)",
@@ -191,6 +201,11 @@ export const themeCssVariables = (name) => {
     "--app-shadow-md": colors.shadowMd,
     "--app-shadow-lg": colors.shadowLg,
     "--app-nav-gradient": colors.navGradient,
+    "--app-ground-gradient": colors.groundGradient,
+    "--app-surface-gradient": colors.surfaceGradient,
+    "--app-highlight-gradient": colors.highlightGradient,
+    "--app-success-gradient": colors.successGradient,
+    "--app-info-gradient": colors.infoGradient,
     /**
      * Text over an arbitrary saturated accent fill (e.g. a caller-supplied card
      * colour). Such fills do not change with the theme, so this token must not

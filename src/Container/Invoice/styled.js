@@ -49,7 +49,7 @@ export const InvoiceStyled = styled.div`
   }
 
   .card {
-    background: linear-gradient(to bottom, #ffffff, #fafbfd);
+    background: var(--app-surface-gradient);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;

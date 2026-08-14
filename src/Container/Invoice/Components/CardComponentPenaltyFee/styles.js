@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CardComponentPenaltyFeeStyled = styled.div`
-  background: linear-gradient(to bottom, #ffffff, #fafbfd);
+  background: var(--app-surface-gradient);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -54,7 +54,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
   .residence-image {
     width: 100%;
     height: 110px;
-    background: linear-gradient(135deg, #e8f0ff, #f0f4ff);
+    background: var(--app-highlight-gradient);
     border-bottom: 1px solid rgba(143, 163, 232, 0.1);
 
     img {
@@ -147,7 +147,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
       transition: all 0.2s ease;
 
       &.p-button-success {
-        background: linear-gradient(135deg, #81c784, #4caf50);
+        background: var(--app-success-gradient);
         border: none;
         &:hover {
           transform: translateY(-2px);
@@ -156,7 +156,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
       }
 
       &.p-button-info {
-        background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+        background: var(--app-info-gradient);
         border: none;
         &:hover {
           transform: translateY(-2px);

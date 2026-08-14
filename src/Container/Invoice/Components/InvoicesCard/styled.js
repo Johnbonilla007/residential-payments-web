@@ -49,7 +49,7 @@ export const InvoiceCardStyled = styled.div`
     }
 
     .invoice-header {
-      background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+      background: var(--app-nav-gradient);
       padding: 12px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;

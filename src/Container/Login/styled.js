@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LoginStyled = styled.div`
-  background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #004080 100%);
+  background: var(--app-nav-gradient);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
   display: flex;
@@ -193,7 +193,7 @@ export const LoginStyled = styled.div`
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      background: linear-gradient(135deg, #003366 0%, #001f3f 100%);
+      background: var(--app-nav-gradient);
       color: white;
     }
 

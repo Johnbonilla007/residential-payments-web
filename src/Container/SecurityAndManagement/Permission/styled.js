@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PermissionStyled = styled.div`
   .item-rol {
-    box-shadow: 2px 2px 6px #00000080;
+    box-shadow: var(--app-shadow-md);
     margin: 10px;
     transition: 0.4s ease;
     .title {
@@ -48,7 +48,7 @@ export const PermissionStyled = styled.div`
 
     .item-permission {
       display: flex;
-      box-shadow: 2px 2px 6px #00000080;
+      box-shadow: var(--app-shadow-md);
 
       margin: 10px;
       border-radius: 5px;
@@ -58,7 +58,7 @@ export const PermissionStyled = styled.div`
         padding: 10px;
         margin-right: 10px;
         width: 300px;
-        box-shadow: 1px 1px 2px #00000080;
+        box-shadow: var(--app-shadow-sm);
         color: var(--primary-color-text);
         font-size: 12pt;
       }

@@ -88,7 +88,7 @@ export const CardComponentStyled = styled.div`
   .residence-image {
     width: 100%;
     height: 110px;
-    background: linear-gradient(135deg, #e8f0ff, #f0f4ff);
+    background: var(--app-highlight-gradient);
     border-bottom: 1px solid rgba(143, 163, 232, 0.1);
 
     img {
@@ -180,7 +180,7 @@ export const CardComponentStyled = styled.div`
       transition: all 0.2s ease;
 
       &.p-button-info {
-        background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+        background: var(--app-info-gradient);
         border: none;
 
         &:hover {

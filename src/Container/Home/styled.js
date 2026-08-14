@@ -7,7 +7,7 @@ export const HomeStyled = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: var(--app-ground-gradient);
   animation: fadeIn 0.6s ease-out;
 
   @keyframes fadeIn {
@@ -47,7 +47,7 @@ export const HomeStyled = styled.div`
   h1 {
     font-size: 2.75rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #002147 0%, #004080 100%);
+    background: var(--app-nav-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -72,7 +72,7 @@ export const HomeStyled = styled.div`
     border-top: 1px solid rgba(0, 0, 0, 0.06);
 
     .feature-card {
-      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      background: var(--app-surface-gradient);
       padding: 1.75rem;
       border-radius: 16px;
       border: 1px solid rgba(0, 33, 71, 0.06);
@@ -87,7 +87,7 @@ export const HomeStyled = styled.div`
       .feature-icon {
         width: 50px;
         height: 50px;
-        background: linear-gradient(135deg, #002147 0%, #004080 100%);
+        background: var(--app-nav-gradient);
         border-radius: 12px;
         display: flex;
         align-items: center;
