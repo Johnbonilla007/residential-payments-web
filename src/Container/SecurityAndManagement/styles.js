@@ -9,7 +9,7 @@ export const SecurityAndManagementContainerSyled = styled.div`
   padding: 30px;
   max-height: 80vh;
   scrollbar-width: thin; /* Para Firefox */
-  scrollbar-color: #002147 #fff; /* Para Firefox */
+  scrollbar-color: var(--app-primary) var(--surface-card); /* Para Firefox */
   margin-top: 20px;
   .item {
     margin: 10px;

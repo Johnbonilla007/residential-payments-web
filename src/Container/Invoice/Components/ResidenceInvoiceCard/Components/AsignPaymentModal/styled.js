@@ -17,7 +17,7 @@ export const AsignPaymentModalStyled = styled.div`
 
   .payment-table {
     margin-top: 2rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--surface-border);
   }
 
   .action-buttons {

@@ -13,7 +13,7 @@ export const UserByPermissionModalStyled = styled.div`
       font-size: 14pt;
       font-weight: 700;
       align-items: center;
-      background-color:#cccccc;
+      background-color:var(--surface-hover);
       padding: 10px;
       border-radius: 10px;
       margin-right: 5px;
@@ -33,7 +33,7 @@ export const UserByPermissionModalStyled = styled.div`
       width: 30px;
       height: 30px;
       :hover {
-        background-color: #ccc;
+        background-color: var(--surface-hover);
       }
     }
   }

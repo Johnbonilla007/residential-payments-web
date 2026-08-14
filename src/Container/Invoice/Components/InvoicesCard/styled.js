@@ -148,7 +148,7 @@ export const InvoiceCardStyled = styled.div`
     .total-amount {
       font-size: 1.1rem;
       font-weight: 800;
-      color: #2e7d32; /* Verde dinero */
+      color: var(--app-success); /* Verde dinero */
     }
   }
 `;

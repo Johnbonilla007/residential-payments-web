@@ -21,7 +21,7 @@ export const PayPenaltyFeeStyled = styled.div`
     .calendar {
       padding: 0.5rem;
       border-radius: 4px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--surface-border);
     }
 
     .calendar {

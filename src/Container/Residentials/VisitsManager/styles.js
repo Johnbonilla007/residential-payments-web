@@ -61,7 +61,7 @@ export const VisitsManagerStyled = styled.div`
   h4 {
     margin-top: 1rem;
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-color);
 
     @media (max-width: 768px) {
       font-size: 1.25rem;
@@ -72,7 +72,7 @@ export const VisitsManagerStyled = styled.div`
   p {
     text-align: center;
     font-size: 1rem;
-    color: #555;
+    color: var(--text-color-secondary);
 
     @media (max-width: 768px) {
       font-size: 0.9rem;
@@ -150,28 +150,28 @@ export const TableStyled = styled.div`
     border-collapse: collapse;
     font-size: 0.9rem;
     text-align: left;
-    background-color: #fff;
+    background-color: var(--surface-card);
 
     th,
     td {
       padding: 0.8rem;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--surface-border);
       white-space: nowrap;
     }
 
     th {
-      background-color: #f7f7f7;
+      background-color: var(--surface-card);
       font-weight: bold;
-      color: #333;
+      color: var(--text-color);
     }
 
     tr:nth-child(even) {
-      background-color: #f9f9f9;
+      background-color: var(--surface-card);
     }
 
     tr:hover {
-      background-color: #f1f1f1;
+      background-color: var(--surface-card);
     }
 
     @media (max-width: 768px) {

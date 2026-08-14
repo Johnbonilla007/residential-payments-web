@@ -17,7 +17,7 @@ export const ReportStyled = styled.div`
     }
     .table {
       width: 100%;
-      border: 1px solid #000;
+      border: 1px solid var(--surface-border);
       border-radius: 15px;
       padding: 5px;
     }
@@ -28,7 +28,7 @@ export const ReportStyled = styled.div`
       align-items: center;
     }
     .buttonPDF {
-      background-color: "#77dd77";
+      background-color: "var(--app-success)";
     }
   }
 `;

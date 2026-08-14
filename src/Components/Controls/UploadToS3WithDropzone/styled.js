@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "../../../Styles/themes";
 
 export const UploadToS3WithDropzoneStyled = styled.div`
   display: flex;
@@ -6,27 +7,38 @@ export const UploadToS3WithDropzoneStyled = styled.div`
   gap: 20px;
   align-items: center;
   padding: 20px;
-  padding: 20px;
-  background: ${(props) => props.theme.colors.cardBg};
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--surface-card);
+  color: var(--text-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--app-shadow-md);
+  transition:
+    background-color var(--transition-base),
+    box-shadow var(--transition-base);
 
   .button-group {
     display: flex;
     gap: 15px;
 
     .upload-button {
-      background-color: #007bff;
-      color: #fff;
+      background-color: var(--app-primary);
+      color: var(--primary-color-text);
       padding: 10px 20px;
       font-size: 14px;
       border: none;
-      border-radius: 5px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition:
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
 
       &:hover {
-        background-color: #0056b3;
+        background-color: var(--app-primary-hover);
+        box-shadow: var(--app-shadow-md);
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
       }
     }
   }
@@ -45,20 +57,23 @@ export const UploadToS3WithDropzoneStyled = styled.div`
       width: 100%;
       max-width: 400px;
       padding: 20px;
-      border: 2px dashed ${(props) => props.theme.colors.primary};
-      border-radius: 8px;
-      background-color: ${(props) => props.theme.colors.surface};
+      border: 2px dashed var(--app-primary);
+      border-radius: var(--radius-md);
+      background-color: var(--surface-section);
       text-align: center;
       cursor: pointer;
-      transition: border-color 0.3s ease;
+      transition:
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
 
       &:hover {
-        border-color: #0056b3;
+        border-color: var(--app-primary-hover);
+        background-color: var(--surface-hover);
       }
 
       p {
         font-size: 14px;
-        color: ${(props) => props.theme.colors.text};
+        color: var(--text-color);
       }
     }
 
@@ -68,29 +83,37 @@ export const UploadToS3WithDropzoneStyled = styled.div`
       .webcam {
         width: 100%;
         max-width: 400px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: var(--radius-md);
+        box-shadow: var(--app-shadow-md);
       }
     }
 
     .capture-button {
       margin-top: 15px;
-      background-color: #28a745;
-      color: #fff;
+      background-color: var(--app-success);
+      color: var(--primary-color-text);
       padding: 10px 15px;
       font-size: 14px;
       border: none;
-      border-radius: 5px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition:
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
 
       &:hover {
-        background-color: #218838;
+        box-shadow: var(--app-shadow-md);
+        filter: brightness(0.94);
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
       }
     }
   }
 
-  @media (max-width: 768px) {
+  ${media.md} {
     padding: 15px;
 
     .button-group {

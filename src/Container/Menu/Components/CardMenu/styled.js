@@ -63,7 +63,7 @@ export const CardMenuStyled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: var(--app-on-accent);
     font-size: 2rem;
     margin-right: 1.25rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

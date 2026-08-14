@@ -147,16 +147,21 @@ export const DefaultLayoutStyled = styled.div`
       padding: 0.75rem 1.5rem;
       background: rgba(239, 68, 68, 0.1);
       border: 2px solid rgba(239, 68, 68, 0.4);
-      color: #ef4444;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: var(--app-error);
+      transition:
+        background-color var(--transition-base),
+        border-color var(--transition-base),
+        color var(--transition-base),
+        box-shadow var(--transition-base),
+        transform var(--transition-base);
+      box-shadow: var(--app-shadow-sm);
 
       &:hover {
-        background: #ef4444;
-        border-color: #ef4444;
-        color: white;
+        background: var(--app-error);
+        border-color: var(--app-error);
+        color: var(--app-nav-text);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        box-shadow: var(--app-shadow-md);
       }
 
       &:active {
@@ -263,7 +268,7 @@ export const DefaultLayoutStyled = styled.div`
     justify-content: center;
     background: var(--primary-gradient);
     width: 100%;
-    color: #fff;
+    color: var(--app-nav-text);
     font-weight: 500;
     padding: 1rem;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
@@ -286,7 +291,7 @@ export const DefaultLayoutStyled = styled.div`
     > .p-menuitem
     > .p-menuitem-link
     .p-menuitem-text {
-    color: #fff;
+    color: var(--app-nav-text);
     font-weight: 600;
     font-size: 1rem;
     letter-spacing: 0.3px;
@@ -298,7 +303,7 @@ export const DefaultLayoutStyled = styled.div`
     > .p-menuitem
     > .p-menuitem-link
     .p-menuitem-icon {
-    color: #fff;
+    color: var(--app-nav-text);
     transition: all 0.3s ease;
     margin-right: 0.5rem;
     font-size: 1.1rem;
@@ -468,7 +473,7 @@ export const AppSidebarStyled = styled.div`
     }
 
     &:hover {
-      color: #ffffff;
+      color: var(--app-nav-text);
       transform: translateX(4px);
 
       &::before {
@@ -478,9 +483,9 @@ export const AppSidebarStyled = styled.div`
 
     &.active {
       background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
+      color: var(--app-nav-text);
       font-weight: 600;
-      border-left: 4px solid #ffffff;
+      border-left: 4px solid var(--surface-border);
       box-shadow: var(--shadow-md);
     }
   }
@@ -527,13 +532,13 @@ export const AppSidebarStyled = styled.div`
 
     &:hover {
       background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+      color: var(--app-nav-text);
       transform: translateX(4px);
     }
 
     &.active {
       background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
+      color: var(--app-nav-text);
       font-weight: 600;
       border-left: 3px solid rgba(255, 255, 255, 0.8);
       box-shadow: var(--shadow-sm);

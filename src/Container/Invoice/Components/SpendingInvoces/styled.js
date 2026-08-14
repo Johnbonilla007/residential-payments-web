@@ -15,7 +15,7 @@ export const SpendingInvocesStyled = styled.div`
       font-weight: 600;
     }
     .invoiceno {
-      background-color: #82c294;
+      background-color: var(--app-success);
       height: 50px;
       display: flex;
       align-items: center;

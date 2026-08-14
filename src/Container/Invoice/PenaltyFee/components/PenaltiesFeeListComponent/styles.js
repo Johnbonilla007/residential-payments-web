@@ -4,9 +4,9 @@ export const PenaltiesFeeListComponentStyled = styled.div`
   .penalty-item {
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--surface-border);
     border-radius: 10px;
-    background-color: #fafafa;
+    background-color: var(--surface-card);
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -28,12 +28,12 @@ export const PenaltiesFeeListComponentStyled = styled.div`
     .item-header {
       font-size: 18px;
       font-weight: bold;
-      color: #007bff;
+      color: var(--app-primary);
     }
 
     .item-detail {
       font-size: 16px;
-      color: #333;
+      color: var(--text-color);
       margin-bottom: 5px;
 
       span {
@@ -61,7 +61,7 @@ export const PenaltiesFeeListComponentStyled = styled.div`
   .loading {
     text-align: center;
     font-size: 20px;
-    color: #007bff;
+    color: var(--app-primary);
     margin-top: 20px;
   }
 

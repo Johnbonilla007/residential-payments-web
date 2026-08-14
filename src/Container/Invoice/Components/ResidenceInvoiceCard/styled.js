@@ -10,7 +10,7 @@ export const ResidenceInvoiceCardStyled = styled.div`
   height: 75vh;
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) #f0f0f0;
+  scrollbar-color: var(--color-primary) var(--text-color);
 
   /* Custom scrollbar for webkit browsers */
   &::-webkit-scrollbar {
@@ -18,7 +18,7 @@ export const ResidenceInvoiceCardStyled = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: #f0f0f0;
+    background: var(--surface-card);
     border-radius: 10px;
   }
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CreateOrUpdateInvoiceModalStyled = styled.div`
   overflow-y: auto;
   padding: 1rem;
-  background-color: ${(props) => props.theme.colors.background || "#f8f9fa"};
+  background-color: ${(props) => props.theme.colors.background || "var(--surface-card)"};
 
   /* SECCIONES (Tarjetas) - COMPACTO */
   .section-card {
@@ -12,13 +12,13 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 0.5rem;
-    border: 1px solid ${(props) => props.theme.colors.border || "#e0e0e0"};
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
   }
 
   .section-title {
     font-size: 1rem;
     font-weight: 700;
-    color: ${(props) => props.theme.colors.text || "#002147"};
+    color: ${(props) => props.theme.colors.text || "var(--app-primary)"};
     margin-bottom: 0.5rem;
     display: block;
     border-bottom: 1px solid
@@ -104,7 +104,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
   .p-float-label > label {
     left: 0.5rem;
     background-color: ${(props) => props.theme.colors.cardBg || "white"};
-    color: ${(props) => props.theme.colors.textSecondary || "#666"};
+    color: ${(props) => props.theme.colors.textSecondary || "var(--text-color-secondary)"};
     padding: 0 5px;
     margin-top: -8px;
   }
@@ -121,11 +121,11 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid ${(props) => props.theme.colors.border || "#e0e0e0"};
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
   }
 
   .header-detail {
-    background-color: ${(props) => props.theme.colors.primary || "#002147"};
+    background-color: ${(props) => props.theme.colors.primary || "var(--app-primary)"};
     color: white;
     display: grid;
     grid-template-columns: 50px 1.5fr 2fr 0.8fr 1fr 1fr 50px;
@@ -144,7 +144,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
       width: 6px;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: ${(props) => props.theme.colors.border || "#ccc"};
+      background-color: ${(props) => props.theme.colors.border || "var(--surface-hover)"};
       border-radius: 4px;
     }
   }
@@ -161,7 +161,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     color: ${(props) => props.theme.colors.text || "inherit"};
 
     &:hover {
-      background-color: ${(props) => props.theme.colors.hoverBg || "#f9fbfd"};
+      background-color: ${(props) => props.theme.colors.hoverBg || "var(--surface-card)"};
     }
 
     &:last-child {
@@ -175,7 +175,7 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     gap: 1rem;
     margin-top: 1rem;
     padding-top: 0.5rem;
-    border-top: 1px solid ${(props) => props.theme.colors.border || "#e0e0e0"};
+    border-top: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
   }
 
   /* BARRA DE INFO DE PAGO */
@@ -185,10 +185,10 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     flex-wrap: wrap;
     gap: 1.5rem;
     padding: 0.6rem 1rem;
-    background-color: ${(props) => props.theme.colors.surface || "#f1f3f5"};
+    background-color: ${(props) => props.theme.colors.surface || "var(--surface-card)"};
     border-radius: 6px;
     margin-top: 5px;
-    border: 1px solid ${(props) => props.theme.colors.border || "#e9ecef"};
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
   }
 
   .info-tag {
@@ -196,14 +196,14 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
-    color: ${(props) => props.theme.colors.textSecondary || "#495057"};
+    color: ${(props) => props.theme.colors.textSecondary || "var(--text-color)"};
 
     &.highlight {
-      color: ${(props) => props.theme.colors.primary || "#002147"};
+      color: ${(props) => props.theme.colors.primary || "var(--app-primary)"};
 
       .info-value {
-        color: ${(props) => props.theme.colors.text || "#0d47a1"};
-        background-color: ${(props) => props.theme.colors.hoverBg || "#e3f2fd"};
+        color: ${(props) => props.theme.colors.text || "var(--app-primary)"};
+        background-color: ${(props) => props.theme.colors.hoverBg || "var(--highlight-bg)"};
         padding: 2px 6px;
         border-radius: 4px;
       }

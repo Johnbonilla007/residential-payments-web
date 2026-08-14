@@ -1,4 +1,3 @@
-// styles.js
 import styled from "styled-components";
 
 export const SignatureContainer = styled.div`
@@ -7,21 +6,22 @@ export const SignatureContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 20px;
-  font-family: Arial, sans-serif;
 
   h3 {
     margin-bottom: 10px;
-    color: #333;
+    color: var(--text-color);
   }
 `;
 
 export const SignatureCanvasWrapper = styled.div`
-  border: 2px solid #ccc;
-  border-radius: 5px;
+  border: 2px solid var(--surface-border);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   height: 80px;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   position: relative;
+  transition: border-color var(--transition-fast);
 
   .input-text {
     display: flex;
@@ -40,27 +40,36 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   margin-top: 15px;
 
-  button {
+  button:not(.p-button) {
     padding: 8px 15px;
     margin: 0 5px;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.3s ease;
+    transition:
+      background-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      opacity var(--transition-fast);
 
     &.save {
-      background-color: #4caf50;
-      color: #fff;
+      background-color: var(--app-success);
+      color: var(--primary-color-text);
     }
 
     &.clear {
-      background-color: #f44336;
-      color: #fff;
+      background-color: var(--app-error);
+      color: var(--primary-color-text);
     }
 
     &:hover {
-      opacity: 0.8;
+      opacity: 0.85;
+      box-shadow: var(--app-shadow-md);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
     }
   }
 `;
@@ -70,8 +79,8 @@ export const SavedSignature = styled.div`
   text-align: center;
 
   img {
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-sm);
     width: 100%;
     max-width: 500px;
     height: auto;
@@ -79,6 +88,6 @@ export const SavedSignature = styled.div`
 
   h4 {
     margin-bottom: 10px;
-    color: #333;
+    color: var(--text-color);
   }
 `;

@@ -1,25 +1,21 @@
 import { createGlobalStyle } from "styled-components";
+import { media } from "./Styles/themes";
 
+/**
+ * Global styles.
+ *
+ * Two rules govern this file:
+ *
+ *   1. No colors are declared here. Colors come from the token custom
+ *      properties written by `ThemeContext`; this file only reads them.
+ *   2. No bare type selectors for form controls (`input`, `button`, `select`,
+ *      `textarea`). Those selectors also match every PrimeReact control and,
+ *      loading after the PrimeReact theme, silently override its padding,
+ *      border and radius — which desynchronises control heights across forms.
+ *      Style application controls through their own class instead.
+ */
 const GlobalStyles = createGlobalStyle`
   :root {
-    /* Soft Premium Color Palette - Pastel & Gentle */
-    --primary-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
-    --secondary-gradient: linear-gradient(135deg, #ffd4e5 0%, #ffb3ba 100%);
-    --success-gradient: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
-    --dark-gradient: linear-gradient(135deg, #546e7a 0%, #607d8b 50%, #78909c 100%);
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.15);
-    
-    /* Neutral Soft Colors */
-    --color-primary: #003366;
-    --color-secondary: #001f3f;
-    --color-dark: #37474f;
-    --color-light: #fafbfc;
-    --color-text: #546e7a;
-    --color-text-light: #90a4ae;
-    --color-border: #eceff1;
-    --color-shadow: rgba(0, 0, 0, 0.06);
-    
     /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -27,26 +23,23 @@ const GlobalStyles = createGlobalStyle`
     --spacing-lg: 1.5rem;
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
-    
-    /* Border Radius */
+
+    /* Border radius */
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
     --radius-2xl: 1.5rem;
     --radius-full: 9999px;
-    
-    /* Soft Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-    --shadow-md: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 6px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-    --shadow-xl: 0 12px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-2xl: 0 20px 30px -8px rgba(0, 0, 0, 0.12);
-    
+
     /* Transitions */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
   html {
@@ -56,28 +49,34 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     margin: 0;
-    padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text);
-    background-color: var(--color-light);
+    color: var(--text-color);
+    background-color: var(--surface-ground);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  * {
-    box-sizing: border-box;
+  /* Scoped reset: only the elements whose default margins we actually fight. */
+  h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
     margin: 0;
-    padding: 0;
+  }
+
+  ul, ol {
+    margin: 0;
+  }
+
+  img, picture, svg, video, canvas {
+    max-width: 100%;
   }
 
   /* Typography */
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
-    color: var(--color-dark);
+    color: var(--text-color);
     margin-bottom: var(--spacing-md);
   }
 
@@ -94,61 +93,213 @@ const GlobalStyles = createGlobalStyle`
     margin-bottom: var(--spacing-md);
   }
 
-  /* Form Elements with Premium Styling */
-  input, button, select, textarea {
-    font-family: inherit;
-    font-size: 0.95rem;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    transition: all var(--transition-base);
+  /**
+   * Theme switch cross-fade.
+   *
+   * ThemeContext adds the theme-transition class to the root element for the
+   * duration of the switch only. Keeping a colour transition on everything
+   * permanently would
+   * make each hover repaint the subtree, so this is deliberately temporary and
+   * limited to the properties a theme change actually alters.
+   */
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition:
+      background-color var(--transition-base),
+      background-image var(--transition-base),
+      border-color var(--transition-base),
+      color var(--transition-base),
+      fill var(--transition-base),
+      box-shadow var(--transition-base) !important;
+    transition-delay: 0s !important;
+  }
+
+  /**
+   * Interaction polish for PrimeReact controls.
+   *
+   * Transitions and shadows only — never padding, border-width or font-size,
+   * which would shift layout and desynchronise control heights. Each selector
+   * is scoped to a PrimeReact class rather than a bare type selector.
+   */
+  .p-button,
+  .p-inputtext,
+  .p-dropdown,
+  .p-multiselect,
+  .p-calendar .p-inputtext,
+  .p-inputnumber .p-inputtext,
+  .p-checkbox .p-checkbox-box,
+  .p-radiobutton .p-radiobutton-box {
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  /**
+   * Control boundaries carry the accessible border token, not the divider one.
+   * WCAG 1.4.11 asks for 3:1 against the adjacent surface for any boundary that
+   * identifies a control; the softer divider colour does not reach it.
+   */
+  .p-inputtext,
+  .p-dropdown,
+  .p-multiselect,
+  .p-calendar .p-inputtext,
+  .p-inputnumber .p-inputtext,
+  .p-checkbox .p-checkbox-box,
+  .p-radiobutton .p-radiobutton-box {
+    border-color: var(--app-control-border);
+  }
+
+  .p-button:not(:disabled):not(.p-disabled):hover {
+    box-shadow: var(--app-shadow-md);
+  }
+
+  .p-button:not(:disabled):not(.p-disabled):active {
+    transform: translateY(1px);
+  }
+
+  /* Keyboard focus must stay visible on every control, in both themes. */
+  .p-button:focus-visible,
+  .p-inputtext:focus-visible,
+  .p-dropdown:focus-within,
+  .p-multiselect:focus-within {
     outline: none;
+    box-shadow: var(--focus-ring);
   }
 
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  /**
+   * Floating labels.
+   *
+   * This is the project's single label pattern. Applying it here makes every
+   * existing call site behave the same without editing each one.
+   *
+   * A floating label sits inside the field until the field has a value, so it
+   * reads as a placeholder while empty — that is the intended behaviour, but it
+   * only works if the label is a sibling of the control and the control is not
+   * also given a placeholder. Both are enforced by the FormField component.
+   */
+  .p-float-label {
+    display: block;
   }
 
-  button {
-    cursor: pointer;
-    font-weight: 500;
-    transition: all var(--transition-base);
+  .p-float-label > label {
+    color: var(--text-color-secondary);
+    transition:
+      top var(--transition-fast),
+      font-size var(--transition-fast),
+      color var(--transition-fast);
   }
 
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+  /* The raised label crosses the field border, so it needs its own ground. */
+  .p-float-label input:focus ~ label,
+  .p-float-label input.p-filled ~ label,
+  .p-float-label textarea:focus ~ label,
+  .p-float-label textarea.p-filled ~ label,
+  .p-float-label .p-inputwrapper-focus ~ label,
+  .p-float-label .p-inputwrapper-filled ~ label {
+    background: var(--surface-section);
+    padding: 0 0.25rem;
+    color: var(--app-primary);
   }
 
-  button:active {
-    transform: translateY(0);
+  /* A textarea's label must sit at the top, not vertically centred. */
+  .p-float-label textarea ~ label {
+    top: 1rem;
+    transform: none;
   }
 
-  /* Utility Classes */
+  /* Rows and clickable cards settle instead of snapping. */
+  .p-datatable .p-datatable-tbody > tr,
+  .p-paginator .p-paginator-page,
+  .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  /**
+   * Responsive dialogs, applied once for every call site.
+   *
+   * Most dialogs in this app set an inline width of 50vw (and some an inline
+   * height), which on a phone is an unusable sliver. The PrimeReact breakpoints
+   * prop only generates media queries like these, so overriding here fixes
+   * every dialog at once instead of editing each call site. The !important is
+   * required because the widths are inline styles.
+   */
+  ${media.lg} {
+    .p-dialog {
+      width: 75vw !important;
+    }
+  }
+
+  ${media.md} {
+    .p-dialog {
+      width: 92vw !important;
+      max-width: 92vw !important;
+      /* Inline fixed heights would clip the content on short screens. */
+      height: auto !important;
+      max-height: 90vh;
+      margin: 0;
+    }
+
+    .p-dialog .p-dialog-content {
+      overflow-y: auto;
+    }
+
+    /* Controls carrying hardcoded widths must not overflow the dialog. */
+    .p-dialog .p-inputtext,
+    .p-dialog .p-dropdown,
+    .p-dialog .p-calendar,
+    .p-dialog .p-inputnumber {
+      max-width: 100%;
+    }
+  }
+
+  /* Overlays enter with a short, non-bouncy motion. */
+  .p-dialog,
+  .p-sidebar,
+  .p-overlaypanel,
+  .p-toast .p-toast-message {
+    box-shadow: var(--app-shadow-lg);
+  }
+
+  .p-dialog-enter-active {
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  /* Utility classes */
   .text-center { text-align: center; }
   .text-left { text-align: left; }
   .text-right { text-align: right; }
-  
-  /* Scrollbar Styling */
+
+  /* Scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--app-primary) var(--surface-ground);
+  }
+
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--color-light);
+    background: var(--surface-ground);
     border-radius: var(--radius-full);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: var(--app-primary);
     border-radius: var(--radius-full);
     transition: background var(--transition-base);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+    background: var(--app-primary-hover);
   }
 
   /* Animations */
@@ -181,12 +332,21 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Responsive Typography */
-  @media (max-width: 768px) {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Responsive typography */
+  ${media.md} {
     html {
       font-size: 14px;
     }
-    
+
     h1 { font-size: 2rem; }
     h2 { font-size: 1.75rem; }
     h3 { font-size: 1.5rem; }
@@ -195,7 +355,7 @@ const GlobalStyles = createGlobalStyle`
     h6 { font-size: 1rem; }
   }
 
-  @media (max-width: 480px) {
+  ${media.sm} {
     html {
       font-size: 13px;
     }

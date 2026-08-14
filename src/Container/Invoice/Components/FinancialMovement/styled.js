@@ -2,26 +2,27 @@ import styled from "styled-components";
 
 export const FinancialMovementStyled = styled.div`
   .financial-movement-card {
-    border: 1px solid #ddd;
+    border: 1px solid var(--surface-border);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
     margin: 16px;
 
-    background-color: #fff;
+    background-color: var(--surface-card);
   }
 
+  /* Always-dark header band, so its text follows the nav token, not the fill. */
   .card-header {
     flex: 1;
     margin-right: 16px;
-    background-color: #3d6064;
+    background-color: var(--app-nav-bg);
     padding: 16px;
-    color: #fff;
+    color: var(--app-nav-text);
     p {
       font-size: 12pt;
       font-weight: 600;
-      color: #fff;
+      color: var(--app-nav-text);
     }
   }
 
@@ -62,13 +63,13 @@ export const FinancialMovementStyled = styled.div`
   .btn-delete {
     background-color: transparent;
     border: none;
-    color: #d9534f;
+    color: var(--app-error);
     cursor: pointer;
 
     font-size: 24px;
   }
 
   .btn-delete:hover {
-    color: #c9302c;
+    color: var(--app-error);
   }
 `;

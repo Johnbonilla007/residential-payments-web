@@ -30,7 +30,7 @@ export const InvoiceStyled = styled.div`
     max-height: 78vh;
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--color-primary, #002147) #f0f0f0;
+    scrollbar-color: var(--color-primary, var(--app-primary)) var(--text-color);
 
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
@@ -38,12 +38,12 @@ export const InvoiceStyled = styled.div`
     }
 
     &::-webkit-scrollbar-track {
-      background: #f0f0f0;
+      background: var(--surface-card);
       border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: var(--color-primary, #002147);
+      background: var(--color-primary, var(--app-primary));
       border-radius: 10px;
     }
   }
@@ -63,7 +63,7 @@ export const InvoiceStyled = styled.div`
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-      border-color: var(--color-primary, #002147);
+      border-color: var(--color-primary, var(--app-primary));
     }
   }
 
@@ -98,7 +98,7 @@ export const InvoiceStyled = styled.div`
 
     &:hover {
       transform: scale(1.15);
-      background-color: #84b6f4;
+      background-color: var(--app-primary-hover);
       opacity: 1 !important;
     }
   }
@@ -121,14 +121,14 @@ export const InvoiceStyled = styled.div`
         font-size: 1.35rem;
         font-weight: 600;
         margin-bottom: 0.75rem;
-        color: #1a1a1a;
+        color: var(--text-color);
         line-height: 1.3;
       }
 
       .card-text {
         font-size: 0.95rem;
         margin-bottom: 0.5rem;
-        color: #666;
+        color: var(--text-color-secondary);
         line-height: 1.5;
       }
     }

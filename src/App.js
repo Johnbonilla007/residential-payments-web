@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DefaultLayout } from "./Components/DefaultLayout/DefaultLayout";
 import "primereact/resources/primereact.min.css"; //core css

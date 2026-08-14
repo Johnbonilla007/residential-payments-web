@@ -136,7 +136,7 @@ const SpecialVisit = () => {
         {specialVisits?.length > 0 && (
           <div className="container-card">
             {specialVisits.map((visit) => (
-              <div key={visit.id} className="p-col-12 p-md-4">
+              <div key={visit.id} className="visit-card">
                 <Card
                   title={visit.name}
                   subTitle={`Residential No: ${visit.residentialNo}`}

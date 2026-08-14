@@ -57,7 +57,7 @@ export const HomeStyled = styled.div`
 
   p {
     font-size: 1.2rem;
-    color: #546e7a;
+    color: var(--text-color);
     line-height: 1.8;
     max-width: 650px;
     margin: 0 auto;
@@ -81,7 +81,7 @@ export const HomeStyled = styled.div`
       &:hover {
         transform: translateY(-6px);
         box-shadow: 0 12px 30px rgba(0, 33, 71, 0.12);
-        border-color: #002147;
+        border-color: var(--app-primary);
       }
 
       .feature-icon {
@@ -100,13 +100,13 @@ export const HomeStyled = styled.div`
       h3 {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #1a1a1a;
+        color: var(--text-color);
         margin-bottom: 0.5rem;
       }
 
       p {
         font-size: 0.9rem;
-        color: #666;
+        color: var(--text-color-secondary);
         line-height: 1.6;
       }
     }

@@ -11,30 +11,30 @@ export const PermissionStyled = styled.div`
       align-items: center;
       grid-template-columns: 20% 60% 20%;
       background-color: rebeccapurple;
-      color: #fff;
+      color: var(--primary-color-text);
       padding:5px;
       .delete{
         display:flex;
         justify-content: center;
         align-items: center;
-        background-color: #fff;
+        background-color: var(--surface-card);
         width: 25px;
         height: 25px;
         border-radius: 12px;
         :hover {
-          background-color: #ccc;
+          background-color: var(--surface-hover);
         }
       }
       .edit{
         display:flex;
         justify-content: center;
         align-items: center;
-        background-color: #fff;
+        background-color: var(--surface-card);
         width: 25px;
         height: 25px;
         border-radius: 12px;
         :hover {
-          background-color: #ccc;
+          background-color: var(--surface-hover);
         }
       }
     }
@@ -54,12 +54,12 @@ export const PermissionStyled = styled.div`
       border-radius: 5px;
       transition: 0.4s ease;
       .title {
-        background-color: #336ca5;
+        background-color: var(--app-primary);
         padding: 10px;
         margin-right: 10px;
         width: 300px;
         box-shadow: 1px 1px 2px #00000080;
-        color: #fff;
+        color: var(--primary-color-text);
         font-size: 12pt;
       }
       .description {
@@ -74,7 +74,7 @@ export const PermissionStyled = styled.div`
         width: 30px;
         border-radius: 5px 0px 0px 5px;
         :hover {
-          background-color: #ccc;
+          background-color: var(--surface-hover);
         }
       }
       .edit {
@@ -84,7 +84,7 @@ export const PermissionStyled = styled.div`
         border-radius: 0px 5px 5px 0px;
         width: 50px;
         :hover {
-          background-color: #ccc;
+          background-color: var(--surface-hover);
         }
       }
       :hover {

@@ -4,7 +4,7 @@ export const PenaltyFeeFormStyled = styled.div`
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  background: #fff;
+  background: var(--surface-card);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
@@ -30,12 +30,12 @@ export const PenaltyFeeFormStyled = styled.div`
       width: 100%;
       padding: 10px;
       font-size: 14px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--surface-border);
       border-radius: 5px;
       transition: border-color 0.3s ease;
 
       &:focus {
-        border-color: #007bff;
+        border-color: var(--app-primary);
         outline: none;
       }
     }
@@ -44,10 +44,10 @@ export const PenaltyFeeFormStyled = styled.div`
       position: absolute;
       top: -10px;
       left: 10px;
-      background: #fff;
+      background: var(--surface-card);
       padding: 0 5px;
       font-size: 12px;
-      color: #555;
+      color: var(--text-color-secondary);
       transition: color 0.3s ease;
     }
   }
@@ -58,7 +58,7 @@ export const PenaltyFeeFormStyled = styled.div`
 
   .field-value {
     font-size: 16px;
-    color: #007bff;
+    color: var(--app-primary);
   }
 
   .image-container {
@@ -94,7 +94,7 @@ export const PenaltyFeeFormStyled = styled.div`
         cursor: pointer;
 
         .edit-icon {
-          color: #fff;
+          color: var(--primary-color-text);
           font-size: 16px;
         }
       }
@@ -103,8 +103,8 @@ export const PenaltyFeeFormStyled = styled.div`
     .upload-button {
       display: inline-block;
       margin: 10px 5px;
-      background-color: #007bff;
-      color: #fff;
+      background-color: var(--app-primary);
+      color: var(--primary-color-text);
       padding: 10px 15px;
       font-size: 14px;
       border: none;
@@ -113,7 +113,7 @@ export const PenaltyFeeFormStyled = styled.div`
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: var(--app-primary-hover);
       }
     }
   }
@@ -128,8 +128,8 @@ export const PenaltyFeeFormStyled = styled.div`
   }
 
   .upload-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--app-primary);
+    color: var(--primary-color-text);
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -137,7 +137,7 @@ export const PenaltyFeeFormStyled = styled.div`
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: var(--app-primary-hover);
     }
   }
 

@@ -8,19 +8,19 @@ export const UsersContainerStyled = styled.div`
   padding: 2rem;
   max-height: 80vh;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary, #002147) #f0f0f0;
+  scrollbar-color: var(--color-primary, var(--app-primary)) var(--text-color);
 
   &::-webkit-scrollbar {
     width: 8px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f0f0f0;
+    background: var(--surface-card);
     border-radius: 10px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--color-primary, #002147);
+    background: var(--color-primary, var(--app-primary));
     border-radius: 10px;
   }
 
@@ -39,7 +39,7 @@ export const UsersContainerStyled = styled.div`
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-      border-color: var(--color-primary, #002147);
+      border-color: var(--color-primary, var(--app-primary));
     }
   }
 

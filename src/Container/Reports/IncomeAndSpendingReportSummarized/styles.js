@@ -64,18 +64,18 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
   }
 
   .total.negative {
-    color: red;
+    color: var(--app-error);
   }
 
   .total.difference {
     font-weight: bold;
     padding: 5px;
     border-radius: 8px;
-    background-color: #e0ffe0; /* Por defecto verde claro */
+    background-color: var(--app-success-soft); /* Positiva por defecto */
   }
 
   .total.difference.negative {
-    background-color: #ffe0e0; /* Rojo claro si la diferencia es negativa */
+    background-color: var(--app-error-soft);
   }
 
   .table-available {
@@ -96,6 +96,6 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
   }
 
   .table-available .total {
-    color: #005aa0; /* Color especial para el disponible del mes */
+    color: var(--app-primary); /* Color especial para el disponible del mes */
   }
 `;

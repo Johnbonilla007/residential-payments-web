@@ -9,7 +9,7 @@ export const ImportUserOptionStyled = styled.div`
   }
   .table {
     width: 100%;
-    border: 1px solid #000;
+    border: 1px solid var(--surface-border);
     border-radius: 15px;
     padding: 5px;
   }

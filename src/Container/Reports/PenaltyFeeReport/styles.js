@@ -34,8 +34,8 @@ export const PenaltyFeeReportStyled = styled.div`
   }
 
   .clear-button:hover {
-    background-color: #e57373; /* Light red */
-    color: #fff;
+    background-color: var(--app-error); /* Light red */
+    color: var(--primary-color-text);
   }
 
   .table-container {
@@ -52,11 +52,11 @@ export const PenaltyFeeReportStyled = styled.div`
   }
 
   .dropdown-item:hover {
-    background-color: #f5f5f5;
+    background-color: var(--surface-card);
   }
 
   .empty-lot {
-    background-color: #f0f0f0; /* Light gray for empty lots */
+    background-color: var(--surface-card); /* Light gray for empty lots */
   }
 
   .dropdown-item div {
@@ -67,7 +67,7 @@ export const PenaltyFeeReportStyled = styled.div`
 
   .dropdown-label {
     font-size: 0.85rem;
-    color: #888; /* Subtle gray color for labels */
+    color: var(--text-color-secondary); /* Subtle gray color for labels */
   }
 
   .dropdown-value {

@@ -14,7 +14,7 @@ export const AccountManagerModalStyled = styled.div`
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: var(--surface-card);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,6 +31,6 @@ export const AccountManagerModalStyled = styled.div`
   .checkbox-label {
     font-size: 1rem;
     font-weight: 500;
-    color: #333;
+    color: var(--text-color);
   }
 `;

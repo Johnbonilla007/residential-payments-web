@@ -8,6 +8,7 @@ import { CreateOrUpdateSpendingInvoiceModalStyled } from "./styled";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
+import { FormField } from "../../../../Components/Controls/FormField";
 import { utils } from "../../../../Helpers/utils";
 import { InvoiceServices } from "../../Invoice.Service";
 import SpendingInvoicePrint from "../SpendingInvoicePrint";
@@ -232,135 +233,111 @@ const CreateOrUpdateSpendingInvoiceModal = ({
       }`}
       visible={isOpen}
       onHide={() => onDissmis()}
-      style={{ width: "50vw", height: "100vh" }}
+      style={{ width: "50vw" }}
+      breakpoints={{ "1024px": "75vw", "768px": "92vw" }}
+      maximizable
       footer={renderFooter}
     >
       <CreateOrUpdateSpendingInvoiceModalStyled>
         <Toast ref={toast} />
-        <div>
-          <label
-            style={{
-              fontSize: "12pt",
-              fontWeight: "700",
-            }}
-          >
-            General
-          </label>
-        </div>
+        <span className="section-title">General</span>
 
         <div className="header-fields">
-          <div>
-            <Dropdown
-              className="commandbox"
-              value={invoice?.paymentWay}
-              options={paymentWays}
-              onChange={(e) => {
-                setInvoice({ ...invoice, paymentWay: e.value });
-              }}
-              optionLabel="name"
-              optionValue="name"
-              placeholder="Seleccione el metodo de pago"
-            />
-          </div>
+          <FormField label="Metodo de pago">
+            {(id) => (
+              <Dropdown
+                id={id}
+                value={invoice?.paymentWay}
+                options={paymentWays}
+                onChange={(e) => {
+                  setInvoice({ ...invoice, paymentWay: e.value });
+                }}
+                optionLabel="name"
+                optionValue="name"
+              />
+            )}
+          </FormField>
           {!utils.isNullOrEmpty(invoice.paymentWay) &&
             invoice?.paymentWay !== "Efectivo" && (
-              <div>
-                <span className="p-float-label">
+              <FormField label={`${invoice?.paymentWay} No`}>
+                {(id) => (
                   <InputText
-                    id="depositNo"
+                    id={id}
                     value={invoice.depositNo}
                     onChange={(e) =>
                       setInvoice({ ...invoice, depositNo: e.target.value })
                     }
                   />
-                  <label htmlFor="depositNo">
-                    {`${invoice?.paymentWay} No`}
-                  </label>
-                </span>
-              </div>
+                )}
+              </FormField>
             )}
-          <div>
-            <span className="p-float-label">
+          <FormField label="Fecha">
+            {(id) => (
               <Calendar
-                id="invoiceDate"
+                id={id}
                 value={dateInvoice}
                 onChange={(e) => setDateInvoice(e.value)}
                 showIcon
               />
-              <label htmlFor="invoiceDate">Fecha</label>
-            </span>
-          </div>
-          <div>
-            <span className="p-float-label">
+            )}
+          </FormField>
+          <FormField label="Proveedor">
+            {(id) => (
               <InputText
-                id="vendor"
+                id={id}
                 value={invoice.vendor}
                 onChange={(e) =>
                   setInvoice({ ...invoice, vendor: e.target.value })
                 }
               />
-              <label htmlFor="vendor">Proveedor</label>
-            </span>
-          </div>
-          <div>
-            <span className="p-float-label">
-              <InputNumber id="total" value={invoice.total} readOnly />
-              <label htmlFor="total">Total</label>
-            </span>
-          </div>
-          <div>
-            <span className="p-float-label">
-              <InputTextarea
-                id="comment"
-                value={invoice.comment}
-                readOnly
-                style={{ width: "100%" }}
-              />
-              <label htmlFor="comment">Concepto</label>
-            </span>
-          </div>
+            )}
+          </FormField>
+          <FormField label="Total">
+            {(id) => <InputNumber id={id} value={invoice.total} readOnly />}
+          </FormField>
+          <FormField label="Concepto" fullWidth>
+            {(id) => <InputTextarea id={id} value={invoice.comment} readOnly />}
+          </FormField>
         </div>
-        <strong>Detalle</strong>
+        <span className="section-title">Detalle</span>
         <div className="detail-fields">
-          <div>
-            <Dropdown
-              className="commandbox"
-              style={{ width: 200 }}
-              value={detail.spendingTypeNo}
-              options={spendingTypes}
-              onChange={(e) => {
-                const spendingType = spendingTypes.firstOrDefault(
-                  (x) => x.spendingTypeNo === e.value
-                );
-                setDetail({
-                  ...detail,
-                  spendingTypeNo: spendingType?.spendingTypeNo,
-                  description: spendingType?.description,
-                  amount: spendingType?.amount,
-                });
-              }}
-              optionLabel="name"
-              optionValue="spendingTypeNo"
-              placeholder="Seleccione tipo de gasto"
-            />
-          </div>
-          <div>
-            <span className="p-float-label">
+          <FormField label="Tipo de gasto">
+            {(id) => (
+              <Dropdown
+                id={id}
+                value={detail.spendingTypeNo}
+                options={spendingTypes}
+                onChange={(e) => {
+                  const spendingType = spendingTypes.firstOrDefault(
+                    (x) => x.spendingTypeNo === e.value
+                  );
+                  setDetail({
+                    ...detail,
+                    spendingTypeNo: spendingType?.spendingTypeNo,
+                    description: spendingType?.description,
+                    amount: spendingType?.amount,
+                  });
+                }}
+                optionLabel="name"
+                optionValue="spendingTypeNo"
+              />
+            )}
+          </FormField>
+          <FormField label="Descripción">
+            {(id) => (
               <InputText
-                id="description"
+                id={id}
                 value={detail.description}
                 onChange={(e) =>
                   setDetail({ ...detail, description: e.target.value })
                 }
-                style={{ width: "28vw" }}
               />
-              <label htmlFor="description">Descripción</label>
-            </span>
-          </div>
-          <div>
-            <span className="p-float-label">
+            )}
+          </FormField>
+          <FormField label="Costo">
+            {(id) => (
               <InputNumber
-                id="amount"
+                id={id}
                 value={detail.amount}
                 onChange={(e) =>
                   setDetail({ ...detail, amount: parseFloat(e.value || 0) })
@@ -368,19 +345,16 @@ const CreateOrUpdateSpendingInvoiceModal = ({
                 mode="decimal"
                 minFractionDigits={2}
                 maxFractionDigits={5}
-                size={10}
               />
-              <label htmlFor="cost">Costo</label>
-            </span>
-          </div>
+            )}
+          </FormField>
         </div>
-        <div style={{ marginLeft: "10px" }}>
+        <div className="detail-actions">
           <Button
             label="Agregar Detalle"
             icon="pi pi-plus"
             className="p-button-raised p-button-info p-button-sm"
             onClick={addDetail}
-            style={{ height: "30px" }}
           />
         </div>
         <div className="header-detail">

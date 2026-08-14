@@ -35,6 +35,36 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Sistema de Pagos Residenciales</title>
+    <script>
+      // Resolve the theme before the first paint so the page never flashes the
+      // wrong background. ThemeContext writes the full token set once React
+      // mounts; this only needs the two tokens the initial paint reads.
+      (function () {
+        try {
+          var stored = window.localStorage.getItem("app-theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          var root = document.documentElement;
+          root.setAttribute("data-theme", theme);
+          root.style.colorScheme = theme;
+          root.style.setProperty(
+            "--surface-ground",
+            theme === "dark" ? "#0b1220" : "#f4f6f9"
+          );
+          root.style.setProperty(
+            "--text-color",
+            theme === "dark" ? "#e6edf6" : "#1f2937"
+          );
+        } catch (error) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

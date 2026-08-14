@@ -2,12 +2,20 @@ import styled from "styled-components";
 
 export const TableControlStyled = styled.div`
   .card {
-    background-color: var(--card-bg);
+    background-color: var(--surface-card);
     color: var(--text-color);
     padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--app-shadow-md);
     margin-bottom: 2rem;
+  }
+
+  /* Replaces the PrimeFlex utility classes the markup used to rely on. */
+  .export-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   h5 {

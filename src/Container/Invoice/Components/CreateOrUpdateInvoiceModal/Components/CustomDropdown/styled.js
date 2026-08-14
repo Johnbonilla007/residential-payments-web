@@ -19,7 +19,7 @@ export const CustomDropdownStyled = styled.div`
     max-height: 200px;
     overflow-y: auto;
     background: ${(props) => props.theme.colors.cardBg || "white"};
-    border: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
     z-index: 1000;
     box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -28,12 +28,12 @@ export const CustomDropdownStyled = styled.div`
   }
 
   .dropdown-item {
-    color: ${(props) => props.theme.colors.text || "#333"};
+    color: ${(props) => props.theme.colors.text || "var(--text-color)"};
     transition: background-color 0.2s;
   }
 
   .dropdown-item:hover {
-    background-color: ${(props) => props.theme.colors.hoverBg || "#f1f1f1"};
+    background-color: ${(props) => props.theme.colors.hoverBg || "var(--surface-card)"};
     cursor: pointer;
   }
 `;

@@ -5,13 +5,17 @@ export const CameraWrapper = styled.div`
   margin: 20px auto;
   padding: 20px;
   max-width: 600px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--surface-card);
+  color: var(--text-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--app-shadow-md);
+  transition:
+    background-color var(--transition-base),
+    box-shadow var(--transition-base);
 
   h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-color);
   }
 
   .webcam-container {
@@ -21,23 +25,31 @@ export const CameraWrapper = styled.div`
     .webcam {
       width: 100%;
       max-width: 400px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-md);
+      box-shadow: var(--app-shadow-md);
     }
   }
 
   .capture-button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--app-primary);
+    color: var(--primary-color-text);
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition:
+      background-color var(--transition-fast),
+      box-shadow var(--transition-fast);
 
     &:hover {
-      background-color: #0056b3;
+      background-color: var(--app-primary-hover);
+      box-shadow: var(--app-shadow-md);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
     }
   }
 
@@ -47,8 +59,8 @@ export const CameraWrapper = styled.div`
     img {
       width: 100%;
       max-width: 400px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-md);
+      box-shadow: var(--app-shadow-md);
     }
   }
 `;

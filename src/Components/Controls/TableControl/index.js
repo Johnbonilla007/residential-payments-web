@@ -96,7 +96,7 @@ const TableControl = ({
   };
 
   const header = (
-    <div className="flex align-items-center export-buttons">
+    <div className="export-buttons">
       <Button
         type="button"
         icon="pi pi-file-excel"

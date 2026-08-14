@@ -14,15 +14,15 @@ export const ReportContainerStyled = styled.div`
     width: 8px;
   }
   &::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: var(--surface-card);
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
+    background: var(--surface-hover);
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: var(--surface-hover);
   }
 
   .item {

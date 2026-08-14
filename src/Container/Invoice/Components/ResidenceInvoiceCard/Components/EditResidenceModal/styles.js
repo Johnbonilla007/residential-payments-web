@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const EditResidenceModalStyled = styled.div`
   .section {
     margin-bottom: 20px;
-    background: #f9f9f9;
+    background: var(--surface-card);
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -52,11 +52,11 @@ export const EditResidenceModalStyled = styled.div`
     .no-image-placeholder {
       width: 100%;
       height: 200px;
-      background-color: #e0e0e0;
+      background-color: var(--surface-hover);
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #aaa;
+      color: var(--text-color-secondary);
       font-size: 18px;
       border-radius: 8px;
     }
@@ -86,7 +86,7 @@ export const EditResidenceModalStyled = styled.div`
       position: absolute;
       bottom: 10px;
       left: 10px;
-      background-color: #007bff;
+      background-color: var(--app-primary);
       color: white;
       font-size: 14px;
       padding: 5px 10px;
@@ -96,7 +96,7 @@ export const EditResidenceModalStyled = styled.div`
     }
 
     .view-button:hover {
-      background-color: #0056b3;
+      background-color: var(--app-primary-hover);
     }
 
     .card-image:hover .edit-button,
@@ -127,12 +127,12 @@ export const EditResidenceModalStyled = styled.div`
     width: 100%;
     max-width: 300px;
     height: 200px;
-    background: #e0e0e0;
+    background: var(--surface-hover);
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #aaa;
+    color: var(--text-color-secondary);
     font-size: 14px;
   }
 
@@ -141,7 +141,7 @@ export const EditResidenceModalStyled = styled.div`
   }
 
   .primary-button {
-    background-color: #007bff;
+    background-color: var(--app-primary);
     color: white;
     border: none;
     padding: 10px 15px;
@@ -153,13 +153,13 @@ export const EditResidenceModalStyled = styled.div`
   }
 
   .primary-button:hover {
-    background-color: #0056b3;
+    background-color: var(--app-primary-hover);
   }
 `;
 
 export const EditResidenceStyled = styled.div`
   .primary-button {
-    background-color: #007bff;
+    background-color: var(--app-primary);
     color: white;
     border: none;
     padding: 10px 15px;
@@ -171,6 +171,6 @@ export const EditResidenceStyled = styled.div`
   }
 
   .primary-button:hover {
-    background-color: #0056b3;
+    background-color: var(--app-primary-hover);
   }
 `;

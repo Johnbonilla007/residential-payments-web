@@ -4,16 +4,16 @@ export const ListControlStyled = styled.div`
   .list-control {
     position: absolute;
     left: 0;
-    top: 0;
     bottom: 0;
     top: 50px;
-    /* margin-top: 115px; */
-    /* height: calc(100% - 135px); */
-    background-color: #f8f9fa;
-    border-right: 1px solid #ddd;
+    background-color: var(--surface-section);
+    border-right: 1px solid var(--surface-border);
     padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--app-shadow-sm);
     overflow-y: auto;
+    transition:
+      background-color var(--transition-base),
+      border-color var(--transition-base);
   }
 
   .list-control ul {
@@ -24,19 +24,21 @@ export const ListControlStyled = styled.div`
 
   .list-control li {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--surface-border);
+    transition: background-color var(--transition-fast);
   }
 
   .list-control li:hover {
-    background-color: #e9ecef;
+    background-color: var(--surface-hover);
     cursor: pointer;
   }
+
   .container-items {
-    background-color: #fff;
+    background-color: var(--surface-card);
     height: calc(100% - 40px);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     overflow: auto;
-    scrollbar-width: thin; /* Para Firefox */
-    scrollbar-color: #002147 #fff; /* Para Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--app-primary) var(--surface-card);
   }
 `;

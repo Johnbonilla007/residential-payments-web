@@ -94,7 +94,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
 
     .residence-name {
       font-size: 0.9rem;
-      color: #546e7a;
+      color: var(--text-color);
       font-weight: 500;
       margin-bottom: 4px;
     }
@@ -113,7 +113,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
 
         strong {
           font-size: 0.75rem;
-          color: #90a4ae;
+          color: var(--text-color-secondary);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-bottom: 2px;
@@ -121,7 +121,7 @@ export const CardComponentPenaltyFeeStyled = styled.div`
 
         span {
           font-size: 0.9rem;
-          color: #37474f;
+          color: var(--text-color);
           font-weight: 600;
         }
       }
