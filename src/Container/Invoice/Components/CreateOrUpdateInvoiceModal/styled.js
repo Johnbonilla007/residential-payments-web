@@ -39,9 +39,38 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 0.5rem;
-    align-items: center;
+    /* Alineado arriba para que el textarea (más alto) no descentre la fila. */
+    align-items: start;
     margin-bottom: 0.5rem;
     padding-bottom: 0.2rem;
+  }
+
+  /* Descripción: etiqueta sobre el borde (como los float-label vecinos) para que
+     el textarea arranque a la misma altura que Cantidad/Costo/Pago Extra. */
+  .description-field {
+    position: relative;
+    margin-top: 5px;
+  }
+
+  .description-field > label {
+    position: absolute;
+    top: -8px;
+    left: 0.5rem;
+    z-index: 1;
+    padding: 0 5px;
+    font-size: 12px;
+    pointer-events: none;
+    background-color: ${(props) => props.theme.colors.cardBg || "white"};
+    color: ${(props) =>
+      props.theme.colors.textSecondary || "var(--text-color-secondary)"};
+  }
+
+  .description-field textarea {
+    width: 100% !important;
+    min-height: 40px;
+    padding-top: 0.6rem;
+    line-height: 1.3;
+    resize: vertical;
   }
 
   /* Hacer que Tipo de Ingreso (1) y Descripción (2) sean más anchos */
@@ -52,6 +81,16 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
 
   .detail-fields .p-checkbox {
     margin-top: 15px;
+  }
+
+  /* Descripción Extra: más ancha para que la etiqueta flotante no se parta. */
+  .detail-fields .description-extra-field {
+    grid-column: span 2;
+  }
+
+  /* Las etiquetas flotantes no se parten en dos líneas dentro de celdas angostas. */
+  .detail-fields .p-float-label > label {
+    white-space: nowrap;
   }
 
   /* INPUTS Y CONTROLES - FULL WIDTH FIXES */

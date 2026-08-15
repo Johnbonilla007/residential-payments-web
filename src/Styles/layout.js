@@ -8,7 +8,12 @@
  */
 export const SIDEBAR_WIDTH = 260;
 export const SIDEBAR_COLLAPSED_WIDTH = 70;
-export const HEADER_HEIGHT = 90;
+/**
+ * Real rendered height of the fixed top bar (logo 50px + .app-icon padding +
+ * .p-menubar padding). It was 90 while the bar rendered ~106, so the content's
+ * top offset fell short and the first row slid under the header.
+ */
+export const HEADER_HEIGHT = 106;
 
 export const px = (value) => `${value}px`;
 

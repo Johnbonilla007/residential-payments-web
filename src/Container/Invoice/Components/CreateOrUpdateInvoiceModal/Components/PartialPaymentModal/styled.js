@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const PartialPaymentModalStyled = styled.div`
  .payment-form {
-    max-width: 400px;
+    width: 100%;
+    max-width: 480px;
     margin: 0 auto;
     padding: 2rem;
     background-color: var(--surface-card);
@@ -12,6 +13,22 @@ export const PartialPaymentModalStyled = styled.div`
 
 .form-field {
     margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .payment-form {
+        padding: 1.25rem;
+    }
+
+    .form-field {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-form {
+        padding: 1rem;
+    }
 }
 
 .form-field label {

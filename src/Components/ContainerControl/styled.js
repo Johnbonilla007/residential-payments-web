@@ -45,10 +45,12 @@ export const ContainerControlStyled = styled.div`
     color var(--transition-base);
 
   .content {
-    flex: 1;
+    flex: 1 1 auto;
+    /* Lets the flex child actually shrink so it scrolls instead of pushing the
+       sticky command bar over the content. height:100% ignored the bar's space. */
+    min-height: 0;
     overflow: auto;
     padding: 10px;
-    height: 100%;
     width: 100%;
   }
 `;

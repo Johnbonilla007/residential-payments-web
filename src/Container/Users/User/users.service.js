@@ -12,7 +12,6 @@ export class UsersServices {
   }
 
   static async getResidence(request) {
-    
     const response = await restClient.httpGet(
       `/security/residences/get-residences`,
       request

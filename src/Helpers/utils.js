@@ -97,6 +97,12 @@ export class utils {
     _endDate = undefined,
     _startDate = undefined
   ) {
+    // Los callers a veces pasan fechas como string (vienen así del API). Se
+    // coercionan a Date para evitar "getFullYear is not a function".
+    if (startDate) startDate = new Date(startDate);
+    if (_startDate) _startDate = new Date(_startDate);
+    if (_endDate) _endDate = new Date(_endDate);
+
     let paymentToAddWhenIsInitial = monthsToAdd - 1;
     let startMonthIndex;
     let valueToadd = chargeCurrentMonth ? 1 : 2;

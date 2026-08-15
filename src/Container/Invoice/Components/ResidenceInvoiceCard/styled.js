@@ -7,25 +7,6 @@ export const ResidenceInvoiceCardStyled = styled.div`
   align-items: flex-start;
   gap: 1.25rem;
   padding: 1.5rem;
-  height: 75vh;
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) var(--text-color);
-
-  /* Custom scrollbar for webkit browsers */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--surface-card);
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--primary-gradient);
-    border-radius: 10px;
-  }
 `;
 
 export const CardComponentStyled = styled.div`

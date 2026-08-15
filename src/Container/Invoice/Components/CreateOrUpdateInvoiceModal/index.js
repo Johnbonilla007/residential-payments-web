@@ -196,6 +196,15 @@ const CreateOrUpdateInvoiceModal = ({
       _startDate = new Date(_startDate);
     }
 
+    // Con abono y un pago previo (frontera), la cuota corriente se reporta en el
+    // mes de la frontera (Mes a Pagar), no en el initialPaymentDate. Sin esto,
+    // la línea de Seguridad salía con el mes inicial del residente.
+    if (isPartialPayment && utils.evaluateFullObjetct(invoiceDetailOldSelected)) {
+      startDate = new Date(invoiceDetailOldSelected.paymentdate);
+      _startDate = undefined;
+      _endDate = undefined;
+    }
+
     if (!startDate) {
       startDate = new Date(paymentDate);
     }
@@ -338,7 +347,7 @@ const CreateOrUpdateInvoiceModal = ({
       return;
     }
 
-    let newDetails = invoice.invoiceDetail;
+    let newDetails = [...invoice.invoiceDetail];
 
     let detailToAdd = { ...detail };
     let date = new Date();
@@ -513,6 +522,7 @@ const CreateOrUpdateInvoiceModal = ({
       (x) => x.paymentTypeNo === detailToAdd.paymentTypeNo,
     );
     const quantityAdd = detailToAdd.quantity;
+
     if (invoiceDetailOldSelected) {
       date = new Date(invoiceDetailOldSelected.paymentdate);
 
@@ -527,42 +537,9 @@ const CreateOrUpdateInvoiceModal = ({
         initialPaymentDay,
       );
 
-      if (utils.evaluateArray(invoice.partialPayments)) {
-        if (!utils.evaluateArray(partialPeymentOlds)) {
-          const paymentDateInitial = adjustedDatePayment;
-          const paymentDay = paymentDateInitial.getDate(); // Obtener el día 5
-          const paymentMonth = paymentDateInitial.getMonth();
-
-          const currentDate = new Date();
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth(); // Los meses son 0-indexados en JavaScript
-          const currentDay = currentDate.getDate();
-
-          let resultDate;
-          if (paymentMonth < currentMonth) {
-            const ajustIndex = (currentMonth + 1) % 12;
-            resultDate = new Date(currentYear, ajustIndex, paymentDay);
-          } else {
-            // Si el día actual es menor al día de pago, usamos el mes anterior\
-            if (paymentMonth > currentMonth && currentDay <= paymentDay) {
-              const ajustIndex = (currentMonth + 1) % 12;
-              resultDate = new Date(currentYear, ajustIndex, paymentDay);
-            } else {
-              const ajustIndex = (currentMonth + 1) % 12;
-              resultDate = new Date(currentYear, ajustIndex, paymentDay);
-            }
-          }
-          adjustedDatePayment = resultDate;
-          let newCurrentMonth = adjustedDatePayment.getMonth();
-          const ajustIndex = (newCurrentMonth + 1) % 12;
-          adjustedDatePayment.setMonth(ajustIndex);
-          detailToAdd = { ...detail, paymentdate: adjustedDatePayment };
-        } else {
-          detailToAdd = { ...detail, paymentdate: adjustedDatePayment };
-        }
-      } else {
-        detailToAdd = { ...detail, paymentdate: adjustedDatePayment };
-      }
+      // La fecha se calcula desde el último pago real (invoiceDetailOld), tanto
+      // con abono como sin él. El abono cubre los meses atrasados por separado.
+      detailToAdd = { ...detail, paymentdate: adjustedDatePayment };
     } else {
       if (paymentInitial) {
         date = new Date(paymentInitial.initialPaymentDate);
@@ -590,41 +567,7 @@ const CreateOrUpdateInvoiceModal = ({
       }
       // Aumentar un mes
 
-      if (utils.evaluateArray(invoice.partialPayments)) {
-        if (!utils.evaluateArray(partialPeymentOlds)) {
-          const paymentDateInitial = adjustedDatePaymentOld;
-          const paymentDay = paymentDateInitial.getDate(); // Obtener el día 5
-          const paymentMonth = paymentDateInitial.getMonth();
-
-          const currentDate = new Date();
-          const currentYear = currentDate.getFullYear();
-          const currentMonth = currentDate.getMonth(); // Los meses son 0-indexados en JavaScript
-          const currentDay = currentDate.getDate();
-
-          let resultDate;
-
-          if (paymentMonth < currentMonth) {
-            const ajustIndex = (currentMonth + 2) % 12;
-            // Si el día actual es mayor o igual al día de pago, usamos el mes actual
-            resultDate = new Date(currentYear, ajustIndex, paymentDay);
-          } else {
-            // Si el día actual es menor al día de pago, usamos el mes anterior\
-            if (paymentMonth > currentMonth && currentDay <= paymentDay) {
-              const ajustIndex = (currentMonth + 1) % 12;
-              resultDate = new Date(currentYear, ajustIndex, paymentDay);
-            } else {
-              const ajustIndex = (currentMonth + 1) % 12;
-              resultDate = new Date(currentYear, ajustIndex, paymentDay);
-            }
-          }
-          adjustedDatePaymentOld = resultDate;
-          detailToAdd = { ...detail, paymentdate: adjustedDatePaymentOld };
-        } else {
-          detailToAdd = { ...detail, paymentdate: adjustedDatePaymentOld };
-        }
-      } else {
-        detailToAdd = { ...detail, paymentdate: adjustedDatePaymentOld };
-      }
+      detailToAdd = { ...detail, paymentdate: adjustedDatePaymentOld };
     }
 
     newDetails.push(detailToAdd);
@@ -1165,19 +1108,20 @@ const CreateOrUpdateInvoiceModal = ({
             </div>
 
             {/* 6. CONCEPTO */}
-            <div style={{ gridColumn: "1 / -1" }}>
-              {" "}
+            <div
+              style={{ gridColumn: "1 / -1" }}
+              className="description-field"
+            >
               {/* Concepto full width si es posible */}
-              <span className="p-float-label">
-                <InputTextarea
-                  id="comments"
-                  value={invoice.comments}
-                  readOnly
-                  style={{ width: "100%", height: "38px", resize: "none" }}
-                  autoResize
-                />
-                <label htmlFor="comments">Concepto</label>
-              </span>
+              <label htmlFor="comments">Concepto</label>
+              <InputTextarea
+                id="comments"
+                value={invoice.comments}
+                readOnly
+                rows={2}
+                autoResize
+                style={{ width: "100%", resize: "none" }}
+              />
             </div>
           </div>
         </div>
@@ -1242,18 +1186,18 @@ const CreateOrUpdateInvoiceModal = ({
                     <label htmlFor="paymentTypeNo">Tipo de Ingreso</label>
                   </span>
                 </div>
-                <div>
-                  <span className="p-float-label">
-                    <InputText
-                      id="description"
-                      value={detail.description}
-                      onChange={(e) =>
-                        setDetail({ ...detail, description: e.target.value })
-                      }
-                      readOnly={handleBlockDescription()}
-                    />
-                    <label htmlFor="description">Descripción</label>
-                  </span>
+                <div className="description-field">
+                  <label htmlFor="description">Descripción</label>
+                  <InputTextarea
+                    id="description"
+                    value={detail.description}
+                    onChange={(e) =>
+                      setDetail({ ...detail, description: e.target.value })
+                    }
+                    readOnly={handleBlockDescription()}
+                    rows={2}
+                    autoResize
+                  />
                 </div>
                 <div>
                   <span className="p-float-label">
@@ -1349,7 +1293,7 @@ const CreateOrUpdateInvoiceModal = ({
                 )}
                 {detail?.amountEx > 0 &&
                   detail?.paymentTypeNo !== "PT0000000" && (
-                    <div>
+                    <div className="description-extra-field">
                       <span className="p-float-label">
                         <InputText
                           id="descriptionEx"
@@ -1385,16 +1329,14 @@ const CreateOrUpdateInvoiceModal = ({
                         </div>
                       ) : (
                         <div>
-                          {hasPendingPayment() && (
-                            <Button
-                              label="Abonar a deuda"
-                              icon="pi pi-wallet"
-                              className="p-button-rounded p-button-secondary p-button-sm"
-                              onClick={() => {
-                                setShowPartialPayment(true);
-                              }}
-                            />
-                          )}
+                          <Button
+                            label="Abonar a deuda"
+                            icon="pi pi-wallet"
+                            className="p-button-rounded p-button-secondary p-button-sm"
+                            onClick={() => {
+                              setShowPartialPayment(true);
+                            }}
+                          />
                         </div>
                       )}
                     </div>

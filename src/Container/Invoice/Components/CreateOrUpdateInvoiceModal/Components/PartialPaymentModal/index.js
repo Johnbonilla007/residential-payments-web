@@ -217,7 +217,14 @@ const PartialPaymentModal = ({
       header={"Pago Parcial"}
       visible={isOpen}
       onHide={() => onDissmis()}
-      style={{ width: "30vw", height: "60vh" }}
+      style={{ width: "30vw", height: "85vh" }}
+      breakpoints={{
+        "1400px": "45vw",
+        "1200px": "55vw",
+        "992px": "70vw",
+        "768px": "90vw",
+        "480px": "95vw",
+      }}
     >
       <PartialPaymentModalStyled>
         <Toast ref={toast} />
