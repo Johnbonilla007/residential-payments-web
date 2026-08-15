@@ -37,9 +37,9 @@ export const TableControlStyled = styled.div`
   .p-datatable .p-datatable-thead > tr > th {
     padding: 1rem;
     text-align: center;
-    background-color: var(--surface-color);
-    color: var(--text-color);
-    border-color: var(--border-color);
+    background-color: var(--table-head-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
   }
   /* PrimeReact sets its own color on the inner title/content spans, so the th
      color above never reaches the actual header text. Target them directly
@@ -47,9 +47,51 @@ export const TableControlStyled = styled.div`
   .p-datatable .p-datatable-thead > tr > th .p-column-title,
   .p-datatable .p-datatable-thead > tr > th .p-column-header-content,
   .p-datatable .p-datatable-thead > tr > th .p-sortable-column-icon {
-    color: var(--text-color);
+    color: var(--text-color) !important;
   }
   .p-column-filter-row .p-column-filter-element {
     text-align: left;
+  }
+
+  /* Responsive Cell Layout */
+  .p-column-title {
+    display: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    .p-datatable .p-datatable-thead {
+      display: none !important;
+    }
+
+    .p-datatable .p-datatable-tbody > tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-color) !important;
+      border-radius: var(--radius-lg) !important;
+      background-color: var(--card-bg) !important;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 1rem !important;
+      border: none !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      text-align: right;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td:last-child {
+      border-bottom: none !important;
+    }
+
+    .p-column-title {
+      display: block !important;
+      font-weight: 600;
+      min-width: 30%;
+      text-align: left;
+    }
   }
 `;
