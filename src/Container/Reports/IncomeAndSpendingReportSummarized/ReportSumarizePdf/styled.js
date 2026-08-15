@@ -4,11 +4,11 @@ export const ReportSumarizePdfStyled = styled.div`
   @media print {
     @page {
       size: portrait;
-      margin: 1cm;
+      margin: 0.5cm;
     }
   }
   width: 96%;
-  margin: 20px;
+  margin: 10px;
   .container-header {
     display: grid;
     grid-template-columns: 150px 1fr 150px; /* Logos laterales fijos, titulo flexible */
@@ -54,8 +54,8 @@ export const ReportSumarizePdfStyled = styled.div`
 
       .item {
         display: grid;
-        font-size: 8pt; /* Reducir ligeramente */
-        padding: 2px 4px;
+        font-size: 7.5pt; /* Reducir ligeramente */
+        padding: 1px 4px;
         grid-template-columns: 30% 50% 20%;
         border-top: 1px solid ${(props) => props.theme.colors.border || "#000"};
         color: ${(props) => props.theme.colors.text || "#000"};
