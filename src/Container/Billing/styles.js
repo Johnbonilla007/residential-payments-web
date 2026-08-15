@@ -25,12 +25,13 @@ export const BillingContainerSyled = styled.div`
   }
 
   .item {
-    background: white;
+    /* Adaptado al tema: antes era 'white' fijo y se veía blanco en modo oscuro. */
+    background: var(--surface-card);
     border-radius: 12px;
     padding: 1.25rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border: 1px solid rgba(0, 33, 71, 0.08);
+    border: 1px solid var(--surface-border);
 
     &:hover {
       transform: translateY(-4px);

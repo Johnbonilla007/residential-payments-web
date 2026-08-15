@@ -8,7 +8,9 @@ export const SpendingInvocesStyled = styled.div`
     grid-template-columns: minmax(120px, auto) minmax(0, 1fr) minmax(110px, auto) minmax(100px, auto) 44px 44px;
     align-items: stretch;
     margin: 5px;
-    background-color: white;
+    /* Adaptado al tema: antes era 'white' fijo y se veía blanco en modo oscuro. */
+    background-color: var(--surface-card);
+    border: 1px solid var(--surface-border);
     box-shadow: var(--app-shadow-sm);
     border-radius: 5px;
 

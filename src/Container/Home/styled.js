@@ -25,11 +25,12 @@ export const HomeStyled = styled.div`
     max-width: 900px;
     width: 100%;
     text-align: center;
-    background: white;
+    /* Adaptado al tema: antes era 'white' fijo y se veía blanco en modo oscuro. */
+    background: var(--surface-card);
     border-radius: 24px;
     padding: 3rem 2.5rem;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 33, 71, 0.08);
+    border: 1px solid var(--surface-border);
     animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 
     @keyframes slideUp {

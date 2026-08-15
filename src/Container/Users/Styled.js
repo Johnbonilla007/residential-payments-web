@@ -25,12 +25,13 @@ export const UsersContainerStyled = styled.div`
   }
 
   .item {
-    background: linear-gradient(to bottom, #ffffff, #fafbfd);
+    /* Adaptado al tema: antes era un gradiente blanco fijo y se veía blanco en modo oscuro. */
+    background: var(--surface-card);
     border-radius: 12px;
     padding: 1.25rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border: 1px solid rgba(0, 33, 71, 0.08);
+    border: 1px solid var(--surface-border);
     min-height: 150px;
     display: flex;
     flex-direction: column;
