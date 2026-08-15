@@ -41,6 +41,14 @@ export const TableControlStyled = styled.div`
     color: var(--text-color);
     border-color: var(--border-color);
   }
+  /* PrimeReact sets its own color on the inner title/content spans, so the th
+     color above never reaches the actual header text. Target them directly
+     so headers stay readable in dark mode. */
+  .p-datatable .p-datatable-thead > tr > th .p-column-title,
+  .p-datatable .p-datatable-thead > tr > th .p-column-header-content,
+  .p-datatable .p-datatable-thead > tr > th .p-sortable-column-icon {
+    color: var(--text-color);
+  }
   .p-column-filter-row .p-column-filter-element {
     text-align: left;
   }
