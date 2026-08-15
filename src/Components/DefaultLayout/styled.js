@@ -578,16 +578,24 @@ export const AppSidebarStyled = styled.div`
     }
 
     .ps-submenu-content {
-      background: rgba(255, 255, 255, 0.03) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 16px;
-      margin: 0.5rem 0.75rem;
-      padding: 0.5rem 0.25rem;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2), 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+
+      > ul {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 16px;
+        margin: 0.5rem 0.75rem;
+        padding: 0.5rem 0.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.2), 
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
       
       /* Submenu items inside */
       .ps-menu-button {
