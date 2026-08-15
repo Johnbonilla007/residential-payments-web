@@ -6,158 +6,119 @@ export const CardMenuStyled = styled.div`
   .card {
     width: 100%;
     height: 100%;
-    min-height: 140px;
+    min-height: 120px;
     border-radius: var(--radius-xl);
-    background: ${(props) => props.theme.colors.cardBg};
-    border: 1px solid ${(props) => props.theme.colors.border};
-    box-shadow: ${(props) => props.theme.colors.cardShadow};
-    transition: all var(--transition-base);
+    background-color: color-mix(in srgb, var(--card-bg) 60%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--surface-border);
+    border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, var(--surface-border));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     display: flex;
     align-items: center;
-    padding: 1.75rem 1.5rem;
+    justify-content: space-between;
+    padding: 1.5rem;
     cursor: pointer;
     overflow: hidden;
 
-    /* Gradient overlay on hover */
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: ${(props) => {
-        const color = props.color || props.theme.colors.secondary;
-        return `linear-gradient(135deg, ${color}15 0%, ${color}05 100%)`;
-      }};
-      opacity: 0;
-      transition: opacity var(--transition-base);
-      z-index: 0;
-    }
-
-    &:hover::before {
-      opacity: 1;
-    }
-
     &:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Keep shadow distinct */
-      border-color: ${(props) => props.color || props.theme.colors.secondary};
+      background-color: color-mix(in srgb, var(--card-bg) 85%, transparent);
+      border-top: 1px solid color-mix(in srgb, var(--text-color) 25%, var(--surface-border));
+      box-shadow: var(--app-shadow-lg);
+      transform: translateY(-2px);
     }
+  }
 
-    &:active {
-      transform: translateY(-4px) scale(1.01);
-    }
+  .left-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 10;
   }
 
   .icon {
-    background: ${(props) => {
-      const color = props.color || props.theme.colors.secondary;
-      return `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`;
-    }};
-    width: 70px;
-    height: 70px;
-    min-width: 70px;
-    border-radius: var(--radius-xl);
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    min-width: 48px;
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-section);
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: var(--app-on-accent);
-    font-size: 2rem;
-    margin-right: 1.25rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--app-shadow-sm);
     position: relative;
-    z-index: 1;
-    transition: all var(--transition-base);
-
-    /* Glow effect */
-    &::after {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: ${(props) => props.color || props.theme.colors.secondary};
-      border-radius: var(--radius-xl);
-      opacity: 0;
-      filter: blur(10px);
-      transition: opacity var(--transition-base);
-      z-index: -1;
-    }
-
-    .card:hover & {
-      transform: rotate(5deg) scale(1.1);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-
-      &::after {
-        opacity: 0.4;
-      }
-    }
+    z-index: 10;
+    font-size: 28px;
+    /* Apply dynamic glow based on route color */
+    color: ${(props) => props.color || props.theme.colors.secondary};
+    text-shadow: 0 0 16px ${(props) => props.color || props.theme.colors.secondary}99;
   }
 
-  .content-card {
+  .text-content {
+    z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    flex: 1;
-    position: relative;
-    z-index: 1;
-
-    label {
-      font-weight: 600;
-      color: ${(props) => props.theme.colors.text};
-      margin: 0;
-      line-height: 1.4;
-      cursor: pointer;
-      transition: color var(--transition-base);
-    }
-
-    .card:hover & label {
-      color: ${(props) => props.color || props.theme.colors.primary};
-    }
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .card {
-      min-height: 120px;
-      padding: 1.5rem 1.25rem;
-    }
-
-    .icon {
-      width: 60px;
-      height: 60px;
-      min-width: 60px;
-      font-size: 1.75rem;
-      margin-right: 1rem;
-    }
-
-    .content-card label {
-      font-size: 0.95rem;
-    }
+  .title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    color: var(--text-color);
+    margin: 0 0 0.25rem 0;
+    letter-spacing: -0.01em;
   }
 
-  @media (max-width: 480px) {
-    .card {
-      min-height: 100px;
-      padding: 1.25rem 1rem;
+  .description {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--text-color-secondary);
+    margin: 0;
+  }
 
-      &:hover {
-        transform: translateY(-4px) scale(1.01);
-      }
-    }
+  .chevron-shift {
+    color: var(--text-color-secondary);
+    font-size: 20px;
+    transition: transform 0.3s ease, color 0.3s ease;
+    z-index: 10;
+  }
 
-    .icon {
-      width: 50px;
-      height: 50px;
-      min-width: 50px;
-      font-size: 1.5rem;
-      margin-right: 0.875rem;
-      border-radius: var(--radius-lg);
-    }
+  .card:hover .chevron-shift {
+    transform: translateX(4px);
+    color: var(--text-color);
+  }
 
-    .content-card label {
-      font-size: 0.9rem;
+  .glow-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 128px;
+    height: 128px;
+    background-color: ${(props) => props.color || props.theme.colors.secondary};
+    opacity: 0;
+    filter: blur(50px);
+    transition: opacity 0.5s ease;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card:hover .glow-background {
+    opacity: 0.15;
+  }
+
+  @media (min-width: 768px) {
+    .title {
+      font-size: 28px;
+      line-height: 36px;
     }
   }
 `;

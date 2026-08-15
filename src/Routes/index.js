@@ -41,6 +41,7 @@ const routes = [
   {
     path: "/billing",
     name: "Pagos",
+    description: "Gestión de transacciones y cobros",
     isMenu: false,
     isSecurity: true,
     color: "#ae976a",
@@ -77,6 +78,7 @@ const routes = [
   {
     path: "/reports",
     name: "Reportes",
+    description: "Análisis detallado de métricas",
     isMenu: false,
     isSecurity: true,
     color: "#FFA07A",
@@ -168,6 +170,7 @@ const routes = [
   {
     path: "/users",
     name: "Usuarios",
+    description: "Control de acceso y perfiles",
     isMenu: false,
     isSecurity: true,
     color: "#87CEFA",
@@ -204,6 +207,7 @@ const routes = [
   {
     path: "/security-and-management",
     name: "Administración y Seguridad",
+    description: "Configuración avanzada del sistema",
     isMenu: false,
     isSecurity: true,
     color: "#A2C8CC",
@@ -251,6 +255,7 @@ const routes = [
   {
     path: "/residential",
     name: "Visitas",
+    description: "Control de ingreso y egreso",
     isMenu: false,
     isSecurity: true,
     color: "#87CEFA",

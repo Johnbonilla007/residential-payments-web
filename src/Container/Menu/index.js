@@ -33,6 +33,7 @@ const DashboardMenu = () => {
                 <CardMenu
                   key={index}
                   label={route.name}
+                  description={route.description}
                   color={route.color}
                   icon={route.icon}
                   path={route.path}

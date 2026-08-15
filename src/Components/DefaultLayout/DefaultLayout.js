@@ -19,6 +19,7 @@ import DashboardMenu from "../../Container/Menu";
 import AppSidebar from "./AppSideBar";
 import { TipoCuentas } from "../../Helpers/Constant";
 import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
+import { RiMenuUnfold4Line } from "react-icons/ri";
 
 export const DefaultLayout = () => {
   const navigate = useNavigate();
@@ -123,26 +124,23 @@ export const DefaultLayout = () => {
   const start = (
     <div
       className="header-brand"
-      onClick={homeOption}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", display: "flex", alignItems: "center", paddingLeft: "10px" }}
     >
-      <div className="app-icon">
-        <img
-          src={require("../../Assets/Logo.png")}
-          alt="Quintas del Sol"
-          className="logo-img"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (showMenuOnMobile) {
-              dispacth(setShowMenuOnMobile(false));
-              dispacth(setShowSideBar(false));
-            } else {
-              dispacth(setShowMenuOnMobile(true));
-            }
+      <div 
+        className="app-icon mobile-menu-toggle"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (showMenuOnMobile) {
+            dispacth(setShowMenuOnMobile(false));
+            dispacth(setShowSideBar(false));
+          } else {
+            dispacth(setShowMenuOnMobile(true));
+          }
 
-            setMobileSidebarVisible(!mobileSidebarVisible);
-          }}
-        />
+          setMobileSidebarVisible(!mobileSidebarVisible);
+        }}
+      >
+        <RiMenuUnfold4Line size={30} color="var(--text-color)" />
       </div>
       {/* {authenticate && (
         <div className="system-title">
@@ -257,7 +255,7 @@ export const DefaultLayout = () => {
 
       <div
         style={{
-          paddingTop: authenticate ? "80px" : "0",
+          paddingTop: authenticate ? "60px" : "0",
           flex: 1,
           width: "100%",
         }}

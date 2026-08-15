@@ -4,13 +4,15 @@ export const InvoiceStyled = styled.div`
   .search-container {
     position: sticky;
     top: 0;
-    z-index: 5;
-    background-color: var(--card-bg);
+    z-index: 100;
+    background-color: rgba(11, 19, 38, 0.85); /* Use deep slate with opacity */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     strong {
       display: block;

@@ -81,6 +81,31 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
           display: mobileSidebarVisible ? "block" : "none", // Toggle sidebar on mobile
         }}
       >
+        <div
+          style={{
+            padding: isCollapsed ? "20px 10px" : "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            marginBottom: "10px",
+            height: "100px" // Fixed height so it doesn't jump weirdly
+          }}
+        >
+          <img
+            src={require("../../Assets/Logo.png")}
+            alt="Quintas del Sol"
+            style={{
+              maxHeight: isCollapsed ? "40px" : "80px",
+              maxWidth: "100%",
+              objectFit: "contain",
+              transition: "all 0.3s ease",
+              transform: isCollapsed ? "scale(0.8)" : "scale(1)",
+              filter: "brightness(0) invert(1)" // Force to white
+            }}
+            onClick={() => navigate("/dashboard")}
+          />
+        </div>
         {/*
           Colours come from tokens rather than literals so the sidebar follows
           the theme. The previous active state painted #ffffff text on an
@@ -137,7 +162,6 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
                   key={route.path}
                   icon={route.icon}
                   label={route.name}
-                  component={<Link to={route.path} />}
                   className="submenu"
                 >
                   {utils.evaluateArray(route.subRoutes) ? (

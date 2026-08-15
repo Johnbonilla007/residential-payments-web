@@ -9,17 +9,14 @@
 export const SIDEBAR_WIDTH = 260;
 export const SIDEBAR_COLLAPSED_WIDTH = 70;
 /**
- * Real rendered height of the fixed top bar (logo 50px + .app-icon padding +
- * .p-menubar padding). It was 90 while the bar rendered ~106, so the content's
- * top offset fell short and the first row slid under the header.
+ * Real rendered height of the fixed top bar now that the logo is in the sidebar.
  */
-export const HEADER_HEIGHT = 106;
+export const HEADER_HEIGHT = 60;
 
 /**
- * On mobile the top bar shrinks (smaller logo/padding), so the content offset
- * must shrink with it — otherwise the desktop 106px leaves a gap under the bar.
+ * On mobile the top bar shrinks slightly.
  */
-export const HEADER_HEIGHT_MOBILE = 78;
+export const HEADER_HEIGHT_MOBILE = 60;
 
 export const px = (value) => `${value}px`;
 

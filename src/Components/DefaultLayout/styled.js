@@ -127,6 +127,10 @@ export const DefaultLayoutStyled = styled.div`
     }
 
     /* System title styling */
+    .mobile-menu-toggle {
+      display: none; /* Oculto en escritorio porque el sidebar ya tiene su botón */
+    }
+
     .system-title {
       display: flex;
       flex-direction: column;
@@ -206,6 +210,10 @@ export const DefaultLayoutStyled = styled.div`
       .app-icon {
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
+
+        &.mobile-menu-toggle {
+          display: flex;
+        }
 
         .logo-img {
           height: 42px;
@@ -458,22 +466,26 @@ export const AppSidebarStyled = styled.div`
     }
   }
 
-  .side {
+  .side,
+  .ps-sidebar-container {
     /* Custom scrollbar for sidebar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
     }
 
     &::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
+      background: transparent;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-full);
 
       &:hover {
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.4);
       }
     }
 
