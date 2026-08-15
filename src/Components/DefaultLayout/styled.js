@@ -561,58 +561,78 @@ export const AppSidebarStyled = styled.div`
     }
   }
 
-  /* Submenu container styling */
+  /* Submenu container styling (Premium Glassmorphism) */
   .side .submenu {
     text-align: left;
     margin-top: 0.25rem;
 
-    .ps-submenu-content {
-      background: rgba(
-        0,
-        0,
-        0,
-        0.2
-      ) !important; /* Fondo más oscuro para jerarquía */
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
+    > .ps-menu-button {
       border-radius: var(--radius-lg);
       margin: 0.25rem 0.5rem;
-      padding: 0.25rem 0;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-
-      span {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 0.9rem;
-      }
-
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
       &:hover {
-        background: rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.1) !important;
+        transform: translateX(4px);
       }
     }
-  }
 
-  /* Submenu item styles */
-  .side .submenuItem {
-    color: rgba(255, 255, 255, 0.8);
-    transition: all var(--transition-base);
-    padding: 0.625rem 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 1rem; /* Más indentación */
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    position: relative;
+    .ps-submenu-content {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      margin: 0.5rem 0.75rem;
+      padding: 0.5rem 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      
+      /* Submenu items inside */
+      .ps-menu-button {
+        border-radius: 12px;
+        margin: 0.25rem 0.5rem;
+        padding: 0.5rem 1rem 0.5rem 1.5rem;
+        height: auto !important;
+        min-height: 42px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: rgba(255, 255, 255, 0.75) !important;
+        background: transparent !important;
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: var(--app-nav-text);
-      transform: translateX(4px);
-    }
+        &:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+          color: #ffffff !important;
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    &.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: var(--app-nav-text);
-      font-weight: 600;
-      border-left: 3px solid rgba(255, 255, 255, 0.8);
-      box-shadow: var(--shadow-sm);
+        &.active {
+          background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%) !important;
+          color: #ffffff !important;
+          font-weight: 600;
+          border-left: 3px solid #8083ff;
+          box-shadow: var(--shadow-md);
+        }
+        
+        .ps-menu-icon {
+          min-width: 30px;
+          margin-right: 10px;
+          color: rgba(255, 255, 255, 0.5);
+          transition: all 0.3s ease;
+        }
+
+        &:hover .ps-menu-icon, &.active .ps-menu-icon {
+          color: #8083ff;
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 8px rgba(128, 131, 255, 0.5));
+        }
+
+        .ps-menu-label {
+          font-size: 0.85rem;
+          letter-spacing: 0.3px;
+        }
+      }
     }
   }
 
