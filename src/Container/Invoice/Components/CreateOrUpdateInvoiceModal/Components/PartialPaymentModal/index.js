@@ -35,10 +35,10 @@ const PartialPaymentModal = ({
         const [monthValue, year] = monthYearString.split("-");
         const monthIndex = utils.getMonthIndex(monthValue);
 
-        const adjustedMonthIndex = (monthIndex + valueToadd) % 12; // Ajusta el índice para reiniciar en enero
+        const adjustedMonthIndex = (monthIndex + 1) % 12; // Ajusta el índice para reiniciar en enero
 
-        // Incrementa el año si el mes ajustado es enero
-        const adjustedYear = (monthIndex - valueToadd < 0) ? parseInt(year) - 1 : year; 
+        // Incrementa el año si el mes avanzado cruza a enero del año siguiente
+        const adjustedYear = (monthIndex + 1 >= 12) ? parseInt(year) + 1 : parseInt(year);
         const month = utils.getMonthName(adjustedMonthIndex);
 
         return `${month}-${adjustedYear}`;
