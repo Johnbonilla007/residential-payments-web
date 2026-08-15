@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const InvoiceStyled = styled.div`
   .search-container {
+    position: sticky;
+    top: 0;
+    z-index: 5;
     background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 12px;

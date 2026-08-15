@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {
   HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
   SIDEBAR_COLLAPSED_WIDTH,
   SIDEBAR_WIDTH,
   px,
@@ -31,9 +32,12 @@ export const ContainerControlStyled = styled.div`
     `;
   }}
 
-  /* Below the mobile breakpoint the sidebar overlays, so content spans fully. */
+  /* Below the mobile breakpoint the sidebar overlays, so content spans fully.
+     The top bar is also shorter, so the offset shrinks to match and no gap
+     appears under it. */
   ${media.md} {
     left: 0 !important;
+    top: ${px(HEADER_HEIGHT_MOBILE)} !important;
   }
 
   overflow: auto;

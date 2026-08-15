@@ -15,6 +15,12 @@ export const SIDEBAR_COLLAPSED_WIDTH = 70;
  */
 export const HEADER_HEIGHT = 106;
 
+/**
+ * On mobile the top bar shrinks (smaller logo/padding), so the content offset
+ * must shrink with it — otherwise the desktop 106px leaves a gap under the bar.
+ */
+export const HEADER_HEIGHT_MOBILE = 78;
+
 export const px = (value) => `${value}px`;
 
 /**
