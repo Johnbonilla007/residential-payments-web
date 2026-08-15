@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const ReportSumarizePdfStyled = styled.div`
   @media print {
     @page {
-      size: landscape;
+      size: portrait;
+      margin: 1cm;
     }
   }
   width: 96%;
@@ -13,7 +14,7 @@ export const ReportSumarizePdfStyled = styled.div`
     grid-template-columns: 150px 1fr 150px; /* Logos laterales fijos, titulo flexible */
     align-items: center;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 
     > div:nth-child(2) {
       text-align: center;
@@ -26,7 +27,7 @@ export const ReportSumarizePdfStyled = styled.div`
     text-align: center;
     align-items: center;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5px;
   }
   .table {
     border: 2px solid ${(props) => props.theme.colors.border || "#ccc"};
@@ -38,7 +39,7 @@ export const ReportSumarizePdfStyled = styled.div`
     }
     .header-item {
       display: grid;
-      font-size: 12pt;
+      font-size: 10pt;
       grid-template-columns: 30% 50% 20%;
       background-color: #002147;
       width: 100%;
@@ -53,7 +54,8 @@ export const ReportSumarizePdfStyled = styled.div`
 
       .item {
         display: grid;
-        font-size: 9pt; /* Reducir ligeramente */
+        font-size: 8pt; /* Reducir ligeramente */
+        padding: 2px 4px;
         grid-template-columns: 30% 50% 20%;
         border-top: 1px solid ${(props) => props.theme.colors.border || "#000"};
         color: ${(props) => props.theme.colors.text || "#000"};
@@ -63,11 +65,11 @@ export const ReportSumarizePdfStyled = styled.div`
       }
       .total {
         display: grid;
-        font-size: 11pt;
+        font-size: 9pt;
         grid-template-columns: 60% 20% 20%;
         justify-content: center;
         align-items: center;
-        padding: 10px;
+        padding: 4px;
         border-top: 2px solid ${(props) => props.theme.colors.border || "#000"};
         color: ${(props) => props.theme.colors.text || "#000"};
         page-break-inside: avoid;
@@ -81,8 +83,8 @@ export const ReportSumarizePdfStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 5px;
+    margin-top: 5px;
     width: 100%;
     page-break-inside: avoid; /* Tratar de mantener el resumen junto */
     break-inside: avoid;
@@ -99,11 +101,11 @@ export const ReportSumarizePdfStyled = styled.div`
   .table-summarize .item {
     display: flex;
     justify-content: space-between;
-    padding: 8px; /* Reducir padding */
+    padding: 4px; /* Reducir padding */
     background-color: ${(props) => props.theme.colors.cardBg || "#f9f9f9"};
     border: 1px solid ${(props) => props.theme.colors.border || "#ddd"};
     border-radius: 3px;
-    font-size: 9pt; /* Texto más pequeño */
+    font-size: 8pt; /* Texto más pequeño */
     color: ${(props) => props.theme.colors.text || "#333"};
   }
 
