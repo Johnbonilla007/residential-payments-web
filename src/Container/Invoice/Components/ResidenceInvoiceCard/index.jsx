@@ -228,7 +228,7 @@ const ResidenceInoviceCard = ({
           );
         }
       },
-      { root: scrollContainerRef.current, rootMargin: "200px" },
+      { root: null, rootMargin: "400px" },
     );
 
     observer.observe(sentinel);

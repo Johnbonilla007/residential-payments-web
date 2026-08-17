@@ -169,85 +169,97 @@ const PendingPaymentReport = () => {
     <Container>
       <Toast ref={toast} />
       <PendingPaymentReportStyled>
-        <div className="filters">
-          {canShowResidentialControl && (
-            <Dropdown
-              className="commandbox"
-              value={residentialSelected}
-              options={residentials}
-              onChange={handleOnchangeResidential}
-              optionLabel="name"
-              placeholder="Seleccione una Residencial"
-              filter
-            />
-          )}
-          <Dropdown
-            className="commandbox"
-            name="paymentTypeNo"
-            value={filters.paymentTypeNo}
-            options={paymentTypes}
-            onChange={handleOnChangeFilters}
-            optionLabel="name"
-            optionValue="paymentTypeNo"
-            placeholder="Seleccione Un Tipo de Pago"
-            filter
-          />
-          <div>
-            {utils.isNullOrEmpty(filters.residenceNo) ? (
-              <CustomDropDown
-                items={accounts}
-                itemTemplate={itemTemplate}
-                onChange={(value) => {
-                  setFilters({
-                    ...filters,
-                    residenceNo: value,
-                  });
-                }}
-                placeholder="Seleccione una Residencia"
-                filterProperties={["name", "block", "houseNumber"]}
-                combinedProperties={[
-                  (item) => `${item.block}${item.houseNumber}`,
-                ]}
-                optionValue="residenceNo"
-              />
-            ) : (
-              <div style={{ alignItems: "center", display: "flex" }}>
-                <InputText value={getAccountsValue()} readOnly={true} />
-                <Button
-                  icon="pi pi-times"
-                  className="p-button-rounded p-button-danger p-button-text"
-                  aria-label="Cancel"
-                  onClick={() => setFilters({ ...filters, residenceNo: "" })}
+        <div className="filter-card">
+          <div className="filters">
+            {canShowResidentialControl && (
+              <div className="filter-item">
+                <label>Residencial</label>
+                <Dropdown
+                  value={residentialSelected}
+                  options={residentials}
+                  onChange={handleOnchangeResidential}
+                  optionLabel="name"
+                  placeholder="Seleccione una Residencial"
+                  filter
                 />
               </div>
             )}
-          </div>
-          <div className="calendar">
-            <label htmlFor="basic">Mes: </label>
-            <Calendar
-              id="basic"
-              name="month"
-              value={filters.month}
-              onChange={handleOnChangeFilters}
-              view="month"
-              dateFormat="mm/yy"
-            />
+            <div className="filter-item">
+              <label>Tipo de Pago</label>
+              <Dropdown
+                name="paymentTypeNo"
+                value={filters.paymentTypeNo}
+                options={paymentTypes}
+                onChange={handleOnChangeFilters}
+                optionLabel="name"
+                optionValue="paymentTypeNo"
+                placeholder="Seleccione Un Tipo de Pago"
+                filter
+              />
+            </div>
+            <div className="filter-item">
+              <label>Residencia</label>
+              {utils.isNullOrEmpty(filters.residenceNo) ? (
+                <CustomDropDown
+                  items={accounts}
+                  itemTemplate={itemTemplate}
+                  onChange={(value) => {
+                    setFilters({
+                      ...filters,
+                      residenceNo: value,
+                    });
+                  }}
+                  placeholder="Seleccione una Residencia"
+                  filterProperties={["name", "block", "houseNumber"]}
+                  combinedProperties={[
+                    (item) => `${item.block}${item.houseNumber}`,
+                  ]}
+                  optionValue="residenceNo"
+                />
+              ) : (
+                <div className="selected-residence-container">
+                  <InputText value={getAccountsValue()} readOnly={true} />
+                  <Button
+                    icon="pi pi-times"
+                    className="p-button-rounded p-button-danger p-button-text"
+                    aria-label="Cancel"
+                    onClick={() => setFilters({ ...filters, residenceNo: "" })}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="filter-item">
+              <label htmlFor="basic">Mes</label>
+              <Calendar
+                id="basic"
+                name="month"
+                value={filters.month}
+                onChange={handleOnChangeFilters}
+                view="month"
+                dateFormat="mm/yy"
+                placeholder="Seleccione Mes"
+              />
+            </div>
           </div>
 
-          <Button
-            label="Generar"
-            icon="pi pi-check"
-            onClick={handleGenerateReport}
-            className="button"
-          />
-          {utils.evaluateArray(pandingPayments) && (
+          <div className="filter-actions">
             <Button
-              label="Vista Previa de impresión"
-              icon="pi pi-print"
-              onClick={() => setPrintReport(true)}
-              className="p-button-rounded p-button-info"
+              label="Generar Reporte"
+              icon="pi pi-check"
+              onClick={handleGenerateReport}
+              className="btn-generate"
             />
-          )}
+            {utils.evaluateArray(pandingPayments) && (
+              <Button
+                label="Imprimir"
+                icon="pi pi-print"
+                onClick={() => setPrintReport(true)}
+                className="btn-print"
+                tooltip="Vista Previa de impresión"
+                tooltipOptions={{ position: 'top' }}
+              />
+            )}
+          </div>
         </div>
 
         {printReport && (
@@ -263,17 +275,19 @@ const PendingPaymentReport = () => {
             onDismiss={() => setPrintReport(false)}
           />
         )}
-        <TableControl
-          loading={loading}
-          items={pandingPayments}
-          title="Reporte De Pagos Pendientes"
-          filter={filtersTable}
-          setFilter={setFiltersTable}
-          filterFields={filterFields}
-          columns={pendingPaymentColumns}
-          emptyMessage="No hay registros para mostrar"
-          isExportExcel
-        />
+        <div className="table-container">
+          <TableControl
+            loading={loading}
+            items={pandingPayments}
+            title="Reporte De Pagos Pendientes"
+            filter={filtersTable}
+            setFilter={setFiltersTable}
+            filterFields={filterFields}
+            columns={pendingPaymentColumns}
+            emptyMessage="No hay registros para mostrar"
+            isExportExcel
+          />
+        </div>
       </PendingPaymentReportStyled>
     </Container>
   );
