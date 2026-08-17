@@ -15,6 +15,7 @@ import {
   SIDEBAR_WIDTH,
   px,
 } from "../../Styles/layout";
+import LogoImage from "../../Assets/Logo.png";
 
 const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -93,7 +94,7 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
           }}
         >
           <img
-            src={require("../../Assets/Logo.png")}
+            src={LogoImage}
             alt="Quintas del Sol"
             style={{
               maxHeight: isCollapsed ? "40px" : "80px",

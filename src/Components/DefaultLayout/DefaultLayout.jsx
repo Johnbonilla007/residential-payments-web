@@ -233,9 +233,9 @@ export const DefaultLayout = () => {
 
   return (
     <DefaultLayoutStyled
-      authenticate={authenticate}
-      showSideBar={showSideBar}
-      showMenuOnMobile={showMenuOnMobile}
+      $authenticate={authenticate}
+      $showSideBar={showSideBar}
+      $showMenuOnMobile={showMenuOnMobile}
     >
       <Toast ref={toast} />
 
@@ -254,6 +254,7 @@ export const DefaultLayout = () => {
       )}
 
       <div
+        className="main-content"
         style={{
           paddingTop: authenticate ? "60px" : "0",
           flex: 1,

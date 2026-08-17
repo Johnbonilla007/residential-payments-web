@@ -403,6 +403,28 @@ const GlobalStyles = createGlobalStyle`
   .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon {
     color: var(--info-color, #0277bd) !important;
   }
+
+  /* Global override for react-pro-sidebar popout submenus */
+  .ps-submenu-content {
+    background: var(--app-nav-gradient) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg) !important;
+    padding: 0.5rem !important;
+  }
+
+  .ps-submenu-content .ps-menu-button {
+    color: var(--app-nav-text) !important;
+  }
+
+  .ps-submenu-content .ps-menu-button:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+  }
+
+  .ps-submenu-content .ps-menu-label {
+    display: block !important;
+    color: var(--app-nav-text) !important;
+  }
 `;
 
 export default GlobalStyles;

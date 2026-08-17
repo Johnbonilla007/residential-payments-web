@@ -23,15 +23,15 @@ export const DefaultLayoutStyled = styled.div`
 
   /* Premium top navigation bar */
   .top-bar {
-    ${({ authenticate, showSideBar, showMenuOnMobile }) =>
-      authenticate &&
+    ${({ $authenticate, $showSideBar, $showMenuOnMobile }) =>
+      $authenticate &&
       `position: fixed; 
        top: 0;
        right: 0;
        left: ${
-         showSideBar
+         $showSideBar
            ? px(SIDEBAR_WIDTH)
-           : showMenuOnMobile
+           : $showMenuOnMobile
            ? px(SIDEBAR_COLLAPSED_WIDTH)
            : "0"
        };
@@ -283,6 +283,24 @@ export const DefaultLayoutStyled = styled.div`
     }
   }
 
+  /* Main content offset */
+  .main-content {
+    transition: margin-left var(--transition-base);
+    ${({ $authenticate, $showSideBar, $showMenuOnMobile }) =>
+      $authenticate &&
+      `margin-left: ${
+         $showSideBar
+           ? px(SIDEBAR_WIDTH)
+           : $showMenuOnMobile
+           ? px(SIDEBAR_COLLAPSED_WIDTH)
+           : "0"
+       };`}
+
+    @media (max-width: 768px) {
+      margin-left: 0 !important;
+    }
+  }
+
   /* Premium footer */
   .footer {
     justify-content: center;
@@ -395,6 +413,31 @@ export const AppSidebarStyled = styled.div`
    * the drawer's offset to the bar's measured height — that number changes with
    * the root font size and would silently hide the first menu item again.
    */
+  /**
+   * Portaled submenu content from react-pro-sidebar (renders outside .side)
+   */
+  &,
+  :global(.ps-submenu-content) {
+    background: var(--app-nav-gradient) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px;
+    box-shadow: var(--app-shadow-lg) !important;
+    padding: 0.5rem !important;
+    
+    .ps-menu-button {
+      color: var(--app-nav-text) !important;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+      }
+    }
+    
+    .ps-menu-label {
+      display: block !important;
+      color: var(--app-nav-text) !important;
+    }
+  }
+
   .sidebar-backdrop {
     position: fixed;
     inset: 0;
@@ -453,6 +496,16 @@ export const AppSidebarStyled = styled.div`
       display: none;
     }
 
+    /* Restore labels inside the popout submenu when collapsed */
+    .ps-submenu-content .ps-menu-label {
+      display: block !important;
+    }
+
+    /* Restore labels inside the popout submenu when collapsed */
+    .ps-submenu-content .ps-menu-label {
+      display: block !important;
+    }
+
     .ps-menu-button {
       justify-content: center;
       padding-left: 0;
@@ -469,9 +522,6 @@ export const AppSidebarStyled = styled.div`
   .side,
   .ps-sidebar-container {
     /* Custom scrollbar for sidebar */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-
     &::-webkit-scrollbar {
       width: 4px;
     }
