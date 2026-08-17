@@ -5,14 +5,14 @@ export const InvoiceStyled = styled.div`
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: rgba(11, 19, 38, 0.85); /* Use deep slate with opacity */
+    background-color: color-mix(in srgb, var(--card-bg) 85%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--app-shadow-md);
+    border: 1px solid var(--surface-border);
 
     strong {
       display: block;

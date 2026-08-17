@@ -58,6 +58,7 @@ const light = {
     // Chrome
     navBackground: "#002147",
     navText: "#ffffff",
+    tableHeadBg: "#f8f9fa",
     navGradient: "linear-gradient(135deg, #001f3f 0%, #003366 100%)",
     groundGradient: "linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%)",
     surfaceGradient: "linear-gradient(to bottom, #ffffff, #fafbfd)",
@@ -104,6 +105,7 @@ const dark = {
 
     navBackground: "#0b1220",
     navText: "#e6edf6",
+    tableHeadBg: "#16233a",
     navGradient: "linear-gradient(135deg, #0b1220 0%, #16233a 100%)",
     groundGradient: "linear-gradient(135deg, #0b1220 0%, #111c2e 100%)",
     surfaceGradient: "linear-gradient(to bottom, #16233a, #111c2e)",
@@ -190,6 +192,7 @@ export const themeCssVariables = (name) => {
     "--app-secondary": colors.secondary,
     "--app-nav-bg": colors.navBackground,
     "--app-nav-text": colors.navText,
+    "--table-head-bg": colors.tableHeadBg,
     "--app-error": colors.error,
     "--app-success": colors.success,
     // Tinted backgrounds for positive/negative figures, readable in both themes.

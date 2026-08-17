@@ -286,14 +286,12 @@ export const DefaultLayoutStyled = styled.div`
   /* Main content offset */
   .main-content {
     transition: margin-left var(--transition-base);
-    ${({ $authenticate, $showSideBar, $showMenuOnMobile }) =>
+    ${({ $authenticate, $showSideBar }) =>
       $authenticate &&
       `margin-left: ${
          $showSideBar
            ? px(SIDEBAR_WIDTH)
-           : $showMenuOnMobile
-           ? px(SIDEBAR_COLLAPSED_WIDTH)
-           : "0"
+           : px(SIDEBAR_COLLAPSED_WIDTH)
        };`}
 
     @media (max-width: 768px) {

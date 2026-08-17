@@ -431,7 +431,7 @@ const IncomeAndSpendingReportDetailed = () => {
             residences={residences}
           />
         )}
-        <div>
+        <div className="table-container">
           <TableControl
             loading={loading}
             items={itemsReport}
@@ -441,6 +441,8 @@ const IncomeAndSpendingReportDetailed = () => {
             filterFields={propertiesTable.filterFields}
             columns={propertiesTable.columns}
             emptyMessage={propertiesTable.emptyMessage}
+            scrollable={true}
+            scrollHeight="flex"
           />
         </div>
       </IncomeReportStyled>

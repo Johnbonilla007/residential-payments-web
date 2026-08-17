@@ -4,7 +4,7 @@ import CardMenu from "../Menu/Components/CardMenu";
 import { utils } from "../../Helpers/utils";
 import { getRequestUserInfo } from "../../Helpers/restClient";
 import Container from "../../Components/ContainerControl";
-import { SecurityAndManagementContainerSyled } from "./styles";
+import { SecurityContainerStyled } from "./styles";
 
 const SecurityAndManagementContainer = () => {
   const _routes = routes.firstOrDefault(
@@ -20,7 +20,7 @@ const SecurityAndManagementContainer = () => {
   }, [userInfo]);
   return (
     <Container>
-      <SecurityAndManagementContainerSyled>
+      <SecurityContainerStyled>
         {_routes?.subRoutes?.map((route, index) => {
           let allowAccess = utils.hasPermission(route.accesses);
           const isSuperRoot = accesses?.some((x) =>
@@ -42,7 +42,7 @@ const SecurityAndManagementContainer = () => {
             );
           }
         })}
-      </SecurityAndManagementContainerSyled>
+      </SecurityContainerStyled>
     </Container>
   );
 };

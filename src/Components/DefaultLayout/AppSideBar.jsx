@@ -41,8 +41,9 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
       setMobileSidebarVisible(!mobileSidebarVisible);
       return;
     }
-    setCollapsed(!collapsed);
-    dispatch(setShowSideBar(collapsed));
+    const newCollapsedState = !collapsed;
+    setCollapsed(newCollapsedState);
+    dispatch(setShowSideBar(!newCollapsedState));
   };
 
   useEffect(() => {

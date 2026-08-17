@@ -2,27 +2,10 @@ import styled from "styled-components";
 
 export const UsersContainerStyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
-  overflow: auto;
   padding: 2rem;
-  max-height: 80vh;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary, var(--app-primary)) var(--text-color);
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--surface-card);
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-primary, var(--app-primary));
-    border-radius: 10px;
-  }
+  margin-top: 10px;
 
   .item {
     /* Adaptado al tema: antes era un gradiente blanco fijo y se veía blanco en modo oscuro. */

@@ -25,6 +25,8 @@ const TableControl = ({
   paginator = true,
   onFilter,
   columnsToExcelExport = undefined,
+  scrollable = false,
+  scrollHeight = undefined,
 }) => {
   const verifiedRowFilterTemplate = (options, item) => {
     return (
@@ -129,6 +131,8 @@ const TableControl = ({
           // globalFilterFields={filterFields}
           emptyMessage={emptyMessage ? emptyMessage : " "}
           onFilter={onFilter}
+          scrollable={scrollable}
+          scrollHeight={scrollHeight}
         >
           {columns &&
             columns.map((item) => {

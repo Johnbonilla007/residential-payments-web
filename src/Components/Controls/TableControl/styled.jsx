@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const TableControlStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   .card {
     background-color: var(--surface-card);
     color: var(--text-color);
@@ -8,6 +12,10 @@ export const TableControlStyled = styled.div`
     border-radius: var(--radius-lg);
     box-shadow: var(--app-shadow-md);
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
   }
 
   /* Replaces the PrimeFlex utility classes the markup used to rely on. */
@@ -24,6 +32,13 @@ export const TableControlStyled = styled.div`
     margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 1rem;
+  }
+
+  .p-datatable {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
   }
 
   .p-datatable table {
@@ -54,7 +69,7 @@ export const TableControlStyled = styled.div`
   }
 
   /* Responsive Cell Layout */
-  .p-column-title {
+  .p-datatable-tbody .p-column-title {
     display: none;
   }
 
@@ -87,7 +102,7 @@ export const TableControlStyled = styled.div`
       border-bottom: none !important;
     }
 
-    .p-column-title {
+    .p-datatable-tbody .p-column-title {
       display: block !important;
       font-weight: 600;
       min-width: 30%;

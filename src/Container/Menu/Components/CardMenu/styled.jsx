@@ -7,12 +7,11 @@ export const CardMenuStyled = styled.div`
     width: 100%;
     height: 100%;
     min-height: 120px;
-    border-radius: var(--radius-xl);
-    background-color: color-mix(in srgb, var(--card-bg) 60%, transparent);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--surface-border);
-    border-top: 1px solid color-mix(in srgb, var(--text-color) 10%, var(--surface-border));
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
     position: relative;
     display: flex;
     align-items: center;
@@ -22,39 +21,40 @@ export const CardMenuStyled = styled.div`
     overflow: hidden;
 
     &:hover {
-      background-color: color-mix(in srgb, var(--card-bg) 85%, transparent);
-      border-top: 1px solid color-mix(in srgb, var(--text-color) 25%, var(--surface-border));
-      box-shadow: var(--app-shadow-lg);
-      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      transform: translateY(-4px);
+      border-color: ${(props) => props.color || props.theme.colors.secondary}55;
     }
   }
 
   .left-content {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
     position: relative;
     z-index: 10;
+    min-width: 0;
+    flex: 1;
   }
 
   .icon {
     width: 48px;
     height: 48px;
     flex-shrink: 0;
-    min-width: 48px;
-    border-radius: var(--radius-lg);
-    background-color: var(--surface-section);
+    border-radius: 14px;
+    background-color: ${(props) => props.color || props.theme.colors.secondary}22;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--surface-border);
-    box-shadow: var(--app-shadow-sm);
+    transition: background-color 0.3s ease;
     position: relative;
     z-index: 10;
-    font-size: 28px;
-    /* Apply dynamic glow based on route color */
+    font-size: 20px;
     color: ${(props) => props.color || props.theme.colors.secondary};
-    text-shadow: 0 0 16px ${(props) => props.color || props.theme.colors.secondary}99;
+  }
+
+  .card:hover .icon {
+    background-color: ${(props) => props.color || props.theme.colors.secondary}33;
   }
 
   .text-content {
@@ -63,62 +63,61 @@ export const CardMenuStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     text-align: left;
+    min-width: 0;
   }
 
   .title {
     font-family: 'Outfit', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 32px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 22px;
     color: var(--text-color);
     margin: 0 0 0.25rem 0;
     letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .description {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 18px;
     color: var(--text-color-secondary);
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .chevron-shift {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background-color);
     color: var(--text-color-secondary);
-    font-size: 20px;
-    transition: transform 0.3s ease, color 0.3s ease;
+    font-size: 12px;
+    transition: all 0.3s ease;
     z-index: 10;
+    flex-shrink: 0;
+    margin-left: 1rem;
   }
 
   .card:hover .chevron-shift {
+    background: ${(props) => props.color || props.theme.colors.secondary};
+    color: #ffffff;
     transform: translateX(4px);
-    color: var(--text-color);
   }
 
   .glow-background {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 128px;
-    height: 128px;
-    background-color: ${(props) => props.color || props.theme.colors.secondary};
-    opacity: 0;
-    filter: blur(50px);
-    transition: opacity 0.5s ease;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .card:hover .glow-background {
-    opacity: 0.15;
-  }
-
-  @media (min-width: 768px) {
-    .title {
-      font-size: 28px;
-      line-height: 36px;
-    }
+    display: none;
   }
 `;

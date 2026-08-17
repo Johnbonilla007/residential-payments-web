@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const DefaultLayoutSlice = createSlice({
   name: "DefaultLayout",
   initialState: {
-    showSideBar: false,
+    showSideBar: true,
   },
   reducers: {
     setShowSideBar: (state, action) => {

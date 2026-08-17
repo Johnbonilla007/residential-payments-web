@@ -9,7 +9,6 @@
   --border-color: #cbd5e1;
   --input-bg: #ffffff;
   --card-bg: #ffffff;
-  --table-head-bg: #f8f9fa;
 }
 
 body.dark-mode {
@@ -20,7 +19,6 @@ body.dark-mode {
   --border-color: #334155;
   --input-bg: #0f172a;
   --card-bg: #1e293b;
-  --table-head-bg: #1e293b;
   background-color: var(--background-color);
   color: var(--text-color);
 }

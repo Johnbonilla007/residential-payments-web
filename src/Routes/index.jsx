@@ -54,6 +54,7 @@ const routes = [
       {
         path: "/billing/receipt",
         name: "Recibos",
+        description: "Gestión y emisión de recibos",
         isMenu: false,
         isSecurity: true,
         color: "#ae976a",
@@ -65,6 +66,7 @@ const routes = [
       {
         path: "/billing/penalty-fee",
         name: "Multas",
+        description: "Control de penalizaciones",
         isMenu: false,
         isSecurity: true,
         color: "#ae98ca",
@@ -102,6 +104,7 @@ const routes = [
       {
         path: "/reports/incomes-report",
         name: "Reporte de Ingresos y Gastos Detallado",
+        description: "Análisis pormenorizado de transacciones",
         isMenu: false,
         isSecurity: true,
         color: "#A2C8CC",
@@ -113,6 +116,7 @@ const routes = [
       {
         path: "/reports/pending-payment-report",
         name: "Reporte de Pagos Pendientes",
+        description: "Estado de cuentas por cobrar",
         isMenu: false,
         isSecurity: true,
         color: "#FFA500",
@@ -124,6 +128,7 @@ const routes = [
       {
         path: "/reports/income-and-spending-report",
         name: "Reporte de Ingresos y Gastos Sumarizado",
+        description: "Balance general consolidado",
         isMenu: false,
         isSecurity: true,
         color: "#90EE90",
@@ -157,6 +162,7 @@ const routes = [
       {
         path: "/reports/penalty-fee-report",
         name: "Reporte de Multas",
+        description: "Registro de penalizaciones aplicadas",
         isMenu: false,
         isSecurity: true,
         color: "#ADD8E6",

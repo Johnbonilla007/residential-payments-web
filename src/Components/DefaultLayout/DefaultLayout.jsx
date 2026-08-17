@@ -258,7 +258,6 @@ export const DefaultLayout = () => {
         style={{
           paddingTop: authenticate ? "60px" : "0",
           flex: 1,
-          width: "100%",
         }}
       >
         {RenderRoutes()}
