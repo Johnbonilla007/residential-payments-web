@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import routes from "../../Routes";
-import { Toolbar } from "primereact/toolbar";
+import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
 import { DefaultLayoutStyled } from "./styled";
-import { Popover } from "primereact/popover";
+import { OverlayPanel } from "primereact/overlaypanel";
 import { InputText } from "primereact/inputtext";
-import { InputPassword } from "primereact/inputpassword";
+import { Password } from "primereact/password";
 import Home from "../../Container/Home";
 import { getRequestUserInfo, restClient } from "../../Helpers/restClient";
 import { utils } from "../../Helpers/utils";
@@ -239,7 +239,7 @@ export const DefaultLayout = () => {
     >
       <Toast ref={toast} />
 
-      <Toolbar
+      <Menubar
         style={{ borderRadius: 1 }}
         className="top-bar"
         start={start}
@@ -266,7 +266,7 @@ export const DefaultLayout = () => {
       {/* <div className="footer">
         © 2024, Sistema de Pagos Residenciales. Todos los derechos reservados.
       </div> */}
-      <Popover
+      <OverlayPanel
         ref={op}
         showCloseIcon
         id="overlay_panel"
@@ -296,7 +296,7 @@ export const DefaultLayout = () => {
               />
             </span>
             <span>
-              <InputPassword
+              <Password
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Contraseña"
@@ -313,7 +313,7 @@ export const DefaultLayout = () => {
             />
           </div>
         </div>
-      </Popover>
+      </OverlayPanel>
     </DefaultLayoutStyled>
   );
 };

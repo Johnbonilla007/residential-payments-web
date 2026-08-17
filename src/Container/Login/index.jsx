@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { Toast } from "primereact/toast";
 import { setAuthenticate } from "./reducer";
 import { InputText } from "primereact/inputtext";
-import { InputPassword } from "primereact/inputpassword";
+import { Password } from "primereact/password";
 import Container from "../../Components/ContainerControl";
 import { utils } from "../../Helpers/utils";
 import { TipoCuentas } from "../../Helpers/Constant";
@@ -116,7 +116,7 @@ export const Login = () => {
               />
             </div>
             <div className="input">
-              <InputPassword
+              <Password
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Contraseña"
