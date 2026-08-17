@@ -8,9 +8,9 @@ import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
 import { DynamicFormDialogStyled } from "./styled";
-import { Password } from "primereact/password";
+import { InputPassword } from "primereact/inputpassword";
 import { InputMask } from "primereact/inputmask";
-import { ListBox } from "primereact/listbox";
+import { Listbox } from "primereact/listbox";
 import { MultiSelect } from "primereact/multiselect";
 import { Calendar } from "primereact/calendar";
 
@@ -86,7 +86,7 @@ const DynamicFormDialog = ({
           <div key={field.fieldName} className="container-input">
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
-              <Password
+              <InputPassword
                 id={field.fieldName}
                 value={formData[field.fieldName] || ""}
                 onChange={(e) => handleChange(e, field.fieldName)}
@@ -195,7 +195,7 @@ const DynamicFormDialog = ({
           <div key={field.fieldName} className="container-input">
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
-              <ListBox
+              <Listbox
                 value={selectedItem}
                 options={field.options}
                 optionLabel={field.optionLabel}

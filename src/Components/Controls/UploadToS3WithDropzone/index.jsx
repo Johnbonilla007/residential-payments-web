@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Dialog } from "primereact/dialog";
-import { Amplify, Storage } from "aws-amplify";
+import { Amplify } from "aws-amplify";
+import { uploadData } from "aws-amplify/storage";
 import awsConfig from "../../../aws-exports";
 import { Toast } from "primereact/toast";
 import { UploadToS3WithDropzoneStyled } from "./styled";
@@ -74,7 +75,7 @@ const UploadToS3WithDropzone = ({
     setFileUrl(previewUrl);
   };
   const uploadProgress = (progress) => {
-    const percentage = Math.round((progress.loaded / progress.total) * 100);
+    const percentage = Math.round((progress.transferredBytes / progress.totalBytes) * 100);
     console.log(`Upload is ${percentage}% done`);
     setProgress(percentage);
   };
@@ -112,13 +113,17 @@ const UploadToS3WithDropzone = ({
 
     try {
       // Sube el archivo al bucket existente en la ruta especificada
-      const result = await Storage.put(filePath, file, {
-        level: "public",
-        contentType: file.type,
-        progressCallback: uploadProgress,
+      const uploadTask = uploadData({
+        path: `public/${filePath}`,
+        data: file,
+        options: {
+          contentType: file.type,
+          onProgress: uploadProgress,
+        }
       });
+      const result = await uploadTask.result;
 
-      const url = `https://residentialpaymentsstorage44a1f-dev.s3.us-east-2.amazonaws.com/public/${result.key}`;
+      const url = `https://residentialpaymentsstorage44a1f-dev.s3.us-east-2.amazonaws.com/public/${filePath}`;
       setFileUrl(url);
       getUrl(url);
       toast.current.show({
