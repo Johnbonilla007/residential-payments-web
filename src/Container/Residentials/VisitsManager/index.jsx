@@ -5,7 +5,6 @@ import {
   ButtonFullWidth,
   DateFilter,
   FiltersWrapper,
-  StyeledDataTable,
   UserFilter,
   UserGroup,
   VisitsManagerStyled,
