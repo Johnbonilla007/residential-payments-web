@@ -9,7 +9,7 @@ import React from "react";
 import { ACTION } from "../utils/constant";
 import eventManager from "../utils/eventManager";
 import { StyledWaitControl } from "./styles";
-import { WaveSpinner } from "react-spinners-kit";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 /* eslint-disable react/prefer-stateless-function */
 export class WaitControlContainer extends React.Component {
@@ -74,7 +74,7 @@ export class WaitControlContainer extends React.Component {
       <div style={{ display: this.isOpen() ? "block" : "none" }}>
         <StyledWaitControl>
           <div className="animation-content">
-            <WaveSpinner size={70} color="#F2F4F6" loading />
+            <ProgressSpinner style={{width: '70px', height: '70px'}} strokeWidth="4" fill="transparent" animationDuration=".5s" />
           </div>
         </StyledWaitControl>
       </div>
