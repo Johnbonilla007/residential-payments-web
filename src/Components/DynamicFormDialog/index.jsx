@@ -10,7 +10,7 @@ import { Checkbox } from "primereact/checkbox";
 import { DynamicFormDialogStyled } from "./styled";
 import { Password } from "primereact/password";
 import { InputMask } from "primereact/inputmask";
-import { Listbox } from "primereact/listbox";
+import { ListBox } from "primereact/listbox";
 import { MultiSelect } from "primereact/multiselect";
 import { Calendar } from "primereact/calendar";
 
@@ -195,7 +195,7 @@ const DynamicFormDialog = ({
           <div key={field.fieldName} className="container-input">
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
-              <Listbox
+              <ListBox
                 value={selectedItem}
                 options={field.options}
                 optionLabel={field.optionLabel}
