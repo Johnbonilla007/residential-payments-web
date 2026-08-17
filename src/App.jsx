@@ -7,7 +7,7 @@ import GlobalStyles from "./AppStyled";
 import { WaitControlContainer } from "./Components/Controls/WaitControl";
 import { ThemeProvider } from "./Context/ThemeContext";
 
-require("mini-linq-js");
+import "mini-linq-js";
 
 function App() {
   return (
