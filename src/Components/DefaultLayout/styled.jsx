@@ -416,7 +416,6 @@ export const AppSidebarStyled = styled.div`
   /**
    * Portaled submenu content from react-pro-sidebar (renders outside .side)
    */
-  &,
   :global(.ps-submenu-content) {
     background: var(--app-nav-gradient) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -646,8 +645,28 @@ export const AppSidebarStyled = styled.div`
           0 8px 32px rgba(0, 0, 0, 0.2), 
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
-      
-      /* Submenu items inside */
+    }
+  }
+
+  /* When collapsed, override the transparent submenu so the popout has a background */
+  .side.side--collapsed .submenu .ps-submenu-content {
+    background: var(--app-nav-gradient) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--app-shadow-lg) !important;
+    padding: 0.5rem !important;
+
+    > ul {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+
       .ps-menu-button {
         border-radius: 12px;
         margin: 0.25rem 0.5rem;
