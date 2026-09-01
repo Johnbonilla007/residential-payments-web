@@ -300,21 +300,6 @@ const CreateOrUpdateInvoiceModal = ({
     }
 
     if (
-      !utils.evaluateArray(invoice.partialPayments) &&
-      utils.evaluateArray(partialPeymentOlds) &&
-      partialPeymentOlds.some((x) => x.paymentNo === detail.paymentTypeNo)
-    ) {
-      toast.current.show({
-        severity: "warn",
-        summary: "Advertencia",
-        detail:
-          "El usuario tiene un arreglo de pago pendiente, debe abonar algo, para poder facturar un mes",
-        life: 3000,
-      });
-      return;
-    }
-
-    if (
       utils.evaluateArray(invoice.partialPayments) &&
       utils.evaluateArray(partialPeymentOlds) &&
       detail.quantity > 1
