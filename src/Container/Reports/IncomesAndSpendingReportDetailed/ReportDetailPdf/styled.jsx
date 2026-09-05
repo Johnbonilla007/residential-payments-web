@@ -10,10 +10,39 @@ export const ReportDetailPdfStyled = styled.div`
   margin: 20px;
   .container-header {
     display: flex;
-    justify-content: space-between;
-    text-align: center;
     align-items: center;
+    gap: 14px;
     width: 100%;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #002147;
+  }
+
+  .header-logo {
+    width: 80px;
+    height: auto;
+    max-height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .header-residential-name {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #002147;
+    line-height: 1.2;
+  }
+
+  .header-department {
+    font-size: 9pt;
+    color: #555;
+    letter-spacing: 0.04em;
   }
 
   .date-range {

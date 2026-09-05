@@ -18,37 +18,24 @@ const ReportDetailPdf = ({
     >
       <div>
         <div className="container-header">
-          <div>
-            <img
-              alt="logo"
-              src={
-                !utils.isNullOrEmpty(residentialSelected?.logoResidential)
-                  ? residentialSelected.logoResidential
-                  : "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/residenciales.jpg"
-              }
-              style={{ width: "80px", height: "80px", alignSelf: "center" }}
-            />
-          </div>
-          <div>
-            <div style={{ fontSize: "14pt" }}>
-              <strong>{residentialSelected.name}</strong>
+          <img
+            alt="logo residencial"
+            src={
+              !utils.isNullOrEmpty(residentialSelected?.logoResidential)
+                ? residentialSelected.logoResidential
+                : "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/residenciales.jpg"
+            }
+            className="header-logo"
+          />
+          <div className="header-info">
+            <div className="header-residential-name">{residentialSelected?.name}</div>
+            <div className="header-department">
+              {!utils.isNullOrEmpty(filters.residenceNo)
+                ? "Estado de Cuenta"
+                : `Reporte de ${
+                    filters.reportType === "Incomes" ? "Ingresos" : "Gastos"
+                  }`}
             </div>
-            <div style={{ fontSize: "14pt" }}>
-              <span>
-                {!utils.isNullOrEmpty(filters.residenceNo)
-                  ? "Estado de Cuenta"
-                  : `Reporte de ${
-                      filters.reportType === "Incomes" ? "Ingresos" : "Gastos"
-                    }`}
-              </span>
-            </div>
-          </div>
-          <div style={{ border: "2px #ccc solid", borderRadius: 10 }}>
-            <img
-              alt="logo"
-              src={require("../../../../Assets/Logo.png")}
-              style={{ width: "80px", height: "80px", alignSelf: "center" }}
-            />
           </div>
         </div>
 
