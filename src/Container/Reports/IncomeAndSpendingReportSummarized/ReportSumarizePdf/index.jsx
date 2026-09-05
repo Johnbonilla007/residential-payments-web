@@ -64,53 +64,18 @@ const ReportSumarizePdf = ({
     <ReportSumarizePdfStyled ref={componentRef}>
       <div>
         <div className="container-header">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-          >
-            <img
-              alt="logo"
-              src={
-                !utils.isNullOrEmpty(residentialSelected?.logoResidential)
-                  ? residentialSelected.logoResidential
-                  : "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/residenciales.jpg"
-              }
-              style={{
-                width: "120px",
-                height: "auto",
-                maxHeight: "100px",
-                objectFit: "contain",
-              }}
-            />
-          </div>
-          <div>
-            <div style={{ fontSize: "14pt" }}>
-              <strong>{residentialSelected.name}</strong>
-            </div>
-            <div style={{ fontSize: "14pt" }}>
-              <span>DEPARTAMENTO DE CONTABILIDAD</span>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <img
-              alt="logo"
-              src={require("../../../../Assets/Logo.png")}
-              style={{
-                width: "100px",
-                height: "auto",
-                maxHeight: "80px",
-                objectFit: "contain",
-              }}
-            />
+          <img
+            alt="logo residencial"
+            src={
+              !utils.isNullOrEmpty(residentialSelected?.logoResidential)
+                ? residentialSelected.logoResidential
+                : "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/residenciales.jpg"
+            }
+            className="header-logo"
+          />
+          <div className="header-info">
+            <div className="header-residential-name">{residentialSelected?.name}</div>
+            <div className="header-department">DEPARTAMENTO DE CONTABILIDAD</div>
           </div>
         </div>
         <div

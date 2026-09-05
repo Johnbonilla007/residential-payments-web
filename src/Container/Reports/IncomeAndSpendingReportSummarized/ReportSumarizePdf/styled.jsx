@@ -11,15 +11,41 @@ export const ReportSumarizePdfStyled = styled.div`
   margin: 0;
   font-size: 8pt;
   .container-header {
-    display: grid;
-    grid-template-columns: 150px 1fr 150px; /* Logos laterales fijos, titulo flexible */
+    display: flex;
     align-items: center;
+    gap: 14px;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #002147;
+  }
 
-    > div:nth-child(2) {
-      text-align: center;
-    }
+  .header-logo {
+    width: 80px;
+    height: auto;
+    max-height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .header-residential-name {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #002147;
+    line-height: 1.2;
+  }
+
+  .header-department {
+    font-size: 9pt;
+    color: #555;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .date-range {
