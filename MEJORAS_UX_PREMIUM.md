@@ -1,4 +1,4 @@
-# Mejoras UX Premium y Responsive - Sistema de Pagos Residenciales
+# Mejoras UX Premium y Responsive - Residencial Quintas del Sol
 
 ## 📋 Resumen de Mejoras Implementadas
 

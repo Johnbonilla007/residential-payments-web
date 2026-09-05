@@ -54,7 +54,7 @@ const InvoiceDocumentNormal = ({
         <div className="residential-name">{residentialSelected.name}</div>
         <div className="app-name">
           <div>
-            <strong>Sistema de Pagos Residenciales</strong>
+            <strong>Residencial Quintas del Sol</strong>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "60px", fontWeight: "700" }}>Telefono:</div>

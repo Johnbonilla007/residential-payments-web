@@ -44,7 +44,7 @@ const InvoiceDocumentThermal = ({
         </div>
         <div className="app-name">
           <div style={{ textAlign: "center" }}>
-            <strong>Sistema de Pagos Residenciales</strong>
+            <strong>Residencial Quintas del Sol</strong>
           </div>
           <div
             style={{

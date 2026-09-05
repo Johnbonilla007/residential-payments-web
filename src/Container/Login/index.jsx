@@ -105,7 +105,7 @@ export const Login = () => {
               ></img> */}
               <AiOutlineLogin size={80} />
               <h2>Bienvenido</h2>
-              <p>Sistema de Pagos Residenciales</p>
+              <p>Residencial Quintas del Sol</p>
             </div>
             <div className="input">
               <InputText

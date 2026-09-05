@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <HomeStyled>
       <div className="hero-container">
-        <h1>Sistema de Pagos Residenciales</h1>
+        <h1>Residencial Quintas del Sol</h1>
         <p>
           Administra y gestiona los pagos de tu residencial de manera eficiente.
           Lleva el control de visitas, ingresos, gastos y más, todo desde una

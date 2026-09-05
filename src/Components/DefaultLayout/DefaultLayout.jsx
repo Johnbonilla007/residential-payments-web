@@ -264,7 +264,7 @@ export const DefaultLayout = () => {
       </div>
 
       {/* <div className="footer">
-        © 2024, Sistema de Pagos Residenciales. Todos los derechos reservados.
+        © 2024, Residencial Quintas del Sol. Todos los derechos reservados.
       </div> */}
       <OverlayPanel
         ref={op}
