@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import ReportSumarizePdf from "../../IncomeAndSpendingReportSummarized/ReportSumarizePdf";
 import { Dialog } from "primereact/dialog";
@@ -17,8 +17,22 @@ export const ReportPdfControl = ({
 }) => {
   const componentRef = useRef();
 
+  // react-to-print v3: uses contentRef instead of content callback
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef,
+    documentTitle: title,
+    pageStyle: `
+      @page {
+        size: letter portrait;
+        margin: 0.5cm;
+      }
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    `,
   });
 
   const footer = () => {
@@ -27,9 +41,7 @@ export const ReportPdfControl = ({
         <Button
           label="Imprimir"
           icon="pi pi-print"
-          onClick={() => {
-            handlePrint();
-          }}
+          onClick={() => handlePrint()}
         />
       </div>
     );
@@ -41,7 +53,7 @@ export const ReportPdfControl = ({
       visible={visible}
       footer={footer()}
       onHide={() => onDismiss()}
-      style={{width:'90vw'}}
+      style={{ width: "90vw" }}
     >
       {reportType === "reportSumarize" && (
         <ReportSumarizePdf

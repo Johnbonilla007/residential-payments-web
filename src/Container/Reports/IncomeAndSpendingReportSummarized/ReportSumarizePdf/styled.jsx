@@ -3,12 +3,13 @@ import styled from "styled-components";
 export const ReportSumarizePdfStyled = styled.div`
   @media print {
     @page {
-      size: portrait;
-      margin: 0.5cm;
+      size: letter portrait;
+      margin: 0.8cm 0.6cm;
     }
   }
-  width: 96%;
-  margin: 10px;
+  width: 100%;
+  margin: 0;
+  font-size: 8pt;
   .container-header {
     display: grid;
     grid-template-columns: 150px 1fr 150px; /* Logos laterales fijos, titulo flexible */
