@@ -17,6 +17,28 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
     }
   }
 
+  .houses-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .houses-summary .item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: ${(props) => props.theme.colors.cardBg};
+    border: 1px solid ${(props) => props.theme.colors.border};
+    color: ${(props) => props.theme.colors.text};
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
   .table-summarize-container {
     display: flex;
     justify-content: space-between;

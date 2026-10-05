@@ -32,4 +32,13 @@ export const IncomeReportStyled = styled.div`
     display: flex;
     flex-direction: column;
   }
+
+  .total-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem;
+    color: var(--text-color);
+    font-size: 1.1rem;
+  }
 `;

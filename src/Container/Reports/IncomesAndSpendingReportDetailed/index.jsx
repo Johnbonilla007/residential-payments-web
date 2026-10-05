@@ -184,6 +184,7 @@ const IncomeAndSpendingReportDetailed = () => {
 
       return;
     }
+    setItemsReport([]);
     setLoading(false);
 
     toast.current.show({
@@ -276,6 +277,13 @@ const IncomeAndSpendingReportDetailed = () => {
     );
     return residenceName?.fullName || "";
   };
+
+  const totalAmount = useMemo(() => {
+    return (itemsReport || []).reduce(
+      (total, item) => total + (Number(item.amount) || 0),
+      0
+    );
+  }, [itemsReport]);
   return (
     <Container>
       <Toast ref={toast} />
@@ -373,6 +381,7 @@ const IncomeAndSpendingReportDetailed = () => {
               name="startDate"
               value={filtersReport.startDate}
               onChange={handleOnChangeFilters}
+              disabled={!filtersReport.includeDates}
             />
           </div>
 
@@ -383,6 +392,7 @@ const IncomeAndSpendingReportDetailed = () => {
               name="endDate"
               value={filtersReport.endDate}
               onChange={handleOnChangeFilters}
+              disabled={!filtersReport.includeDates}
             />
           </div>
 
@@ -443,7 +453,15 @@ const IncomeAndSpendingReportDetailed = () => {
             emptyMessage={propertiesTable.emptyMessage}
             scrollable={true}
             scrollHeight="flex"
+            isExportExcel
+            fileName={propertiesTable.title}
           />
+          {utils.evaluateArray(itemsReport) && (
+            <div className="total-row">
+              <span>Total: </span>
+              <strong>L {totalAmount.toFixed(2)}</strong>
+            </div>
+          )}
         </div>
       </IncomeReportStyled>
     </Container>

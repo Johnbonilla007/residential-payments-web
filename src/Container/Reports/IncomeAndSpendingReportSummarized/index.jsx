@@ -58,6 +58,9 @@ const IncomeAndSpendingReportSummarized = () => {
         totalSpendingMonthly: utils.formateLps(response.totalSpendingMonthly),
         currentMonthlyBalance: response.currentMonthlyBalance,
         previousMonthlyBalance: response.previousMonthlyBalance,
+        totalHouses: response.totalHouses,
+        housesUpToDate: response.housesUpToDate,
+        housesPending: response.housesPending,
       };
       setReport(newReport);
 
@@ -210,6 +213,26 @@ const IncomeAndSpendingReportSummarized = () => {
             columns={columnsTable}
             title="Gastos"
           />
+        </div>
+        <div className="houses-summary">
+          <div className="item">
+            <div className="title">
+              <strong>Total de Casas:</strong>
+            </div>
+            <div className="total">{report?.totalHouses ?? 0}</div>
+          </div>
+          <div className="item">
+            <div className="title">
+              <strong>Al Día:</strong>
+            </div>
+            <div className="total positive">{report?.housesUpToDate ?? 0}</div>
+          </div>
+          <div className="item">
+            <div className="title">
+              <strong>Pendientes:</strong>
+            </div>
+            <div className="total negative">{report?.housesPending ?? 0}</div>
+          </div>
         </div>
         <div className="table-summarize">
           {/* Tabla de Ingresos */}
