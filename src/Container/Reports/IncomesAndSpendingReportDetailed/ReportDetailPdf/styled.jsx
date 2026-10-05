@@ -4,6 +4,7 @@ export const ReportDetailPdfStyled = styled.div`
   @media print {
     @page {
       size: landscape;
+      margin: 0.8cm 0.6cm;
     }
   }
   width: 96%;
@@ -81,6 +82,9 @@ export const ReportDetailPdfStyled = styled.div`
           props.isIncoming ? "10% 15% 20% 10% 20% 15% 10%" : "15% 35% 35% 15%"};
         border-top: 1px solid #000;
         text-align: left;
+        /* Evitar que una fila se parta entre dos páginas. */
+        page-break-inside: avoid;
+        break-inside: avoid;
       }
       .total {
         display: grid;
@@ -90,6 +94,12 @@ export const ReportDetailPdfStyled = styled.div`
         align-items: center;
         padding: 10px;
         border-top: 2px solid #000;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        /* Evita que el salto de página ocurra justo antes de esta fila,
+           dejándola huérfana o pegada al borde de la página. */
+        page-break-before: avoid;
+        break-before: avoid;
       }
     }
   }

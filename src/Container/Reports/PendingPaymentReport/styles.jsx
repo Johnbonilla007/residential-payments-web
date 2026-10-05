@@ -18,11 +18,11 @@ export const PendingPaymentReportStyled = styled.div`
   }
 
   .filter-card {
-    background: #ffffff;
+    background: var(--surface-card);
     border-radius: 12px;
     padding: 20px 24px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #edf2f7;
+    box-shadow: var(--app-shadow-sm);
+    border: 1px solid var(--surface-border);
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -48,7 +48,7 @@ export const PendingPaymentReportStyled = styled.div`
     label {
       font-size: 0.85rem;
       font-weight: 600;
-      color: #4a5568;
+      color: var(--text-color-secondary);
     }
     
     .p-dropdown, .p-calendar, .p-inputtext, .p-component {
@@ -92,11 +92,11 @@ export const PendingPaymentReportStyled = styled.div`
   }
 
   .table-container {
-    background: #ffffff;
+    background: var(--surface-card);
     border-radius: 12px;
     padding: 24px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #edf2f7;
+    box-shadow: var(--app-shadow-sm);
+    border: 1px solid var(--surface-border);
 
     .p-datatable-header {
       background: transparent;
@@ -104,12 +104,12 @@ export const PendingPaymentReportStyled = styled.div`
       padding-bottom: 20px;
       font-size: 1.25rem;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-color);
     }
 
     .p-datatable .p-datatable-thead > tr > th {
-      background: #f8fafc;
-      color: #475569;
+      background: var(--surface-section);
+      color: var(--text-color-secondary);
       font-weight: 600;
       font-size: 0.875rem;
       border-top: none;
