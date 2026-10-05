@@ -45,79 +45,77 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
     gap: 20px;
   }
 
-  .table-summarize {
+  /* Tres tarjetas agrupadas por tema (Ingresos/Gastos/Disponible) en vez de
+     cajitas sueltas sin relación visual entre sí. */
+  .summary-cards {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    .section-container {
-      display: flex;
-      gap: 10px;
+    gap: 16px;
+    margin: 10px 0 2rem;
+    align-items: stretch;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
   }
 
-  .table-summarize .item {
+  .summary-card {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
     background-color: ${(props) => props.theme.colors.cardBg};
     border: 1px solid ${(props) => props.theme.colors.border};
-    color: ${(props) => props.theme.colors.text};
     border-radius: 8px;
-    margin-bottom: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
-  .title {
-    font-weight: 600;
+  .summary-card-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid ${(props) => props.theme.colors.border};
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
     color: ${(props) => props.theme.colors.text};
-    width: 300px;
   }
 
-  .total {
-    font-weight: bold;
-    font-size: 1.1rem;
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 0;
+    color: ${(props) => props.theme.colors.text};
+
+    .label {
+      color: ${(props) => props.theme.colors.textSecondary};
+      font-size: 0.85rem;
+    }
+
+    .value {
+      font-weight: 600;
+      white-space: nowrap;
+    }
   }
 
-  .total.positive {
+  .summary-row.total {
+    border-top: 1px solid ${(props) => props.theme.colors.border};
+    margin-top: 4px;
+    padding-top: 8px;
+
+    .label,
+    .value {
+      font-weight: 800;
+      font-size: 1rem;
+    }
+  }
+
+  .value.positive {
     color: green;
   }
 
-  .total.negative {
+  .value.negative {
     color: var(--app-error);
-  }
-
-  .total.difference {
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 8px;
-    background-color: var(--app-success-soft); /* Positiva por defecto */
-  }
-
-  .total.difference.negative {
-    background-color: var(--app-error-soft);
-  }
-
-  .table-available {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .table-available .item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: ${(props) => props.theme.colors.surfaceHighlight};
-    border: 1px solid ${(props) => props.theme.colors.border};
-    border-radius: 8px;
-    font-size: 1.3rem;
-  }
-
-  .table-available .total {
-    color: var(--app-primary); /* Color especial para el disponible del mes */
   }
 `;

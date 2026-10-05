@@ -92,179 +92,169 @@ const ReportSumarizePdf = ({
             <strong>{utils.FormatDateMonth(filters?.month)}</strong>
           </div>
         </div>
-        <div className="table-summarize">
-          {/* Tabla de Ingresos */}
-          <div className="section-container">
-            <div className="table-section">
-              <div className="item">
-                <div className="title">
-                  <strong>+ Saldo Anterior en Banco:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    reportSumarize?.previousMonthlyBalance?.bank > 0
-                      ? "positive"
-                      : "negative"
-                  }`}
-                >
-                  {utils.formateLps(
-                    reportSumarize?.previousMonthlyBalance?.bank,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>+ Saldo Anterior en Efectivo:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    reportSumarize?.previousMonthlyBalance?.cash > 0
-                      ? "positive"
-                      : "negative"
-                  }`}
-                >
-                  {utils.formateLps(
-                    reportSumarize?.previousMonthlyBalance?.cash,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>+ Ingreso del mes en Banco:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthIncomeBank > 0
-                      ? "positive"
-                      : "negative"
-                  }`}
-                >
-                  {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthIncomeBank,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>+ Ingreso del mes en Efectivo:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthIncomeCash > 0
-                      ? "positive"
-                      : "negative"
-                  }`}
-                >
-                  {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthIncomeCash,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>Total Ingresos del Mes:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    getTotalMonth() > 0 ? "positive" : "negative"
-                  }`}
-                >
-                  {utils.formateLps(getTotalMonth())}
-                </div>
+        <div className="summary-cards">
+          <div className="summary-card">
+            <div className="summary-card-title">Ingresos</div>
+            <div className="summary-row">
+              <div className="label">Saldo Anterior en Banco</div>
+              <div
+                className={`value ${
+                  reportSumarize?.previousMonthlyBalance?.bank > 0
+                    ? "positive"
+                    : "negative"
+                }`}
+              >
+                {utils.formateLps(
+                  reportSumarize?.previousMonthlyBalance?.bank,
+                )}
               </div>
             </div>
+            <div className="summary-row">
+              <div className="label">Saldo Anterior en Efectivo</div>
+              <div
+                className={`value ${
+                  reportSumarize?.previousMonthlyBalance?.cash > 0
+                    ? "positive"
+                    : "negative"
+                }`}
+              >
+                {utils.formateLps(
+                  reportSumarize?.previousMonthlyBalance?.cash,
+                )}
+              </div>
+            </div>
+            <div className="summary-row">
+              <div className="label">Ingreso del mes en Banco</div>
+              <div
+                className={`value ${
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthIncomeBank > 0
+                    ? "positive"
+                    : "negative"
+                }`}
+              >
+                {utils.formateLps(
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthIncomeBank,
+                )}
+              </div>
+            </div>
+            <div className="summary-row">
+              <div className="label">Ingreso del mes en Efectivo</div>
+              <div
+                className={`value ${
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthIncomeCash > 0
+                    ? "positive"
+                    : "negative"
+                }`}
+              >
+                {utils.formateLps(
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthIncomeCash,
+                )}
+              </div>
+            </div>
+            <div className="summary-row total">
+              <div className="label">Total Disponible</div>
+              <div
+                className={`value ${
+                  getTotalMonth() > 0 ? "positive" : "negative"
+                }`}
+              >
+                {utils.formateLps(getTotalMonth())}
+              </div>
+            </div>
+          </div>
 
-            {/* Tabla de Gastos */}
-            <div className="table-section">
-              <div className="item">
-                <div className="title">
-                  <strong>- Gasto del mes en Banco:</strong>
-                </div>
-                <div className="total negative">
-                  {utils.formateLps(
+          <div className="summary-card">
+            <div className="summary-card-title">Gastos</div>
+            <div className="summary-row">
+              <div className="label">Gasto del mes en Banco</div>
+              <div className="value negative">
+                {utils.formateLps(
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthSpendingBank,
+                )}
+              </div>
+            </div>
+            <div className="summary-row">
+              <div className="label">Gasto del mes en Efectivo</div>
+              <div className="value negative">
+                {utils.formateLps(
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthSpendingCash,
+                )}
+              </div>
+            </div>
+            <div className="summary-row total">
+              <div className="label">Total Gastos del Mes</div>
+              <div className="value negative">
+                {utils.formateLps(
+                  reportSumarize?.currentMonthlyBalance
+                    ?.totalAmounthSpendingCash +
                     reportSumarize?.currentMonthlyBalance
                       ?.totalAmounthSpendingBank,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>- Gasto del mes en Efectivo:</strong>
-                </div>
-                <div className="total negative">
-                  {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthSpendingCash,
-                  )}
-                </div>
-              </div>
-
-              <div className="item">
-                <div className="title">
-                  <strong>Total Gastos del Mes:</strong>
-                </div>
-                <div className="total negative">
-                  {utils.formateLps(
-                    reportSumarize?.currentMonthlyBalance
-                      ?.totalAmounthSpendingCash +
-                      reportSumarize?.currentMonthlyBalance
-                        ?.totalAmounthSpendingBank,
-                  )}
-                </div>
+                )}
               </div>
             </div>
-            {/* Disponible del Mes */}
-            <div className="table-section">
-              <div className="item">
-                <div className="title">
-                  <strong>Disponible en Banco:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    getAvailableInBank() > 0 ? "positive" : "negative"
-                  }`}
-                >
-                  {utils.formateLps(getAvailableInBank())}
-                </div>
-              </div>
+          </div>
 
-              <div className="item">
-                <div className="title">
-                  <strong>Depósito a cuenta en efectivo</strong>
-                </div>
-                <div
-                  className={`total ${
-                    getAvailableInCash() > 0 ? "positive" : "negative"
-                  }`}
-                >
-                  {utils.formateLps(getAvailableInCash())}
-                </div>
+          <div className="summary-card">
+            <div className="summary-card-title">Disponible</div>
+            <div className="summary-row">
+              <div className="label">Disponible en Banco</div>
+              <div
+                className={`value ${
+                  getAvailableInBank() > 0 ? "positive" : "negative"
+                }`}
+              >
+                {utils.formateLps(getAvailableInBank())}
               </div>
-              <div className="item">
-                <div className="title">
-                  <strong>DISPONIBLE DEL MES:</strong>
-                </div>
-                <div
-                  className={`total ${
-                    getTotalEnableMonth() > 0 ? "positive" : "negative"
-                  }`}
-                >
-                  {utils.formateLps(getTotalEnableMonth())}
-                </div>
+            </div>
+            <div className="summary-row">
+              <div className="label">Depósito a cuenta en efectivo</div>
+              <div
+                className={`value ${
+                  getAvailableInCash() > 0 ? "positive" : "negative"
+                }`}
+              >
+                {utils.formateLps(getAvailableInCash())}
+              </div>
+            </div>
+            <div className="summary-row total">
+              <div className="label">Disponible del Mes</div>
+              <div
+                className={`value ${
+                  getTotalEnableMonth() > 0 ? "positive" : "negative"
+                }`}
+              >
+                {utils.formateLps(getTotalEnableMonth())}
+              </div>
+            </div>
+          </div>
+
+          <div className="summary-card">
+            <div className="summary-card-title">Casas</div>
+            <div className="summary-row">
+              <div className="label">Total de Casas</div>
+              <div className="value">{reportSumarize?.totalHouses ?? 0}</div>
+            </div>
+            <div className="summary-row">
+              <div className="label">Al Día</div>
+              <div className="value positive">
+                {reportSumarize?.housesUpToDate ?? 0}
+              </div>
+            </div>
+            <div className="summary-row total">
+              <div className="label">Pendientes</div>
+              <div className="value negative">
+                {reportSumarize?.housesPending ?? 0}
               </div>
             </div>
           </div>
         </div>
-        <div className="date-range" style={{ marginTop: "30px" }}>
+        <div className="date-range" style={{ marginTop: "10px" }}>
           <div className="table">
             <div className="header-title">
               <strong>INGRESOS DEL MES</strong>

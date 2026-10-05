@@ -55,6 +55,7 @@ export const ReportSumarizePdfStyled = styled.div`
     align-items: center;
     width: 100%;
     margin-top: 5px;
+    gap: 12px;
   }
   .table {
     border: 2px solid ${(props) => props.theme.colors.border || "#ccc"};
@@ -82,7 +83,7 @@ export const ReportSumarizePdfStyled = styled.div`
       .item {
         display: grid;
         font-size: 7.5pt; /* Reducir ligeramente */
-        padding: 1px 4px;
+        padding: 3px 4px;
         grid-template-columns: 30% 50% 20%;
         border-top: 1px solid ${(props) => props.theme.colors.border || "#000"};
         color: ${(props) => props.theme.colors.text || "#000"};
@@ -101,105 +102,112 @@ export const ReportSumarizePdfStyled = styled.div`
         color: ${(props) => props.theme.colors.text || "#000"};
         page-break-inside: avoid;
         break-inside: avoid;
+        /* Evita que el salto de página ocurra justo antes de esta fila,
+           dejándola huérfana sola en la página siguiente. */
+        page-break-before: avoid;
+        break-before: avoid;
       }
     }
   }
 
-  .table-summarize {
+  /* Tres tarjetas agrupadas por tema (Ingresos/Gastos/Disponible) en vez de
+     11 cajitas sueltas sin relación visual entre sí. */
+  .summary-cards {
+    display: flex;
+    gap: 8px;
+    margin: 6px 0;
+    width: 100%;
+    align-items: stretch;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .summary-card {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    margin-top: 5px;
-    width: 100%;
-    page-break-inside: avoid; /* Tratar de mantener el resumen junto */
-    break-inside: avoid;
+    padding: 5px 8px;
+    background-color: ${(props) => props.theme.colors.cardBg || "#f9f9f9"};
+    border: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
+    border-radius: 4px;
+  }
 
-    .section-container {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-      justify-content: space-around;
-      flex-wrap: wrap; /* Permitir wrap si es necesario */
+  .summary-card-title {
+    font-size: 8pt;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    color: ${(props) => props.theme.colors.text || "#333"};
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 1.5px 0;
+    font-size: 7pt;
+    color: ${(props) => props.theme.colors.text || "#333"};
+
+    .label {
+      color: ${(props) => props.theme.colors.textSecondary || "#555"};
+    }
+
+    .value {
+      font-weight: 600;
+      white-space: nowrap;
     }
   }
 
-  .table-summarize .item {
-    display: flex;
-    justify-content: space-between;
-    padding: 4px; /* Reducir padding */
-    background-color: ${(props) => props.theme.colors.cardBg || "#f9f9f9"};
-    border: 1px solid ${(props) => props.theme.colors.border || "#ddd"};
-    border-radius: 3px;
-    font-size: 8pt; /* Texto más pequeño */
-    color: ${(props) => props.theme.colors.text || "#333"};
+  .summary-row.total {
+    border-top: 1.5px solid ${(props) => props.theme.colors.border || "#999"};
+    margin-top: 2px;
+    padding-top: 3px;
+    font-size: 8pt;
+
+    .label,
+    .value {
+      font-weight: 800;
+    }
   }
 
-  .title {
-    font-weight: bold;
-    color: ${(props) => props.theme.colors.text || "#333"};
-    width: auto;
-    flex: 1;
-    margin-right: 10px;
-  }
-
-  .total {
-    font-weight: bold;
-    font-size: 1rem;
-    white-space: nowrap;
-  }
-
-  .total.positive {
+  .value.positive {
     color: green;
   }
 
-  .total.negative {
+  .value.negative {
     color: red;
   }
 
-  .total.difference {
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 8px;
-    background-color: #e0ffe0; /* Por defecto verde claro */
-  }
-
-  .total.difference.negative {
-    background-color: #ffe0e0; /* Rojo claro si la diferencia es negativa */
-  }
-
-  .table-available {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .table-available .item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: #f1f1f1;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    font-size: 1.3rem;
-  }
-
-  .table-available .total {
-    color: ${(props) => props.theme.colors.primary || "#005aa0"};
-  }
-
-  /* Overrides para impresión: forzar estilo papel limpio */
+  /* Overrides para impresión: forzar estilo papel limpio, sin importar el
+     tema (claro/oscuro) activo en pantalla al momento de imprimir. */
   @media print {
-    .table-summarize .item {
+    .summary-card {
       background-color: #fff !important;
-      border: 1px solid #ddd !important;
-      color: #000 !important;
+      border: 1px solid #ccc !important;
       -webkit-print-color-adjust: exact;
     }
-    .title {
+    .summary-card-title {
       color: #000 !important;
+      border-bottom-color: #ccc !important;
+    }
+    .summary-row {
+      color: #000 !important;
+    }
+    .summary-row .label {
+      color: #555 !important;
+    }
+    .summary-row.total {
+      border-top-color: #999 !important;
+    }
+    .value.positive {
+      color: green !important;
+    }
+    .value.negative {
+      color: red !important;
     }
     .table .item-container .item,
     .table .item-container .total {
@@ -208,6 +216,18 @@ export const ReportSumarizePdfStyled = styled.div`
     }
     .table {
       border-color: #ccc !important;
+    }
+
+    /* Flexbox no reparte bien columnas de alturas muy distintas entre páginas
+       (Ingresos suele ser corto, Gastos puede tener muchas filas): el motor de
+       impresión deja un hueco enorme al saltar de página. Apilar en vez de
+       lado a lado deja que cada tabla fluya sola, de corrido. */
+    .date-range {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .table {
+      width: 100%;
     }
   }
 `;
