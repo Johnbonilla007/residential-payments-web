@@ -2,6 +2,7 @@ import React from "react";
 import { utils } from "../../../../Helpers/utils";
 import { getDate } from "../../../../Helpers/FormatDate";
 import { ReportPendingPdfStyled } from "./styled";
+import appLogo from "../../../../Assets/Logo.png";
 
 const ReportPendingPdf = ({
   componentRef,
@@ -10,9 +11,10 @@ const ReportPendingPdf = ({
   filters,
 }) => {
   
-  const month = filters.month.getMonth();
-  const year = filters.month.getFullYear().toString(); 
-  const monthYearString = `${utils.getMonthName(month )} - ${year}`;
+  const selectedMonth = filters?.month ? new Date(filters.month) : null;
+  const monthYearString = selectedMonth
+    ? `${utils.getMonthName(selectedMonth.getMonth())} - ${selectedMonth.getFullYear()}`
+    : "Todos los meses";
   return (
     <ReportPendingPdfStyled
       ref={componentRef}
@@ -42,7 +44,7 @@ const ReportPendingPdf = ({
           <div style={{ border: "2px #ccc solid", borderRadius: 10 }}>
             <img
               alt="logo"
-              src={require("../../../../Assets/Logo.png")}
+              src={appLogo}
               style={{ width: "80px", height: "80px", alignSelf: "center" }}
             />
           </div>

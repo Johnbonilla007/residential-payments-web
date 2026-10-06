@@ -165,6 +165,15 @@ const PendingPaymentReport = () => {
     return residenceName?.fullName || "";
   };
 
+  const excelFileName = useMemo(() => {
+    const monthText = filters.month
+      ? utils.FormatDateMonth(filters.month)
+      : "";
+    return monthText
+      ? `Lista de Pagos Pendientes - ${monthText}`
+      : "Lista de Pagos Pendientes";
+  }, [filters.month]);
+
   return (
     <Container>
       <Toast ref={toast} />
@@ -286,6 +295,7 @@ const PendingPaymentReport = () => {
             columns={pendingPaymentColumns}
             emptyMessage="No hay registros para mostrar"
             isExportExcel
+            fileName={excelFileName}
           />
         </div>
       </PendingPaymentReportStyled>
