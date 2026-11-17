@@ -25,6 +25,24 @@ export const TableControlStyled = styled.div`
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .table-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--border-color);
+
+    h5 {
+      margin: 0;
+      padding: 0;
+      border: none;
+      text-align: left;
+    }
   }
 
   h5 {
@@ -45,6 +63,8 @@ export const TableControlStyled = styled.div`
 
   .p-datatable .p-datatable-wrapper {
     overflow-x: auto;
+    overflow-y: auto;
+    max-height: clamp(320px, 60dvh, 680px);
     width: 100%;
     scrollbar-width: thin;
   }
@@ -60,10 +80,13 @@ export const TableControlStyled = styled.div`
     color: var(--text-color);
   }
 
-  .p-datatable .p-datatable-thead > tr > th {
+  .p-datatable .p-datatable-thead {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
+  }
+
+  .p-datatable .p-datatable-thead > tr > th {
     padding: clamp(0.625rem, 1vw, 0.95rem);
     text-align: center;
     background-color: var(--table-head-bg) !important;

@@ -174,10 +174,11 @@ const TableControl = ({
       <Button
         type="button"
         icon="pi pi-file-excel"
+        label="Excel"
         onClick={exportExcel}
-        className="p-button-success mr-2"
+        className="p-button-success p-button-sm"
         aria-label="Exportar a Excel"
-        data-pr-tooltip="XLS"
+        data-pr-tooltip="Exportar a Excel"
       />
     </div>
   );
@@ -368,7 +369,12 @@ const TableControl = ({
   return (
     <TableControlStyled>
       <div className="card">
-        {title && <h5>{title}</h5>}
+        {(title || isExportExcel) && (
+          <div className="table-card-header">
+            {title ? <h5>{title}</h5> : <span />}
+            {isExportExcel && header}
+          </div>
+        )}
         <DataTable
           loading={loading}
           value={items}
@@ -378,7 +384,6 @@ const TableControl = ({
           dataKey="id"
           filters={filter}
           filterDisplay="row"
-          header={isExportExcel ? header : null}
           onPage={onPage}
           rowsPerPageOptions={rowsPerPageOptions}
           emptyMessage={emptyMessage ? emptyMessage : " "}
