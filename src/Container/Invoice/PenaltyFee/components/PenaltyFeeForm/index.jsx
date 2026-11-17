@@ -14,6 +14,7 @@ import { PenaltyFeeService } from "../../PenaltyFee.Service";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useDispatch, useSelector } from "react-redux";
 import { setPenaltiesFee } from "../../reducer";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const PenaltyFeeForm = ({
   onClose,
@@ -96,7 +97,7 @@ export const PenaltyFeeForm = ({
     <Dialog
       visible
       onHide={onClose}
-      style={{ minWidth: 450 }}
+      {...dialogSizing(36, { fullScreenOnMobile: true })}
       footer={
         <Button
           label="Guardar"
@@ -207,7 +208,8 @@ export const PenaltyFeeForm = ({
               <Dialog
                 visible
                 onHide={() => setShowCamera(false)}
-                // style={{ width: "vw", height: "70vh", textAlign: "center" }}
+                header="Cámara"
+                {...dialogSizing(40, { fullScreenOnMobile: true })}
               >
                 <Camera handleCapturePhoto={handleCapturePhoto} />
               </Dialog>
@@ -219,7 +221,8 @@ export const PenaltyFeeForm = ({
             visible={isImageModalVisible}
             onHide={() => setIsImageModalVisible(false)}
             header="Vista Previa de Imagen"
-            style={{ width: "50vw", textAlign: "center" }}
+            {...dialogSizing(44, { fullScreenOnMobile: true })}
+            style={{ ...dialogSizing(44, { fullScreenOnMobile: true }).style, textAlign: "center" }}
           >
             {formData.imageUrl ? (
               <img

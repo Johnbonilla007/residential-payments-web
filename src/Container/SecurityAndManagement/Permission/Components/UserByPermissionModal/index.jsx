@@ -4,6 +4,7 @@ import { Dialog } from "primereact/dialog";
 import { PermissionServices } from "../../permission.service";
 import { Toast } from "primereact/toast";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const UserByPermissionModal = ({
   permission,
@@ -48,7 +49,7 @@ export const UserByPermissionModal = ({
       header={`Usuarios con Permiso ${permission?.name}`}
       visible={isOpen}
       onHide={() => onDismiss()}
-      style={{ width: "70vw", height: "100vh" }}
+      {...dialogSizing(54, { fullScreenOnMobile: true })}
     >
       <UserByPermissionModalStyled>
         <Toast ref={toast} />

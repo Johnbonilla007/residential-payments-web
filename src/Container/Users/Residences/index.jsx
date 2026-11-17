@@ -8,6 +8,8 @@ import { Button } from "primereact/button";
 import DynamicFormDialog from "../../../Components/DynamicFormDialog";
 import { useSelector } from "react-redux";
 import { confirmDialog } from "primereact/confirmdialog";
+import { dialogSizing } from "../../../Components/Controls/dialogStyles";
+import StickyActionBar from "../../../Components/Controls/StickyActionBar";
 
 export const ResidenceComponent = ({
   onClose,
@@ -176,14 +178,26 @@ export const ResidenceComponent = ({
   return (
     <Dialog
       visible
-      style={{ width: "50vw", height: "50vh" }}
+      {...dialogSizing(48, { fullScreenOnMobile: true })}
       onHide={onClose}
-      footer={() => (
-        <Button onClick={handleClickAddResicence} icon="pi pi-plus">
-          Agregar Resicencia
-        </Button>
-      )}
-      header={`Residencias de ${userSelected.fullname}`}
+      footer={
+        <StickyActionBar inSheet>
+          <Button
+            type="button"
+            label="Cerrar"
+            icon="pi pi-times"
+            className="p-button-outlined p-button-secondary"
+            onClick={onClose}
+          />
+          <Button
+            type="button"
+            label="Agregar Residencia"
+            onClick={handleClickAddResicence}
+            icon="pi pi-plus"
+          />
+        </StickyActionBar>
+      }
+      header={`Residencias de ${userSelected.fullName || userSelected.fullname || ""}`}
     >
       <ResidenceComponentStyled>
         <TableControl

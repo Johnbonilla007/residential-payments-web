@@ -8,6 +8,7 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { utils } from "../../../../../Helpers/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setPenaltiesFee } from "../../reducer";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const PenaltiesFeeListComponent = ({
   onClose,
@@ -147,7 +148,7 @@ export const PenaltiesFeeListComponent = ({
     <Dialog
       onHide={onClose}
       visible
-      style={{ minWidth: "50vw" }}
+      {...dialogSizing(54, { fullScreenOnMobile: true })}
       header={`Multas de ${ownerPropertyName} en ${residenceName}`}
     >
       <PenaltiesFeeListComponentStyled>
@@ -231,7 +232,8 @@ export const PenaltiesFeeListComponent = ({
         visible={isImageModalVisible}
         onHide={() => setIsImageModalVisible(false)}
         header="Imagen de Evidencia"
-        style={{ width: "50vw", textAlign: "center" }}
+        {...dialogSizing(44, { fullScreenOnMobile: true })}
+        style={{ ...dialogSizing(44, { fullScreenOnMobile: true }).style, textAlign: "center" }}
       >
         {selectedImage && (
           <img

@@ -17,6 +17,7 @@ import {
 import { getRequestUserInfo } from "../../../Helpers/restClient";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { useSelector } from "react-redux";
+import MobilePage from "../../../Components/Controls/MobilePage";
 
 const SpendingType = () => {
   const toast = useRef(null);
@@ -106,57 +107,76 @@ const SpendingType = () => {
     loadData();
   };
 
-  const handleOnChangeSearch = (event) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
+  const handleOnChangeSearch = (eventOrValue) => {
+    const raw =
+      typeof eventOrValue === "string"
+        ? eventOrValue
+        : eventOrValue?.target?.value ?? "";
+    const query = raw.toLowerCase();
+    setSearchQuery(raw);
 
     if (query === "") {
       setFilteredSpendingTypes(spendingTypes);
     } else {
       const filtered = spendingTypes.filter(
         (type) =>
-          type.name.toLowerCase().includes(query) ||
-          type.description.toLowerCase().includes(query) ||
-          type.cost?.toString().toLowerCase().includes(query)
+          type.name?.toLowerCase().includes(query) ||
+          type.description?.toLowerCase().includes(query) ||
+          type.cost?.toString().toLowerCase().includes(query),
       );
       setFilteredSpendingTypes(filtered);
     }
   };
+
+  const desktopHeader = (
+    <div className="header-payment-type">
+      <div>
+        <span className="p-float-label">
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText
+              placeholder="Escriba algo para buscar"
+              onChange={handleOnChangeSearch}
+              value={searchQuery}
+            />
+          </span>
+        </span>
+      </div>
+      <Button
+        outlined
+        label="Nuevo"
+        className="p-button-raised p-button-info"
+        onClick={handleShowModalForm}
+        icon={PrimeIcons.PLUS}
+      />
+    </div>
+  );
+
   return (
     <Container>
       <Toast ref={toast} />
       <ConfirmDialog />
       <SpendingTypeStyled>
-        <div className="header-payment-type">
-          <div>
-            <span className="p-float-label">
-              <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText
-                  placeholder="Escriba algo para buscar"
-                  onChange={handleOnChangeSearch}
-                  value={searchQuery}
-                />
-              </span>
-            </span>
-          </div>
-          <Button
-            outlined
-            label="Nuevo"
-            className="p-button-raised p-button-info"
-            onClick={handleShowModalForm}
-            icon={PrimeIcons.PLUS}
+        <MobilePage
+          title="Tipos de Gastos"
+          desktopHeader={desktopHeader}
+          search={{
+            value: searchQuery,
+            onChange: handleOnChangeSearch,
+            placeholder: "Buscar tipo de gasto...",
+          }}
+          fab={{
+            label: "Nuevo tipo de gasto",
+            onClick: handleShowModalForm,
+          }}
+          onRefresh={loadData}
+        >
+          <TableControl
+            items={searchQuery ? filteredSpendingTypes : spendingTypes}
+            columns={columnsPaymentTypes(handleEditRow, handleDeleteRow)}
+            emptyMessage="No hay tipos de pago por mostrar"
           />
-        </div>
-        <TableControl
-          items={
-            utils.evaluateArray(filteredSpendingTypes)
-              ? filteredSpendingTypes
-              : spendingTypes
-          }
-          columns={columnsPaymentTypes(handleEditRow, handleDeleteRow)}
-          emptyMessage="No hay tipos de pago por mostrar"
-        />
+        </MobilePage>
 
         {showModalForm && (
           <DynamicFormDialog

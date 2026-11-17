@@ -1,23 +1,21 @@
 import styled from "styled-components";
-import { media } from "../../Styles/themes";
 
 const commandButton = `
-  background: none;
-  border: 1px solid transparent;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
   color: var(--text-color);
-  height: 32px;
-  /* Grows to fill the row and shrinks on narrow screens; a fixed 185px forced
-     the bar wider than its container. */
-  flex: 0 1 185px;
+  min-height: 38px;
+  flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
+  padding: 0 12px 0 0;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
   border-radius: var(--radius-sm);
   box-shadow: var(--app-shadow-sm);
-  margin-right: 10px;
-  display: flex;
-  justify-content: left;
+  display: inline-flex;
+  justify-content: flex-start;
   align-items: center;
   transition:
     background-color var(--transition-fast),
@@ -27,23 +25,20 @@ const commandButton = `
 
   .icon {
     border-right: 1px solid var(--surface-border);
-    height: 30px;
-    width: 30px;
+    min-height: 36px;
+    width: 34px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: border-color var(--transition-fast);
-  }
-
-  .icon {
     flex: 0 0 auto;
+    transition: border-color var(--transition-fast);
   }
 
   .title {
     min-width: 0;
-    font-size: 10pt;
+    font-size: 0.875rem;
     text-align: left;
-    padding-left: 8px;
+    padding-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -56,11 +51,11 @@ export const CommandBarControlStyled = styled.div`
   background-color: var(--surface-section);
   border-bottom: 1px solid var(--surface-border);
   color: var(--text-color);
-  padding: 6px;
+  padding: 8px 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  z-index: 1000;
+  gap: 8px;
+  z-index: 100;
   box-shadow: var(--app-shadow-sm);
   transition:
     background-color var(--transition-base),
@@ -69,19 +64,21 @@ export const CommandBarControlStyled = styled.div`
   .command-button-disabled {
     ${commandButton}
     opacity: 0.5;
-    pointer-events: none;
+    cursor: not-allowed;
   }
 
   .command-button {
     ${commandButton}
   }
 
-  .command-button:hover {
-    background-color: var(--surface-hover);
-    border-color: var(--surface-border);
+  @media (hover: hover) {
+    .command-button:hover {
+      background-color: var(--surface-hover);
+      border-color: var(--app-control-border);
 
-    .icon {
-      border-right-color: var(--text-color-secondary);
+      .icon {
+        border-right-color: var(--text-color-secondary);
+      }
     }
   }
 
@@ -90,12 +87,58 @@ export const CommandBarControlStyled = styled.div`
     box-shadow: var(--focus-ring);
   }
 
-  /* Buttons take the full row on narrow screens instead of overflowing. */
-  ${media.md} {
-    .command-button,
-    .command-button-disabled {
-      flex: 1 1 100%;
-      margin-right: 0;
-    }
+  @media (max-width: 767px) {
+    padding: 6px 0;
+    background: var(--surface-ground);
+    box-shadow: none;
+  }
+`;
+
+export const MobileChipBar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 2px 4px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const MobileChipBtn = styled.button`
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--app-control-border);
+  background: var(--surface-card);
+  color: var(--text-color);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  .chip-icon {
+    display: inline-flex;
+    align-items: center;
   }
 `;

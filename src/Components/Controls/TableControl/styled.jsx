@@ -4,21 +4,22 @@ export const TableControlStyled = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
 
   .card {
     background-color: var(--surface-card);
     color: var(--text-color);
-    padding: 1rem;
+    padding: clamp(0.75rem, 1.5vw, 1.25rem);
     border-radius: var(--radius-lg);
     box-shadow: var(--app-shadow-md);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-width: 0;
     overflow: hidden;
   }
 
-  /* Replaces the PrimeFlex utility classes the markup used to rely on. */
   .export-buttons {
     display: flex;
     align-items: center;
@@ -29,9 +30,9 @@ export const TableControlStyled = styled.div`
   h5 {
     color: var(--text-color);
     font-size: 1.25rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
   }
 
   .p-datatable {
@@ -39,74 +40,115 @@ export const TableControlStyled = styled.div`
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    min-width: 0;
+  }
+
+  .p-datatable .p-datatable-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    scrollbar-width: thin;
   }
 
   .p-datatable table {
-    font-size: 10pt;
+    font-size: 0.9375rem;
+    width: 100%;
   }
+
   .p-datatable .p-datatable-tbody > tr > td {
-    padding: 1rem; /* Más espacio */
+    padding: clamp(0.625rem, 1vw, 0.95rem);
     border-color: var(--border-color);
     color: var(--text-color);
   }
+
   .p-datatable .p-datatable-thead > tr > th {
-    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: clamp(0.625rem, 1vw, 0.95rem);
     text-align: center;
     background-color: var(--table-head-bg) !important;
     color: var(--text-color) !important;
     border-color: var(--border-color) !important;
+    white-space: nowrap;
   }
-  /* PrimeReact sets its own color on the inner title/content spans, so the th
-     color above never reaches the actual header text. Target them directly
-     so headers stay readable in dark mode. */
+
   .p-datatable .p-datatable-thead > tr > th .p-column-title,
   .p-datatable .p-datatable-thead > tr > th .p-column-header-content,
   .p-datatable .p-datatable-thead > tr > th .p-sortable-column-icon {
     color: var(--text-color) !important;
   }
+
   .p-column-filter-row .p-column-filter-element {
     text-align: left;
   }
+`;
 
-  /* Responsive Cell Layout */
-  .p-datatable-tbody .p-column-title {
-    display: none;
+export const MobileTableHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+`;
+
+export const MobileTableTitle = styled.h5`
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: 1rem !important;
+  font-weight: 600;
+  color: var(--text-color);
+  text-align: left;
+`;
+
+export const DetailList = styled.dl`
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const DetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--surface-border);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
+`;
 
-  @media screen and (max-width: 960px) {
-    .p-datatable .p-datatable-thead {
-      display: none !important;
-    }
+export const DetailLabel = styled.dt`
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-color-secondary);
+  text-align: left;
+  flex: 0 0 42%;
+`;
 
-    .p-datatable .p-datatable-tbody > tr {
-      display: block;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border-color) !important;
-      border-radius: var(--radius-lg) !important;
-      background-color: var(--card-bg) !important;
-      padding: 0;
-      overflow: hidden;
-    }
+export const DetailValue = styled.dd`
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-color);
+  text-align: right;
+  word-break: break-word;
+  flex: 1 1 auto;
+`;
 
-    .p-datatable .p-datatable-tbody > tr > td {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      padding: 1rem !important;
-      border: none !important;
-      border-bottom: 1px solid var(--border-color) !important;
-      text-align: right;
-    }
+export const MobileActionsWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
 
-    .p-datatable .p-datatable-tbody > tr > td:last-child {
-      border-bottom: none !important;
-    }
-
-    .p-datatable-tbody .p-column-title {
-      display: block !important;
-      font-weight: 600;
-      min-width: 30%;
-      text-align: left;
-    }
+  .p-button,
+  button {
+    min-width: 44px;
+    min-height: 44px;
   }
 `;

@@ -6,8 +6,8 @@ export const CardMenuStyled = styled.div`
   .card {
     width: 100%;
     height: 100%;
-    min-height: 120px;
-    border-radius: 24px;
+    min-height: 112px;
+    border-radius: 20px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
@@ -16,14 +16,27 @@ export const CardMenuStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem;
+    padding: 1.25rem;
     cursor: pointer;
     overflow: hidden;
 
-    &:hover {
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-      transform: translateY(-4px);
-      border-color: ${(props) => props.color || props.theme.colors.secondary}55;
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+        border-color: ${(props) => props.color || props.theme.colors.secondary}55;
+      }
+    }
+
+    @media (max-width: 767px) {
+      min-height: 68px;
+      padding: 0.875rem 1rem;
+      border-radius: 14px;
     }
   }
 

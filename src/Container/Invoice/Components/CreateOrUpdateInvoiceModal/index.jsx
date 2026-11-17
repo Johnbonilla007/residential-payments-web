@@ -17,6 +17,7 @@ import InvoicePrint from "../InvoicePrint";
 import { getMonth } from "../../../../Helpers/FormatDate";
 import { Checkbox } from "primereact/checkbox";
 import { addDays, addMonths, getDay, getMonth as getFcMonth } from "date-fns";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
 
 const CreateOrUpdateInvoiceModal = ({
   isOpen,
@@ -984,7 +985,7 @@ const CreateOrUpdateInvoiceModal = ({
       }`}
       visible={isOpen}
       onHide={() => onDissmis()}
-      style={{ width: "70vw", height: "100vh" }}
+      {...dialogSizing(68, { fullScreenOnMobile: true })}
       footer={renderFooter()}
     >
       <CreateOrUpdateInvoiceModalStyled>
@@ -1189,6 +1190,8 @@ const CreateOrUpdateInvoiceModal = ({
                     <InputNumber
                       id="quantity"
                       value={detail.quantity}
+                      inputMode="numeric"
+                      pt={{ input: { enterKeyHint: "next" } }}
                       onChange={(e) => {
                         setDetail({
                           ...detail,
@@ -1206,6 +1209,8 @@ const CreateOrUpdateInvoiceModal = ({
                     <InputNumber
                       id="cost"
                       value={detail.cost || 0}
+                      inputMode="decimal"
+                      pt={{ input: { enterKeyHint: "done" } }}
                       onChange={(e) =>
                         setDetail({ ...detail, cost: parseFloat(e.value || 0) })
                       }
@@ -1243,6 +1248,8 @@ const CreateOrUpdateInvoiceModal = ({
                       <InputNumber
                         id="amountPartial"
                         value={detail.amountPartial || 0}
+                        inputMode="decimal"
+                        pt={{ input: { enterKeyHint: "done" } }}
                         onChange={(e) =>
                           setDetail({
                             ...detail,
@@ -1264,6 +1271,8 @@ const CreateOrUpdateInvoiceModal = ({
                       <InputNumber
                         id="amountEx"
                         value={detail.amountEx}
+                        inputMode="decimal"
+                        pt={{ input: { enterKeyHint: "done" } }}
                         onChange={(e) =>
                           setDetail({
                             ...detail,

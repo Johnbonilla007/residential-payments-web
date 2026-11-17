@@ -29,28 +29,9 @@ export const InvoiceStyled = styled.div`
 
   .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
-    padding: 1.5rem;
-    max-height: 78vh;
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-primary, var(--app-primary)) var(--text-color);
-
-    /* Custom scrollbar for webkit */
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: var(--surface-card);
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--color-primary, var(--app-primary));
-      border-radius: 10px;
-    }
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, 1.5vw, 1.5rem);
+    padding: clamp(0.75rem, 1.5vw, 1.5rem);
   }
 
   .card {
@@ -59,16 +40,17 @@ export const InvoiceStyled = styled.div`
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-height: 450px;
-    max-height: 550px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(0, 33, 71, 0.1);
 
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-      border-color: var(--color-primary, var(--app-primary));
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        border-color: var(--color-primary, var(--app-primary));
+      }
     }
   }
 
@@ -95,11 +77,20 @@ export const InvoiceStyled = styled.div`
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     opacity: 0;
     transition: all 0.3s ease;
     cursor: pointer;
     z-index: 10;
+
+    @media (hover: none) {
+      opacity: 1;
+    }
 
     &:hover {
       transform: scale(1.15);

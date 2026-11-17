@@ -3,9 +3,11 @@ import styled from "styled-components";
 export const PenaltyFeeStyled = styled.div`
   .filters {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
+    margin-bottom: 12px;
   }
   .buttons-container {
     display: flex;

@@ -1,12 +1,13 @@
 // ChangePasswordModal.js
 
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { utils } from "../../Helpers/utils";
-import { restClient } from "../../Helpers/restClient";
 import { ChangePasswordModalStyled } from "./styled";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { UsersServices } from "../../Container/Users/User/users.service";
+import { dialogSizing } from "../Controls/dialogStyles";
+import StickyActionBar from "../Controls/StickyActionBar";
 
 const ChangePasswordModal = ({ isOpen, onClose, userSelected, toast }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -85,34 +86,61 @@ const ChangePasswordModal = ({ isOpen, onClose, userSelected, toast }) => {
 
   };
 
+  const newPassId = useId();
+  const confirmPassId = useId();
+
   return (
-    <Dialog visible={isOpen} style={{ minWidth: "20vw" }} onHide={onClose}>
-      <ChangePasswordModalStyled>
-        <div className="modal-content">
-          <h2>Cambiar Contraseña</h2>
-          <label>Nueva Contraseña:</label>
-          <input
-            type="password"
-            value={dataUser.password}
-            onChange={handlePasswordChange}
-          />
-          <label>Confirmar Contraseña:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
-          {!passwordsMatch && (
-            <p className="error">Las contraseñas no coinciden.</p>
-          )}
+    <Dialog
+      header="Cambiar Contraseña"
+      visible={isOpen}
+      {...dialogSizing(28, { fullScreenOnMobile: true })}
+      onHide={onClose}
+      footer={
+        <StickyActionBar inSheet>
           <Button
+            type="button"
+            label="Cancelar"
+            icon="pi pi-times"
+            className="p-button-outlined p-button-secondary"
+            onClick={onClose}
+          />
+          <Button
+            type="button"
             loading={loading}
             onClick={async () => {
               await handleSubmit();
             }}
             label="Cambiar Contraseña"
-            className={"p-button-raised p-button-info p-button-sm"}
+            icon="pi pi-check"
           />
+        </StickyActionBar>
+      }
+    >
+      <ChangePasswordModalStyled>
+        <div className="modal-content">
+          <label htmlFor={newPassId}>Nueva Contraseña</label>
+          <input
+            id={newPassId}
+            type="password"
+            autoComplete="new-password"
+            enterKeyHint="next"
+            value={dataUser.password || ""}
+            onChange={handlePasswordChange}
+          />
+          <label htmlFor={confirmPassId}>Confirmar Contraseña</label>
+          <input
+            id={confirmPassId}
+            type="password"
+            autoComplete="new-password"
+            enterKeyHint="done"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+          />
+          {!passwordsMatch && (
+            <p className="error" role="alert">
+              Las contraseñas no coinciden.
+            </p>
+          )}
         </div>
       </ChangePasswordModalStyled>
     </Dialog>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate, Navigate } from "react-router-dom";
 import routes from "../../Routes";
 import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
@@ -20,15 +20,34 @@ import AppSidebar from "./AppSideBar";
 import { TipoCuentas } from "../../Helpers/Constant";
 import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
 import { RiMenuUnfold4Line } from "react-icons/ri";
+import { useIsMobile } from "../../Helpers/useIsMobile";
+
+const resolveRouteTitle = (pathname) => {
+  if (!pathname || pathname === "/dashboard") return "Dashboard";
+  if (pathname === "/home") return "Inicio";
+  if (pathname === "/login") return "Iniciar Sesión";
+
+  for (const route of routes) {
+    if (route.path === pathname) return route.name;
+    if (Array.isArray(route.subRoutes)) {
+      const sub = route.subRoutes.find((s) => s.path === pathname);
+      if (sub) return sub.name;
+    }
+  }
+  return "Residencial";
+};
 
 export const DefaultLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isMobile = useIsMobile();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [mobileSidebarVisible, setMobileSidebarVisible] = useState(false); // State for mobile sidebar visibility
   const dispacth = useDispatch();
   const op = useRef(null);
+  const mobileMenuToggleRef = useRef(null);
   const userInfo = getRequestUserInfo();
 
   const toast = useRef(null);
@@ -121,41 +140,72 @@ export const DefaultLayout = () => {
     navigate("/dashboard");
   };
 
-  const start = (
-    <div
-      className="header-brand"
-      style={{ cursor: "pointer", display: "flex", alignItems: "center", paddingLeft: "10px" }}
-    >
-      <div 
-        className="app-icon mobile-menu-toggle"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (showMenuOnMobile) {
-            dispacth(setShowMenuOnMobile(false));
-            dispacth(setShowSideBar(false));
-          } else {
-            dispacth(setShowMenuOnMobile(true));
-          }
+  const currentRouteTitle = useMemo(
+    () => resolveRouteTitle(location.pathname),
+    [location.pathname],
+  );
 
-          setMobileSidebarVisible(!mobileSidebarVisible);
-        }}
-      >
-        <RiMenuUnfold4Line size={30} color="var(--text-color)" />
-      </div>
-      {/* {authenticate && (
-        <div className="system-title">
-          <span className="title-main">Residencial</span>
-          <span className="title-sub">Quintas del Sol</span>
-        </div>
-      )} */}
+  const canGoBackOnMobile =
+    authenticate &&
+    isMobile &&
+    !["/", "/login", "/dashboard", "/home"].includes(location.pathname);
+
+  const handleMobileBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+    homeOption();
+  };
+
+  const start = (
+    <div className="header-brand">
+      {authenticate && (
+        <button
+          ref={mobileMenuToggleRef}
+          type="button"
+          className="app-icon mobile-menu-toggle"
+          aria-label="Abrir menú de navegación"
+          aria-expanded={mobileSidebarVisible}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (showMenuOnMobile) {
+              dispacth(setShowMenuOnMobile(false));
+              dispacth(setShowSideBar(false));
+            } else {
+              dispacth(setShowMenuOnMobile(true));
+            }
+
+            setMobileSidebarVisible(!mobileSidebarVisible);
+          }}
+        >
+          <RiMenuUnfold4Line size={24} color="var(--app-nav-text)" aria-hidden="true" />
+        </button>
+      )}
+      {canGoBackOnMobile && (
+        <button
+          type="button"
+          className="mobile-back-btn"
+          aria-label="Volver"
+          onClick={handleMobileBack}
+        >
+          <i className="pi pi-arrow-left" aria-hidden="true" />
+        </button>
+      )}
+      {authenticate && (
+        <span className="mobile-header-title" title={currentRouteTitle}>
+          {currentRouteTitle}
+        </span>
+      )}
     </div>
   );
 
   const end = authenticate && (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "6px" : "0" }}>
       <ThemeToggle />
       <Button
-        label="Cerrar Sesión"
+        label={isMobile ? undefined : "Cerrar Sesión"}
+        aria-label="Cerrar sesión"
         icon="pi pi-sign-out"
         className="p-button-danger logout-btn"
         onClick={() => {
@@ -237,6 +287,9 @@ export const DefaultLayout = () => {
       $showSideBar={showSideBar}
       $showMenuOnMobile={showMenuOnMobile}
     >
+      <a href="#main-content" className="skip-link">
+        Saltar al contenido
+      </a>
       <Toast ref={toast} />
 
       <Menubar
@@ -250,18 +303,25 @@ export const DefaultLayout = () => {
         <AppSidebar
           mobileSidebarVisible={mobileSidebarVisible}
           setMobileSidebarVisible={setMobileSidebarVisible}
+          returnFocusRef={mobileMenuToggleRef}
         />
       )}
 
-      <div
+      <main
+        id="main-content"
         className="main-content"
+        tabIndex={-1}
         style={{
-          paddingTop: authenticate ? "60px" : "0",
+          paddingTop: authenticate
+            ? isMobile
+              ? "var(--mobile-header-h, 60px)"
+              : "60px"
+            : "0",
           flex: 1,
         }}
       >
         {RenderRoutes()}
-      </div>
+      </main>
 
       {/* <div className="footer">
         © 2024, Residencial Quintas del Sol. Todos los derechos reservados.

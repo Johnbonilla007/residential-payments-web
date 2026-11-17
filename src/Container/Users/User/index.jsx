@@ -19,6 +19,7 @@ import { UsersServices } from "./users.service";
 import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 import { useDispatch, useSelector } from "react-redux";
 import { ResidenceComponent } from "../Residences";
+import MobilePage from "../../../Components/Controls/MobilePage";
 
 const Users = () => {
   const [residenceList, setResidenceList] = useState([]);
@@ -40,6 +41,7 @@ const Users = () => {
     email: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
   const [showResidences, setShowResidences] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState("");
   const toast = useRef(null);
   const userInfo = getRequestUserInfo();
   const { residentialSelected, residentials } = useSelector(
@@ -546,79 +548,105 @@ const Users = () => {
     return false;
   }, [accesses]);
 
+  const filteredMobileUsers = useMemo(() => {
+    const q = mobileSearch.trim().toLowerCase();
+    if (!q) return dataUsers;
+    return dataUsers.filter(
+      (u) =>
+        u.fullName?.toLowerCase().includes(q) ||
+        u.userName?.toLowerCase().includes(q) ||
+        u.block?.toLowerCase().includes(q) ||
+        u.houseNumber?.toString().toLowerCase().includes(q) ||
+        u.email?.toLowerCase().includes(q),
+    );
+  }, [dataUsers, mobileSearch]);
+
   return (
     <Container commands={commands}>
       <UsersStyled>
         <ConfirmDialog />
         <Toast ref={toast} />
-        <div className="container">
-          <div className="options">
-            {canShowDropdownResidentials ? (
-              <Dropdown
-                className="commandbox"
-                value={residentialSelected}
-                options={residentialList}
-                onChange={handleOnchangeResidential}
-                optionLabel="name"
-                placeholder="Seleccione una Residencial"
-              />
-            ) : (
-              <h2>{residentialSelected.name}</h2>
-            )}
-
-            {permissionAccount === TipoCuentas.administrador &&
-              utils.evaluateFullObjetct(residentialSelected) && (
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <h4 style={{ marginRight: "20px" }}>
-                    Permitir Emergencia a la residencial
-                  </h4>
-                  <Button
-                    icon={
-                      residentialSelected.allowEmergy
-                        ? "pi pi-check"
-                        : "pi pi-times"
-                    }
-                    loading={loading}
-                    onClick={async () => {
-                      await handleDisableEmergyResidential(residentialSelected);
-                    }}
-                    className={
-                      residentialSelected.allowEmergy
-                        ? "p-button-rounded p-button-success"
-                        : "p-button-rounded p-button-danger"
-                    }
-                  />
-                </div>
+        <MobilePage
+          title="Usuarios"
+          search={{
+            value: mobileSearch,
+            onChange: setMobileSearch,
+            placeholder: "Buscar nombre, usuario, bloque o casa...",
+          }}
+          onRefresh={handleGetUsers}
+          refreshing={loading}
+        >
+          <div className="container">
+            <div className="options">
+              {canShowDropdownResidentials ? (
+                <Dropdown
+                  className="commandbox"
+                  value={residentialSelected}
+                  options={residentialList}
+                  onChange={handleOnchangeResidential}
+                  optionLabel="name"
+                  placeholder="Seleccione una Residencial"
+                />
+              ) : (
+                <h2>{residentialSelected.name}</h2>
               )}
-          </div>
-          {utils.evaluateFullObjetct(residentialSelected) && (
-            <div className="table">
-              <div
-                style={{
-                  textAlign: "right",
-                  marginRight: "30px",
-                  fontSize: "14pt",
-                  fontWeight: "bold",
-                }}
-              >
-                Total de usuarios: {dataUsers.length}
-              </div>
 
-              <TableControl
-                items={dataUsers}
-                title="Lista de Usuarios"
-                filter={filters}
-                rows={5}
-                setFilter={setFilters}
-                filterFields={filterFields}
-                columns={columnsReport(onRenderActiveButton, onRenderActions)}
-                emptyMessage="No hay visitas en esta fecha"
-                isExportExcel={userInfo.userName !== "monitoreo2024"}
-                fileName={`Usuarios ${residentialSelected.name}`}
-              />
+              {permissionAccount === TipoCuentas.administrador &&
+                utils.evaluateFullObjetct(residentialSelected) && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                    <h4 style={{ margin: 0 }}>
+                      Permitir Emergencia a la residencial
+                    </h4>
+                    <Button
+                      icon={
+                        residentialSelected.allowEmergy
+                          ? "pi pi-check"
+                          : "pi pi-times"
+                      }
+                      loading={loading}
+                      onClick={async () => {
+                        await handleDisableEmergyResidential(residentialSelected);
+                      }}
+                      className={
+                        residentialSelected.allowEmergy
+                          ? "p-button-rounded p-button-success"
+                          : "p-button-rounded p-button-danger"
+                      }
+                    />
+                  </div>
+                )}
             </div>
-          )}
-        </div>
+            {utils.evaluateFullObjetct(residentialSelected) && (
+              <div className="table">
+                <div
+                  style={{
+                    textAlign: "right",
+                    marginRight: "12px",
+                    marginBottom: "8px",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Total de usuarios: {filteredMobileUsers.length}
+                </div>
+
+                <TableControl
+                  items={filteredMobileUsers}
+                  title="Lista de Usuarios"
+                  filter={filters}
+                  rows={5}
+                  loading={loading}
+                  setFilter={setFilters}
+                  filterFields={filterFields}
+                  columns={columnsReport(onRenderActiveButton, onRenderActions)}
+                  emptyMessage="No hay usuarios para mostrar"
+                  isExportExcel={userInfo.userName !== "monitoreo2024"}
+                  fileName={`Usuarios ${residentialSelected.name}`}
+                />
+              </div>
+            )}
+          </div>
+        </MobilePage>
 
         {openModalPass && (
           <ChangePasswordModal

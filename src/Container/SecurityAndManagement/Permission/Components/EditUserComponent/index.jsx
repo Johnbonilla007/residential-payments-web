@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { PermissionServices } from "../../permission.service";
 import { utils } from "../../../../../Helpers/utils";
 import TreeControl from "../../../../../Components/Controls/TreeControl";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const EditUserComponent = ({ onClose, toast }) => {
   const [permissions, setPermissions] = useState([]);
@@ -105,7 +106,7 @@ export const EditUserComponent = ({ onClose, toast }) => {
       visible
       onHide={onClose}
       header="Accesos Por Usuario"
-      style={{ height: 500, width: 500, overflow: "auto" }}
+      {...dialogSizing(38, { fullScreenOnMobile: true })}
     >
       <EditUserComponentStyled>
         <InputText

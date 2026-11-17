@@ -190,26 +190,72 @@ export const DefaultLayoutStyled = styled.div`
     }
 
     /* Mobile responsive */
+    .mobile-back-btn,
+    .mobile-menu-toggle {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--app-nav-text);
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0;
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-back-btn,
+    .mobile-header-title {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       position: fixed;
       left: 0 !important;
       top: 0;
       width: 100%;
       z-index: 9999;
+      padding-top: env(safe-area-inset-top, 0px);
 
       .p-menubar {
-        padding: 0.75rem 1.25rem;
-        gap: 1rem;
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+        min-height: 60px;
+      }
+
+      .p-menubar-start {
+        flex: 1 1 auto;
+        min-width: 0;
       }
 
       .header-brand {
-        gap: 0.875rem;
-        padding: 0.35rem;
+        gap: 0.5rem;
+        padding: 0;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .mobile-back-btn {
+        display: inline-flex;
+        flex: 0 0 auto;
+      }
+
+      .mobile-header-title {
+        display: block;
+        color: var(--app-nav-text);
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.25;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
       }
 
       .app-icon {
-        padding: 0.5rem 0.75rem;
+        padding: 0.4rem;
         font-size: 1rem;
+        flex: 0 0 auto;
 
         &.mobile-menu-toggle {
           display: flex;
@@ -220,8 +266,8 @@ export const DefaultLayoutStyled = styled.div`
         }
 
         svg {
-          width: 36px;
-          height: 36px;
+          width: 24px;
+          height: 24px;
         }
       }
 
@@ -236,8 +282,10 @@ export const DefaultLayoutStyled = styled.div`
       }
 
       .logout-btn {
-        margin-right: 1rem;
-        padding: 0.625rem 1.25rem;
+        margin-right: 0;
+        padding: 0.5rem;
+        min-width: 44px;
+        min-height: 44px;
         font-size: 0.9rem;
 
         .pi {
@@ -553,6 +601,8 @@ export const AppSidebarStyled = styled.div`
       height: 100%;
       left: ${(props) => (props.mobileSidebarVisible ? "0" : "-100%")};
       top: 0;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
       transition: left var(--transition-base);
       box-shadow: ${(props) =>
         props.mobileSidebarVisible ? "4px 0 20px rgba(0, 0, 0, 0.3)" : "none"};

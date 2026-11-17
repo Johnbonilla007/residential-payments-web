@@ -1,5 +1,5 @@
 // DynamicFormDialog.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -13,10 +13,13 @@ import { InputMask } from "primereact/inputmask";
 import { ListBox } from "primereact/listbox";
 import { MultiSelect } from "primereact/multiselect";
 import { Calendar } from "primereact/calendar";
+import { useIsMobile } from "../../Helpers/useIsMobile";
+import { dialogSizing } from "../Controls/dialogStyles";
+import StickyActionBar from "../Controls/StickyActionBar";
 
 const DynamicFormDialog = ({
   title,
-  fields,
+  fields = [],
   onSubmit,
   mode,
   isOpen,
@@ -25,6 +28,11 @@ const DynamicFormDialog = ({
   itemToEdit,
 }) => {
   const [formData, setFormData] = useState(itemToEdit ? itemToEdit : {});
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    setFormData(itemToEdit ? itemToEdit : {});
+  }, [itemToEdit, isOpen]);
 
   const handleChange = (e, fieldName) => {
     const value = e.target ? e.target.value : e.value;
@@ -36,11 +44,11 @@ const DynamicFormDialog = ({
 
   const handleCheckboxChange = (e, fieldName, relationalValue) => {
     if (relationalValue) {
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         [relationalValue]: e.checked,
         [fieldName]: e.checked,
-      });
+      }));
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -49,7 +57,8 @@ const DynamicFormDialog = ({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    if (e?.preventDefault) e.preventDefault();
     onSubmit(formData);
   };
 
@@ -57,7 +66,14 @@ const DynamicFormDialog = ({
     onDismiss();
   };
 
-  const renderField = (field) => {
+  const getEnterKeyHint = (index) =>
+    index === fields.length - 1 ? "done" : "next";
+
+  const renderField = (field, index) => {
+    const enterKeyHint = field.enterKeyHint || getEnterKeyHint(index);
+    const inputMode = field.inputMode;
+    const inputType = field.inputType || "text";
+
     switch (field.type) {
       case "text":
         return (
@@ -66,6 +82,9 @@ const DynamicFormDialog = ({
             <div>
               <InputText
                 id={field.fieldName}
+                type={inputType}
+                inputMode={inputMode}
+                enterKeyHint={enterKeyHint}
                 value={formData[field.fieldName] || ""}
                 onChange={(e) => handleChange(e, field.fieldName)}
                 style={{ width: "100%" }}
@@ -87,11 +106,18 @@ const DynamicFormDialog = ({
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
               <Password
-                id={field.fieldName}
+                inputId={field.fieldName}
                 value={formData[field.fieldName] || ""}
                 onChange={(e) => handleChange(e, field.fieldName)}
                 style={{ width: "100%" }}
                 placeholder={field.placeholder}
+                toggleMask
+                pt={{
+                  input: {
+                    enterKeyHint,
+                    autoComplete: "new-password",
+                  },
+                }}
               />
             </div>
           </div>
@@ -107,6 +133,7 @@ const DynamicFormDialog = ({
                 onChange={(e) => handleChange(e, field.fieldName)}
                 rows={3}
                 cols={20}
+                enterKeyHint={index === fields.length - 1 ? "done" : undefined}
               />
             </div>
           </div>
@@ -117,12 +144,17 @@ const DynamicFormDialog = ({
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
               <InputNumber
-                id={field.fieldName}
-                value={formData[field.fieldName] || ""}
+                inputId={field.fieldName}
+                value={formData[field.fieldName] ?? null}
                 onValueChange={(e) => handleChange(e, field.fieldName)}
                 mode="decimal"
-                seGrouping={false}
-                inputId="withoutgrouping"
+                useGrouping={false}
+                inputMode="decimal"
+                pt={{
+                  input: {
+                    enterKeyHint,
+                  },
+                }}
               />
             </div>
           </div>
@@ -133,6 +165,7 @@ const DynamicFormDialog = ({
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
               <MultiSelect
+                inputId={field.fieldName}
                 value={formData[field.fieldName]}
                 options={field.options}
                 onChange={(e) => {
@@ -146,16 +179,16 @@ const DynamicFormDialog = ({
             </div>
           </div>
         );
-      case "select":
-        const selectedOption = field.options.find(
-          (option) => option[field.optionValue] === formData[field.fieldName]
+      case "select": {
+        const selectedOption = field.options?.find(
+          (option) => option[field.optionValue] === formData[field.fieldName],
         );
         return (
           <div key={field.fieldName} className="container-input">
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
               <Dropdown
-                id={field.fieldName}
+                inputId={field.fieldName}
                 value={selectedOption}
                 options={field.options}
                 onChange={(e) => {
@@ -166,7 +199,7 @@ const DynamicFormDialog = ({
                     {
                       value: e.target.value[field.targetValue],
                     },
-                    field.fieldName
+                    field.fieldName,
                   );
                 }}
                 placeholder="Seleccione una opción..."
@@ -187,9 +220,10 @@ const DynamicFormDialog = ({
             </div>
           </div>
         );
-      case "listbox":
-        const selectedItem = field.options.find(
-          (option) => option[field.optionValue] === formData[field.optionValue]
+      }
+      case "listbox": {
+        const selectedItem = field.options?.find(
+          (option) => option[field.optionValue] === formData[field.optionValue],
         );
         return (
           <div key={field.fieldName} className="container-input">
@@ -215,16 +249,12 @@ const DynamicFormDialog = ({
             </div>
           </div>
         );
+      }
       case "checkbox":
         return (
           <div
             key={field.fieldName}
-            className="container-input"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
+            className="container-input container-input--checkbox"
           >
             <Checkbox
               inputId={field.fieldName}
@@ -251,7 +281,7 @@ const DynamicFormDialog = ({
             </div>
           </div>
         );
-      case "date":
+      case "date": {
         const value = formData[field.fieldName];
         const date = value ? new Date(value) : new Date();
         return (
@@ -259,55 +289,66 @@ const DynamicFormDialog = ({
             <label htmlFor={field.fieldName}>{field.name}</label>
             <div>
               <Calendar
+                inputId={field.fieldName}
                 value={date}
                 onChange={(e) => handleChange(e, field.fieldName)}
               />
             </div>
           </div>
         );
+      }
       default:
         return null;
     }
   };
 
+  const sizing = dialogSizing(34, { fullScreenOnMobile: true });
+  const dialogProps =
+    mode === "panel" && !isMobile
+      ? {
+          style: {
+            width: width || "min(34rem, 90vw)",
+            position: "fixed",
+            right: 0,
+            top: 0,
+            height: "100%",
+          },
+          className: sizing.className,
+        }
+      : {
+          ...sizing,
+          style: width && !isMobile ? { ...sizing.style, width } : sizing.style,
+        };
+
   return (
     <Dialog
       header={title}
       visible={isOpen}
-      style={
-        mode === "panel"
-          ? {
-              width: width ? width : "30vw",
-              position: "fixed",
-              right: 0,
-              top: 0,
-              height: "100%",
-            }
-          : { width: width ? width : "20vw" }
-      }
-      modal={mode !== "panel"}
+      {...dialogProps}
+      modal={mode !== "panel" || isMobile}
       onHide={handleClose}
-      footer={() => (
-        <div className="footer">
+      footer={
+        <StickyActionBar inSheet>
           <Button
-            className="p-button-raised p-button-danger p-button-text p-button-sm"
+            type="button"
+            className="p-button-outlined p-button-secondary"
             label="Cancelar"
             icon="pi pi-times"
             onClick={onDismiss}
           />
           <Button
-            className="p-button-raised p-button-info p-button-text p-button-sm"
+            type="button"
             label="Guardar"
             icon="pi pi-save"
             onClick={handleSubmit}
           />
-        </div>
-      )}
+        </StickyActionBar>
+      }
     >
       <DynamicFormDialogStyled>
-        <div className="container">
-          {fields.map((field) => renderField(field))}
-        </div>
+        <form onSubmit={handleSubmit} className="container">
+          {fields.map((field, index) => renderField(field, index))}
+        </form>
       </DynamicFormDialogStyled>
     </Dialog>
   );

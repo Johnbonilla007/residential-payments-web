@@ -4,20 +4,33 @@ import styled from "styled-components";
 export const AlertReportStyled = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  min-width: 0;
 
   .filters {
-    display: flex;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    align-items: end;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
 
     .only-pending {
       display: flex;
-      gap: 5px;
+      gap: 8px;
       align-items: center;
+      min-height: 44px;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
     }
   }
 
   .p-datatable-wrapper {
-    height: 580px;
+    max-height: 65vh;
   }
 `;
 

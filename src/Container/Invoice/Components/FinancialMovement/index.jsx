@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import { AiFillBank } from "react-icons/ai";
 import { FinancialMovementServices } from "../FinancialMovementForm/FinancialMovement.Service";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
 
 const FinancialMovement = ({
   visible,
@@ -212,9 +213,10 @@ const FinancialMovement = ({
 
   return (
     <Dialog
+      header="Movimientos Financieros"
       visible={visible}
       onHide={() => onDismiss()}
-      style={{ width: "50vw" }}
+      {...dialogSizing(52, { fullScreenOnMobile: true })}
     >
       <FinancialMovementStyled>
         <Toast ref={toast} />

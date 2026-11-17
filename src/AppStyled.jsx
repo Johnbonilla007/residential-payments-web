@@ -36,15 +36,26 @@ const GlobalStyles = createGlobalStyle`
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Mobile layout & typography tokens */
+    --mobile-header-h: calc(60px + env(safe-area-inset-top, 0px));
+    --mobile-gutter: 16px;
+    --mobile-font-h1: 1.375rem;
+    --mobile-font-h2: 1.125rem;
+    --mobile-font-body: 0.9375rem;
+    --mobile-font-sub: 0.8125rem;
   }
 
   *, *::before, *::after {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
     font-size: 16px;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -55,8 +66,52 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--surface-ground);
+    overscroll-behavior-y: contain;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  a,
+  [role="button"],
+  .p-button,
+  .p-dropdown,
+  .p-checkbox,
+  .p-inputswitch {
+    touch-action: manipulation;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 16px;
+    z-index: 20000;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--app-primary);
+    color: var(--primary-color-text);
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: var(--app-shadow-lg);
+    transition: top var(--transition-fast);
+  }
+
+  .skip-link:focus-visible {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    outline: none;
+    box-shadow: var(--focus-ring), var(--app-shadow-lg);
   }
 
   /* Scoped reset: only the elements whose default margins we actually fight. */
@@ -153,8 +208,10 @@ const GlobalStyles = createGlobalStyle`
     border-color: var(--app-control-border);
   }
 
-  .p-button:not(:disabled):not(.p-disabled):hover {
-    box-shadow: var(--app-shadow-md);
+  @media (hover: hover) {
+    .p-button:not(:disabled):not(.p-disabled):hover {
+      box-shadow: var(--app-shadow-md);
+    }
   }
 
   .p-button:not(:disabled):not(.p-disabled):active {
@@ -230,14 +287,27 @@ const GlobalStyles = createGlobalStyle`
    * every dialog at once instead of editing each call site. The !important is
    * required because the widths are inline styles.
    */
-  ${media.lg} {
-    .p-dialog {
-      width: 75vw !important;
+  @media (min-width: 768px) {
+    .p-dialog:not(.p-dialog-maximized) {
+      min-width: min(32rem, 92vw);
+      max-width: 94vw;
+      max-height: 90vh;
+    }
+
+    .p-dialog .p-dialog-content {
+      overflow-y: auto;
+    }
+
+    .p-dialog .p-inputtext,
+    .p-dialog .p-dropdown,
+    .p-dialog .p-calendar,
+    .p-dialog .p-inputnumber {
+      max-width: 100%;
     }
   }
 
   ${media.md} {
-    .p-dialog {
+    .p-dialog:not(.dialog--fullscreen-mobile) {
       width: 92vw !important;
       max-width: 92vw !important;
       /* Inline fixed heights would clip the content on short screens. */
@@ -341,23 +411,83 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Responsive typography */
-  ${media.md} {
+  /* Responsive typography & mobile native adjustments */
+  @media (max-width: 767px) {
     html {
-      font-size: 14px;
+      font-size: 16px;
     }
 
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.75rem; }
-    h3 { font-size: 1.5rem; }
-    h4 { font-size: 1.25rem; }
-    h5 { font-size: 1.1rem; }
-    h6 { font-size: 1rem; }
-  }
+    h1 { font-size: var(--mobile-font-h1); }
+    h2, h3 { font-size: var(--mobile-font-h2); }
+    h4 { font-size: 1.0625rem; }
+    h5 { font-size: 1rem; }
+    h6 { font-size: 0.9375rem; }
 
-  ${media.sm} {
-    html {
-      font-size: 13px;
+    /* Prevent iOS Safari auto-zoom on form input focus */
+    input,
+    select,
+    textarea,
+    .p-inputtext,
+    .p-dropdown-label,
+    .p-inputnumber-input {
+      font-size: max(16px, 1rem) !important;
+    }
+
+    /* Fullscreen mobile dialog mode (B6) */
+    .p-dialog.dialog--fullscreen-mobile {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      height: 100dvh !important;
+      max-height: 100dvh !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .p-dialog.dialog--fullscreen-mobile .p-dialog-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      border-radius: 0 !important;
+      padding: calc(0.875rem + env(safe-area-inset-top, 0px)) 1rem 0.875rem !important;
+      flex-shrink: 0;
+    }
+
+    .p-dialog.dialog--fullscreen-mobile .p-dialog-header .p-dialog-header-icon {
+      min-width: 44px !important;
+      min-height: 44px !important;
+    }
+
+    .p-dialog.dialog--fullscreen-mobile .p-dialog-content {
+      flex: 1 1 auto !important;
+      max-height: none !important;
+      overflow-y: auto !important;
+      overscroll-behavior-y: contain;
+      padding: 1rem var(--mobile-gutter) !important;
+    }
+
+    .p-dialog.dialog--fullscreen-mobile .p-dialog-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      border-radius: 0 !important;
+      padding: 0.75rem var(--mobile-gutter) calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+      flex-shrink: 0;
+    }
+
+    /* Mobile toast positioning below sticky header */
+    .p-toast {
+      top: calc(var(--mobile-header-h) + 8px) !important;
+      left: var(--mobile-gutter) !important;
+      right: var(--mobile-gutter) !important;
+      width: auto !important;
+      max-width: calc(100vw - 32px) !important;
+    }
+
+    .p-toast .p-toast-message .p-toast-icon-close {
+      min-width: 44px;
+      min-height: 44px;
     }
   }
 

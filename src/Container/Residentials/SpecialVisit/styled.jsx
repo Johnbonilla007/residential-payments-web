@@ -8,14 +8,10 @@ export const SpecialVisitStyled = styled.div`
    */
   .container-card {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
     justify-content: center;
-    gap: 35px;
-    padding-top: 50px;
-    max-height: 70vh;
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--app-primary) var(--surface-card);
+    gap: clamp(1rem, 2vw, 2rem);
+    padding-top: 1.25rem;
   }
 
   .container-card > .visit-card {

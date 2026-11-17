@@ -12,9 +12,9 @@ const CardMenu = ({ label, description, color, icon, path }) => {
 
   return (
     <CardMenuStyled color={color}>
-      <div className="card" onClick={onClickNavigate}>
+      <button type="button" className="card" onClick={onClickNavigate}>
         <div className="left-content">
-          <div className="icon">
+          <div className="icon" aria-hidden="true">
             {icon && icon}
           </div>
           <div className="text-content">
@@ -22,9 +22,9 @@ const CardMenu = ({ label, description, color, icon, path }) => {
             {description && <p className="description">{description}</p>}
           </div>
         </div>
-        <FaChevronRight className="chevron-shift" />
+        <FaChevronRight className="chevron-shift" aria-hidden="true" />
         <div className="glow-background" />
-      </div>
+      </button>
     </CardMenuStyled>
   );
 };

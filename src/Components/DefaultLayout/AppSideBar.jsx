@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { FaBars, FaCalendar, FaShoppingCart, FaFileAlt } from "react-icons/fa";
 import { RiMenuUnfold4Line, RiMenuFold4Line } from "react-icons/ri";
@@ -17,11 +17,20 @@ import {
 } from "../../Styles/layout";
 import LogoImage from "../../Assets/Logo.png";
 
-const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const AppSidebar = ({
+  mobileSidebarVisible,
+  setMobileSidebarVisible,
+  returnFocusRef,
+}) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(
     () => window.innerWidth <= MOBILE_BREAKPOINT
   );
+  const sidebarContainerRef = useRef(null);
+  const wasMobileOpenRef = useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { accesses } = useMemo(() => getRequestUserInfo(), []);
@@ -63,8 +72,69 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (!isMobile || !mobileSidebarVisible) {
+      if (wasMobileOpenRef.current) {
+        wasMobileOpenRef.current = false;
+        returnFocusRef?.current?.focus?.();
+      }
+      return undefined;
+    }
+
+    wasMobileOpenRef.current = true;
+    const container = sidebarContainerRef.current;
+    const focusFirst = () => {
+      const first = container?.querySelector(FOCUSABLE_SELECTOR);
+      first?.focus?.();
+    };
+    const timer = window.setTimeout(focusFirst, 40);
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileSidebarVisible(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !container) return;
+      const focusables = Array.from(
+        container.querySelectorAll(FOCUSABLE_SELECTOR)
+      ).filter((el) => el.offsetParent !== null);
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobile, mobileSidebarVisible, setMobileSidebarVisible, returnFocusRef]);
+
+  const closeMobileSidebar = () => {
+    if (isMobile) {
+      setMobileSidebarVisible(false);
+    }
+  };
+
   return (
-    <AppSidebarStyled mobileSidebarVisible={mobileSidebarVisible}>
+    <AppSidebarStyled
+      ref={sidebarContainerRef}
+      mobileSidebarVisible={mobileSidebarVisible}
+      role={isMobile && mobileSidebarVisible ? "dialog" : undefined}
+      aria-modal={isMobile && mobileSidebarVisible ? "true" : undefined}
+      aria-label={isMobile ? "Menú principal" : undefined}
+    >
       {isMobile && mobileSidebarVisible && (
         <div
           className="sidebar-backdrop"
@@ -105,7 +175,10 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
               transform: isCollapsed ? "scale(0.8)" : "scale(1)",
               filter: "brightness(0) invert(1)" // Force to white
             }}
-            onClick={() => navigate("/dashboard")}
+            onClick={() => {
+              navigate("/dashboard");
+              closeMobileSidebar();
+            }}
           />
         </div>
         {/*
@@ -139,13 +212,20 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
               )
             }
             component={<Link to="/dashboard" />}
-            onClick={toggleSidebar}
+            onClick={(event) => {
+              if (isMobile) {
+                closeMobileSidebar();
+                return;
+              }
+              toggleSidebar(event);
+            }}
             title={collapsed ? "Dashboard" : ""} // Tooltip only when collapsed
           >
             <span
               onClick={(event) => {
                 event.preventDefault();
                 navigate("/dashboard");
+                closeMobileSidebar();
               }}
             >
               Dashboard
@@ -184,6 +264,7 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
                             component={<Link to={subRoute.path} />}
                             title={subRoute.name}
                             icon={subRoute.icon}
+                            onClick={closeMobileSidebar}
                           >
                             {subRoute.name}
                           </MenuItem>
@@ -198,6 +279,7 @@ const AppSidebar = ({ mobileSidebarVisible, setMobileSidebarVisible }) => {
                       component={<Link to={route.path} />}
                       title={route.name}
                       key={route.path}
+                      onClick={closeMobileSidebar}
                     >
                       {route.name}
                     </MenuItem>

@@ -10,6 +10,7 @@ import { InputText } from "primereact/inputtext";
 import { useMemo } from "react";
 import { utils } from "../../../../Helpers/utils";
 import { Toast } from "primereact/toast";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
 
 const SpendingInvoces = ({
   visible,
@@ -136,9 +137,10 @@ const SpendingInvoces = ({
 
   return (
     <Dialog
+      header="Recibos de Gastos"
       visible={visible}
       onHide={() => onDismiss()}
-      style={{ width: "50vw" }}
+      {...dialogSizing(52, { fullScreenOnMobile: true })}
     >
       <SpendingInvocesStyled>
         <Toast ref={toast} />

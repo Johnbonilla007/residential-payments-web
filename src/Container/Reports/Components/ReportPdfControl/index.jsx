@@ -5,6 +5,8 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import ReportDetailPdf from "../../IncomesAndSpendingReportDetailed/ReportDetailPdf";
 import ReportPendingPdf from "../../PendingPaymentReport/ReportPendingPdf";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
+import StickyActionBar from "../../../../Components/Controls/StickyActionBar";
 
 export const ReportPdfControl = ({
   visible,
@@ -37,13 +39,21 @@ export const ReportPdfControl = ({
 
   const footer = () => {
     return (
-      <div>
+      <StickyActionBar inSheet>
         <Button
+          type="button"
+          label="Cerrar"
+          icon="pi pi-times"
+          className="p-button-outlined p-button-secondary"
+          onClick={() => onDismiss()}
+        />
+        <Button
+          type="button"
           label="Imprimir"
           icon="pi pi-print"
           onClick={() => handlePrint()}
         />
-      </div>
+      </StickyActionBar>
     );
   };
 
@@ -53,7 +63,7 @@ export const ReportPdfControl = ({
       visible={visible}
       footer={footer()}
       onHide={() => onDismiss()}
-      style={{ width: "90vw" }}
+      {...dialogSizing(60, { fullScreenOnMobile: true })}
     >
       {reportType === "reportSumarize" && (
         <ReportSumarizePdf

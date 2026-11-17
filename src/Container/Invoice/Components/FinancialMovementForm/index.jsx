@@ -16,6 +16,8 @@ import { FinancialMovementFormStyled } from "./styled";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 import { FinancialMovementServices } from "./FinancialMovement.Service";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
+import StickyActionBar from "../../../../Components/Controls/StickyActionBar";
 
 const FinancialMovementForm = ({ residentialNo, isOpen, onDismiss, toast }) => {
   const [formData, setFormData] = useState({
@@ -92,15 +94,23 @@ const FinancialMovementForm = ({ residentialNo, isOpen, onDismiss, toast }) => {
       header="Movimiento Financiero"
       visible={isOpen}
       onHide={() => onDismiss()}
+      {...dialogSizing(38, { fullScreenOnMobile: true })}
       footer={
-        <div className="dialog-footer">
-          <Button label="Guardar" icon="pi pi-check" onClick={handleSubmit} />
+        <StickyActionBar inSheet>
           <Button
+            type="button"
             label="Cancelar"
             icon="pi pi-times"
+            className="p-button-outlined p-button-secondary"
             onClick={() => onDismiss()}
           />
-        </div>
+          <Button
+            type="button"
+            label="Guardar"
+            icon="pi pi-check"
+            onClick={handleSubmit}
+          />
+        </StickyActionBar>
       }
     >
       <FinancialMovementFormStyled>
@@ -163,6 +173,8 @@ const FinancialMovementForm = ({ residentialNo, isOpen, onDismiss, toast }) => {
               id="amount"
               name="amount"
               value={formData.amount}
+              inputMode="decimal"
+              pt={{ input: { enterKeyHint: "next" } }}
               onValueChange={(e) =>
                 handleInputChange({
                   target: { name: "amount", value: e.value },

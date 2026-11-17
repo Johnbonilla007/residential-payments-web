@@ -14,6 +14,7 @@ import { PenaltyFeeService } from "../../PenaltyFee.Service";
 import ReceipControl from "../../../../../Components/Controls/ReceiptControl";
 import { useReactToPrint } from "react-to-print";
 import html2canvas from "html2canvas";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const PayPenaltyFee = ({
   isPaymentModalVisible,
@@ -204,7 +205,8 @@ export const PayPenaltyFee = ({
       visible={isPaymentModalVisible}
       onHide={handleOnHideModal}
       header={`Pagar Penalidad #${selectedPenalty?.penaltyFeeNo}`}
-      style={{ textAlign: "center" }}
+      {...dialogSizing(36, { fullScreenOnMobile: true })}
+      style={{ ...dialogSizing(36, { fullScreenOnMobile: true }).style, textAlign: "center" }}
       footer={
         <Button
           disabled={isInvoiceDisabled}
@@ -278,7 +280,12 @@ export const PayPenaltyFee = ({
       </PayPenaltyFeeStyled>
 
       {showReceipt && (
-        <Dialog visible footer={footer} onHide={handleOnHideModal}>
+        <Dialog
+          visible
+          footer={footer}
+          onHide={handleOnHideModal}
+          {...dialogSizing(42, { fullScreenOnMobile: true })}
+        >
           <ReceipControl
             receipType="invoice"
             invoice={{ ...receipt, remitance: ownerPropertyName }}

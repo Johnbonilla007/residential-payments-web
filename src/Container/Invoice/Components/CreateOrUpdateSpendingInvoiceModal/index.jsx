@@ -14,6 +14,7 @@ import { InvoiceServices } from "../../Invoice.Service";
 import SpendingInvoicePrint from "../SpendingInvoicePrint";
 import { CreateOrUpdateSpendingTypeService } from "../CreateOrUpdateSpendingType/CreateOrUpdateSpendingType.Service";
 import { useMemo } from "react";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
 
 const CreateOrUpdateSpendingInvoiceModal = ({
   isOpen,
@@ -233,8 +234,7 @@ const CreateOrUpdateSpendingInvoiceModal = ({
       }`}
       visible={isOpen}
       onHide={() => onDissmis()}
-      style={{ width: "50vw" }}
-      breakpoints={{ "1024px": "75vw", "768px": "92vw" }}
+      {...dialogSizing(54, { fullScreenOnMobile: true })}
       maximizable
       footer={renderFooter}
     >
@@ -339,6 +339,8 @@ const CreateOrUpdateSpendingInvoiceModal = ({
               <InputNumber
                 id={id}
                 value={detail.amount}
+                inputMode="decimal"
+                pt={{ input: { enterKeyHint: "done" } }}
                 onChange={(e) =>
                   setDetail({ ...detail, amount: parseFloat(e.value || 0) })
                 }

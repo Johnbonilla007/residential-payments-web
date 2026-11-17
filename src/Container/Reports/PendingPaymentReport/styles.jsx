@@ -31,27 +31,31 @@ export const PendingPaymentReportStyled = styled.div`
   }
 
   .filters {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
-    align-items: center;
-    flex: 1;
+    align-items: end;
+    flex: 1 1 600px;
+    min-width: 0;
   }
 
   .filter-item {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    flex: 1 1 200px;
-    min-width: 220px;
+    min-width: 0;
 
     label {
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--text-color-secondary);
+      text-align: left;
     }
-    
-    .p-dropdown, .p-calendar, .p-inputtext, .p-component {
+
+    .p-dropdown,
+    .p-calendar,
+    .p-inputtext,
+    .p-component {
       width: 100%;
     }
 
@@ -64,6 +68,7 @@ export const PendingPaymentReportStyled = styled.div`
 
   .filter-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     align-items: flex-end;
     margin-left: auto;
@@ -71,12 +76,15 @@ export const PendingPaymentReportStyled = styled.div`
     .p-button {
       border-radius: 8px;
       font-weight: 600;
-      padding: 0.75rem 1.5rem;
+      min-height: 44px;
+      padding: 0.65rem 1.25rem;
       transition: all 0.2s ease;
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      @media (hover: hover) {
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
       }
     }
 
@@ -116,31 +124,37 @@ export const PendingPaymentReportStyled = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
+    gap: 12px;
+
     .filter-card {
       flex-direction: column;
       align-items: stretch;
+      padding: 14px;
     }
-    
+
     .filters {
-      flex-direction: column;
+      grid-template-columns: 1fr;
     }
 
     .filter-item {
       width: 100%;
-      flex: none;
     }
-    
+
     .filter-actions {
       margin-left: 0;
       width: 100%;
       justify-content: stretch;
-      margin-top: 10px;
-      
+      margin-top: 8px;
+
       .p-button {
         flex: 1;
         justify-content: center;
       }
+    }
+
+    .table-container {
+      padding: 10px;
     }
   }
 `;

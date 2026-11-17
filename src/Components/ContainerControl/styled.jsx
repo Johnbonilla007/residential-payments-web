@@ -37,10 +37,12 @@ export const ContainerControlStyled = styled.div`
      appears under it. */
   ${media.md} {
     left: 0 !important;
-    top: ${px(HEADER_HEIGHT_MOBILE)} !important;
+    top: var(--mobile-header-h, ${px(HEADER_HEIGHT_MOBILE)}) !important;
   }
 
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
   background-color: ${(props) => props.theme.colors.background};
   color: ${(props) => props.theme.colors.text};
   transition:
@@ -53,8 +55,15 @@ export const ContainerControlStyled = styled.div`
     /* Lets the flex child actually shrink so it scrolls instead of pushing the
        sticky command bar over the content. height:100% ignored the bar's space. */
     min-height: 0;
-    overflow: auto;
-    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: clamp(12px, 1.5vw, 24px);
     width: 100%;
+
+    @media (max-width: 767px) {
+      padding: var(--mobile-gutter, 16px);
+      padding-bottom: calc(var(--mobile-gutter, 16px) + env(safe-area-inset-bottom, 0px));
+    }
   }
 `;

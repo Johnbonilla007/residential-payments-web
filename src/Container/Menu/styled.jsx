@@ -4,10 +4,10 @@ export const MenuStyled = styled.div`
   /* Main container with premium styling */
   .container-menu {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
-    padding: 2.5rem;
-    max-width: 1400px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: clamp(0.75rem, 2vw, 2.25rem);
+    max-width: 1440px;
     margin: 0 auto;
     animation: fadeIn 0.6s ease-out;
   }
@@ -23,38 +23,12 @@ export const MenuStyled = styled.div`
     }
   }
 
-  /* Tablet view */
-  @media (max-width: 1024px) {
-    .container-menu {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.75rem;
-      padding: 2rem;
-    }
-  }
-
-  /* Mobile landscape */
-  @media (max-width: 768px) {
-    .container-menu {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
-  }
-
   /* Mobile portrait */
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     .container-menu {
       grid-template-columns: 1fr;
-      gap: 1.25rem;
-      padding: 1.25rem;
-    }
-  }
-
-  /* Small mobile devices */
-  @media (max-width: 360px) {
-    .container-menu {
-      gap: 1rem;
-      padding: 1rem;
+      gap: 0.75rem;
+      padding: 0.25rem 0;
     }
   }
 `;

@@ -69,11 +69,14 @@ export const LoginStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
-    padding: var(--spacing-lg);
+    padding: calc(var(--spacing-lg) + env(safe-area-inset-top, 0px))
+      var(--spacing-lg)
+      calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
     position: relative;
     z-index: 1;
+    overflow-y: auto;
   }
 
   .login-box {
@@ -172,6 +175,19 @@ export const LoginStyled = styled.div`
     .p-password {
       width: 100%;
       display: block;
+
+      .p-password-toggle-icon,
+      .p-icon {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-top: 0;
+        right: 4px;
+      }
     }
   }
 
@@ -182,7 +198,8 @@ export const LoginStyled = styled.div`
    */
   button {
     width: 100%;
-    padding: 1rem;
+    min-height: 48px;
+    padding: 0.875rem 1rem;
     font-size: 1.05rem;
     font-weight: 600;
     background: var(--app-nav-text);
@@ -198,12 +215,14 @@ export const LoginStyled = styled.div`
     box-shadow: var(--app-shadow-md);
     margin-top: 0.5rem;
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--app-shadow-lg);
-      background: var(--app-nav-gradient);
-      color: var(--app-nav-text);
-      outline: 1px solid var(--app-nav-text);
+    @media (hover: hover) {
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--app-shadow-lg);
+        background: var(--app-nav-gradient);
+        color: var(--app-nav-text);
+        outline: 1px solid var(--app-nav-text);
+      }
     }
 
     &:active {

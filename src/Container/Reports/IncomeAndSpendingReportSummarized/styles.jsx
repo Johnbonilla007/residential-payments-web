@@ -1,9 +1,30 @@
 import styled from "styled-components";
 
 export const IncomeAndSpendingReportSummarizedStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+
   .filters {
-    display: flex;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    align-items: end;
+    background: var(--surface-card);
+    padding: clamp(0.875rem, 1.5vw, 1.25rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--surface-border);
+
+    .p-dropdown,
+    .p-calendar,
+    .p-inputtext {
+      width: 100%;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .tables {
@@ -41,8 +62,14 @@ export const IncomeAndSpendingReportSummarizedStyled = styled.div`
 
   .table-summarize-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
+
+    > * {
+      flex: 1 1 320px;
+      min-width: 0;
+    }
   }
 
   /* Tres tarjetas agrupadas por tema (Ingresos/Gastos/Disponible) en vez de

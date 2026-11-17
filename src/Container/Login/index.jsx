@@ -113,6 +113,11 @@ export const Login = () => {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Usuario"
+                aria-label="Usuario"
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                enterKeyHint="next"
               />
             </div>
             <div className="input">
@@ -120,12 +125,21 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Contraseña"
+                aria-label="Contraseña"
                 feedback={false}
+                toggleMask
                 onKeyDown={handleKeyDown}
+                pt={{
+                  input: {
+                    autoComplete: "current-password",
+                    enterKeyHint: "go",
+                  },
+                }}
               />
             </div>
 
             <Button
+              type="button"
               label="Iniciar Sesión"
               className="p-button-raised p-button-info"
               onClick={async () => await handelOnLogin()}

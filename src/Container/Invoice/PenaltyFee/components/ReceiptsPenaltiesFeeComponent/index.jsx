@@ -7,6 +7,7 @@ import { useReactToPrint } from "react-to-print";
 import html2canvas from "html2canvas";
 import ReceipControl from "../../../../../Components/Controls/ReceiptControl";
 import EditResidenceModal from "../../../Components/ResidenceInvoiceCard/Components/EditResidenceModal";
+import { dialogSizing } from "../../../../../Components/Controls/dialogStyles";
 
 export const ReceiptsPenaltiesFeeComponent = ({
   onClose,
@@ -91,7 +92,7 @@ export const ReceiptsPenaltiesFeeComponent = ({
       visible
       onHide={onClose}
       header="Detalles de Facturas"
-      style={{ width: "60vw" }}
+      {...dialogSizing(54, { fullScreenOnMobile: true })}
     >
       <ReceiptsPenaltiesFeeComponentStyled>
         {loading ? (
@@ -134,7 +135,12 @@ export const ReceiptsPenaltiesFeeComponent = ({
       </ReceiptsPenaltiesFeeComponentStyled>
 
       {showReceipt && (
-        <Dialog visible footer={footer} onHide={() => setShowReceipt(false)}>
+        <Dialog
+          visible
+          footer={footer}
+          onHide={() => setShowReceipt(false)}
+          {...dialogSizing(42, { fullScreenOnMobile: true })}
+        >
           <ReceipControl
             receipType="invoice"
             invoice={{ ...selectedReceipt, remitance: ownerPropertyName }}

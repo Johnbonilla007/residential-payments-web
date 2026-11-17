@@ -3,32 +3,42 @@ import styled from "styled-components";
 export const IncomeReportStyled = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 120px);
-  overflow: hidden;
+  gap: 1rem;
+  min-width: 0;
 
   .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    align-items: end;
+    padding: clamp(0.875rem, 1.5vw, 1.5rem);
     background: var(--surface-card);
     border-radius: var(--radius-lg);
     box-shadow: var(--app-shadow-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--surface-border);
+
+    .p-dropdown,
+    .p-calendar,
+    .p-inputtext {
+      width: 100%;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .calendar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     color: var(--text-color);
   }
 
   .table-container {
-    flex: 1;
-    overflow: hidden;
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
   }
