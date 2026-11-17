@@ -6,9 +6,9 @@ export const InvoiceStyled = styled.div`
     top: 0;
     z-index: 100;
     background-color: var(--card-bg);
-    padding: 1.5rem;
+    padding: 0.65rem 1rem;
     border-radius: 12px;
-    margin-bottom: 2rem;
+    margin-bottom: 0.75rem;
     box-shadow: var(--app-shadow-md);
     border: 1px solid var(--surface-border);
 
@@ -27,9 +27,14 @@ export const InvoiceStyled = styled.div`
 
     strong {
       display: block;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-      font-size: 1.1rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-color-secondary);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .p-inputtext {
+      height: 38px;
     }
 
     /* Asegurar que el filtro ocupe todo el ancho */
