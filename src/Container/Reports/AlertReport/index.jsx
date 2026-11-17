@@ -15,6 +15,7 @@ import { Button } from "primereact/button";
 import { AlertReportService } from "./AlertReport.Service";
 import { Toast } from "primereact/toast";
 import { InputNumber } from "primereact/inputnumber";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const AlertReport = () => {
   const toast = useRef(null);
@@ -82,7 +83,8 @@ const AlertReport = () => {
       <Toast ref={toast} />
 
       <AlertReportStyled>
-        <div className="filters">
+        <CollapsibleFilters>
+          <div className="filters">
           <InputText
             placeholder="Escribe algo..."
             name="searchValue"
@@ -114,7 +116,8 @@ const AlertReport = () => {
             onClick={() => handleGenerateReport()}
             className="button"
           />
-        </div>
+          </div>
+        </CollapsibleFilters>
 
         <div>
           <TableControl

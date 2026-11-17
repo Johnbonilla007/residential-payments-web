@@ -176,17 +176,22 @@ export const LoginStyled = styled.div`
       width: 100%;
       display: block;
 
-      .p-password-toggle-icon,
-      .p-icon {
-        min-width: 44px;
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+      input {
+        padding-right: 2.75rem;
+      }
+
+      .p-icon,
+      .p-input-icon,
+      i {
+        width: 1.15rem;
+        height: 1.15rem;
+        font-size: 1.15rem;
+        right: 0.9rem;
         top: 50%;
         transform: translateY(-50%);
         margin-top: 0;
-        right: 4px;
+        cursor: pointer;
+        color: var(--text-color-secondary);
       }
     }
   }

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+export { MobileResidenceCard } from "../ResidenceInvoiceCard/styled";
+
 export const CardComponentPenaltyFeeStyled = styled.div`
   background: var(--app-surface-gradient);
   border-radius: 16px;

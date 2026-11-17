@@ -2,40 +2,19 @@ import styled from "styled-components";
 
 export const BillingContainerSyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  padding: clamp(0.5rem, 1.5vw, 1.5rem);
+  width: 100%;
 
   .item {
-    /* Adaptado al tema: antes era 'white' fijo y se veía blanco en modo oscuro. */
-    background: var(--surface-card);
-    border-radius: 12px;
-    padding: 1.25rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid var(--surface-border);
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    }
+    height: 100%;
+    min-width: 0;
   }
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.25rem;
-    padding: 1.75rem;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    padding: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1.25rem;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
   }
 `;

@@ -309,6 +309,7 @@ const Invoice = () => {
           {showViewResidence ? (
             <div>
               <FilterControl
+                placeholder="Buscar por residente, bloque o casa..."
                 items={residences}
                 filter={filterResidences}
                 setFilter={(value) => {
@@ -328,6 +329,7 @@ const Invoice = () => {
             </div>
           ) : (
             <FilterControl
+              placeholder="Buscar residencial..."
               items={residentials}
               filter={filterResidential}
               setFilter={(value) => {

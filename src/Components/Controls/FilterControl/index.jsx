@@ -1,7 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { InputText } from "primereact/inputtext";
 import { utils } from "../../../Helpers/utils";
+
+const SearchWrap = styled.div`
+  position: relative;
+  width: 100%;
+
+  .p-input-icon-left {
+    display: block;
+    width: 100%;
+  }
+
+  .p-inputtext {
+    width: 100%;
+    padding-right: ${(props) => (props.$hasValue ? "2.5rem" : "0.75rem")} !important;
+  }
+`;
+
+const ClearButton = styled.button`
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-color-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+`;
 
 export const FilterControl = ({
   filter,
@@ -23,7 +61,7 @@ export const FilterControl = ({
       if (filter !== localFilter) {
         setFilter(localFilter);
       }
-    }, 500);
+    }, 350);
 
     return () => clearTimeout(delayDebounceFn);
   }, [localFilter]);
@@ -31,11 +69,9 @@ export const FilterControl = ({
   useEffect(() => {
     if (!utils.isNullOrEmpty(filter)) {
       const newItems = items.filter((item) => {
-        // Build a function to check for matches in nested objects or arrays
         const doesMatch = (obj, filterProps) => {
           return filterProps.some((property) => {
             if (typeof property === "string") {
-              // Check top-level properties
               return (
                 obj[property] &&
                 obj[property]
@@ -44,7 +80,6 @@ export const FilterControl = ({
                   .includes(filter.toLowerCase())
               );
             } else if (typeof property === "object" && property.subItems) {
-              // Check nested properties (e.g., accounts)
               const subItems = obj[property.key] || [];
               return subItems.some((subItem) =>
                 property.subItems.some(
@@ -61,7 +96,6 @@ export const FilterControl = ({
           });
         };
 
-        // Check combined properties first
         if (combinedFilterProperties.length > 0) {
           const combinedString = combinedFilterProperties
             .map((property) => item[property])
@@ -73,7 +107,6 @@ export const FilterControl = ({
           }
         }
 
-        // Check top-level and nested properties
         return doesMatch(item, propertyFilter);
       });
 
@@ -84,15 +117,31 @@ export const FilterControl = ({
   }, [filter, items]);
 
   return (
-    <div>
+    <SearchWrap $hasValue={Boolean(localFilter)}>
       <span className="p-input-icon-left">
-        <i className="pi pi-search" />
+        <i className="pi pi-search" aria-hidden="true" />
         <InputText
+          type="search"
           value={localFilter}
           onChange={(e) => setLocalFilter(e.target.value)}
           placeholder={placeholder || "Buscar"}
+          aria-label={placeholder || "Buscar"}
+          enterKeyHint="search"
+          autoComplete="off"
         />
       </span>
-    </div>
+      {localFilter && (
+        <ClearButton
+          type="button"
+          aria-label="Limpiar búsqueda"
+          onClick={() => {
+            setLocalFilter("");
+            setFilter("");
+          }}
+        >
+          <i className="pi pi-times" aria-hidden="true" />
+        </ClearButton>
+      )}
+    </SearchWrap>
   );
 };

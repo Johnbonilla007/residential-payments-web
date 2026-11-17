@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Route, Routes, useLocation, useNavigate, Navigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import routes from "../../Routes";
-import { Menubar } from "primereact/menubar";
 import { Button } from "primereact/button";
 import { DefaultLayoutStyled } from "./styled";
 import { OverlayPanel } from "primereact/overlaypanel";
@@ -18,8 +23,6 @@ import { ThemeToggle } from "../ThemeToggle";
 import DashboardMenu from "../../Container/Menu";
 import AppSidebar from "./AppSideBar";
 import { TipoCuentas } from "../../Helpers/Constant";
-import { setShowMenuOnMobile, setShowSideBar } from "./reducer";
-import { RiMenuUnfold4Line } from "react-icons/ri";
 import { useIsMobile } from "../../Helpers/useIsMobile";
 
 const resolveRouteTitle = (pathname) => {
@@ -37,17 +40,22 @@ const resolveRouteTitle = (pathname) => {
   return "Residencial";
 };
 
+const getInitials = (name) => {
+  if (!name) return "QS";
+  const parts = String(name).trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0] || ""}${parts[1][0] || ""}`.toUpperCase();
+};
+
 export const DefaultLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
-  const [mobileSidebarVisible, setMobileSidebarVisible] = useState(false); // State for mobile sidebar visibility
+  const [, setIsLogin] = useState(false);
   const dispacth = useDispatch();
   const op = useRef(null);
-  const mobileMenuToggleRef = useRef(null);
   const userInfo = getRequestUserInfo();
 
   const toast = useRef(null);
@@ -74,8 +82,7 @@ export const DefaultLayout = () => {
 
   const accesses = useMemo(() => {
     if (utils.evaluateFullObjetct(userInfo)) {
-      let accesses = userInfo.accesses;
-      return accesses;
+      return userInfo.accesses;
     }
     return [];
   }, [userInfo]);
@@ -104,32 +111,16 @@ export const DefaultLayout = () => {
       setPassword("");
       setIsLogin(true);
       window.sessionStorage.setItem("userInfo", JSON.stringify(response.user));
-      const isResidenceRol = response.user.accesses.any(
+      const residenceRole = response.user.accesses.any(
         (x) => x.rolName === TipoCuentas.Rol_Residente,
       );
-      if (isResidenceRol) {
+      if (residenceRole) {
         navigate("/billing/receipt");
         return;
       }
       navigate("/dashboard");
       return;
     }
-    if (response && response.success) {
-      toast.current.show({
-        severity: "warn",
-        summary: "Advertencia",
-        detail: response.validationErrorMessage,
-        life: 3000,
-      });
-      return;
-    }
-  };
-
-  const handelOnLogOut = (e) => {
-    setIsLogin(false);
-    dispacth(setAuthenticate(false));
-    window.sessionStorage.setItem("userInfo", JSON.stringify({}));
-    navigate("/home");
   };
 
   const homeOption = () => {
@@ -158,64 +149,9 @@ export const DefaultLayout = () => {
     homeOption();
   };
 
-  const start = (
-    <div className="header-brand">
-      {authenticate && (
-        <button
-          ref={mobileMenuToggleRef}
-          type="button"
-          className="app-icon mobile-menu-toggle"
-          aria-label="Abrir menú de navegación"
-          aria-expanded={mobileSidebarVisible}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (showMenuOnMobile) {
-              dispacth(setShowMenuOnMobile(false));
-              dispacth(setShowSideBar(false));
-            } else {
-              dispacth(setShowMenuOnMobile(true));
-            }
-
-            setMobileSidebarVisible(!mobileSidebarVisible);
-          }}
-        >
-          <RiMenuUnfold4Line size={24} color="var(--app-nav-text)" aria-hidden="true" />
-        </button>
-      )}
-      {canGoBackOnMobile && (
-        <button
-          type="button"
-          className="mobile-back-btn"
-          aria-label="Volver"
-          onClick={handleMobileBack}
-        >
-          <i className="pi pi-arrow-left" aria-hidden="true" />
-        </button>
-      )}
-      {authenticate && (
-        <span className="mobile-header-title" title={currentRouteTitle}>
-          {currentRouteTitle}
-        </span>
-      )}
-    </div>
-  );
-
-  const end = authenticate && (
-    <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "6px" : "0" }}>
-      <ThemeToggle />
-      <Button
-        label={isMobile ? undefined : "Cerrar Sesión"}
-        aria-label="Cerrar sesión"
-        icon="pi pi-sign-out"
-        className="p-button-danger logout-btn"
-        onClick={() => {
-          dispacth(setAuthenticate(false));
-          dispacth(setUserInfo({}));
-          window.sessionStorage.setItem("userInfo", JSON.stringify({}));
-          navigate("/login");
-        }}
-      />
-    </div>
+  const userInitials = useMemo(
+    () => getInitials(userInfo?.fullName || userInfo?.userName),
+    [userInfo],
   );
 
   const RenderRoutes = () => (
@@ -292,19 +228,54 @@ export const DefaultLayout = () => {
       </a>
       <Toast ref={toast} />
 
-      <Menubar
-        style={{ borderRadius: 1 }}
-        className="top-bar"
-        start={start}
-        end={end}
-      />
-
       {authenticate && (
-        <AppSidebar
-          mobileSidebarVisible={mobileSidebarVisible}
-          setMobileSidebarVisible={setMobileSidebarVisible}
-          returnFocusRef={mobileMenuToggleRef}
-        />
+        <>
+          <header className="top-bar">
+            <div className="header-left">
+              {canGoBackOnMobile && (
+                <button
+                  type="button"
+                  className="mobile-back-btn"
+                  aria-label="Volver"
+                  onClick={handleMobileBack}
+                >
+                  <i className="pi pi-arrow-left" aria-hidden="true" />
+                </button>
+              )}
+              <span
+                className="user-avatar-badge"
+                title={userInfo?.fullName || userInfo?.userName || "Usuario"}
+              >
+                {userInitials}
+              </span>
+            </div>
+
+            <div className="header-center">
+              <h1 className="page-title" title={currentRouteTitle}>
+                {currentRouteTitle}
+              </h1>
+            </div>
+
+            <div className="header-right">
+              <ThemeToggle />
+              <Button
+                type="button"
+                label={isMobile ? undefined : "Cerrar Sesión"}
+                aria-label="Cerrar sesión"
+                icon="pi pi-sign-out"
+                className="p-button-danger logout-btn"
+                onClick={() => {
+                  dispacth(setAuthenticate(false));
+                  dispacth(setUserInfo({}));
+                  window.sessionStorage.setItem("userInfo", JSON.stringify({}));
+                  navigate("/login");
+                }}
+              />
+            </div>
+          </header>
+
+          <AppSidebar />
+        </>
       )}
 
       <main
@@ -323,9 +294,6 @@ export const DefaultLayout = () => {
         {RenderRoutes()}
       </main>
 
-      {/* <div className="footer">
-        © 2024, Residencial Quintas del Sol. Todos los derechos reservados.
-      </div> */}
       <OverlayPanel
         ref={op}
         showCloseIcon

@@ -62,8 +62,7 @@ export const ContainerControlStyled = styled.div`
     width: 100%;
 
     @media (max-width: 767px) {
-      padding: var(--mobile-gutter, 16px);
-      padding-bottom: calc(var(--mobile-gutter, 16px) + env(safe-area-inset-bottom, 0px));
+      padding: 10px 12px calc(88px + env(safe-area-inset-bottom, 0px));
     }
   }
 `;

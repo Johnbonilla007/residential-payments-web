@@ -23,6 +23,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { AccessReportService } from "./AccessReport.Service";
 import { Toast } from "primereact/toast";
 import { useDispatch, useSelector } from "react-redux";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 import { setResidentialSelected } from "../../Invoice/reducer";
 
 const filterObject = {
@@ -146,7 +147,8 @@ const AccessReport = () => {
       <AccessReportStyled>
         <Toast ref={toast} />
 
-        <div className="filters">
+        <CollapsibleFilters>
+          <div className="filters">
           {canShowResidentialControl && (
             <Dropdown
               className="commandbox"
@@ -188,7 +190,8 @@ const AccessReport = () => {
             onClick={() => handleGenerateReport()}
             className="button"
           />
-        </div>
+          </div>
+        </CollapsibleFilters>
         <div>
           <TableControl
             rows={100000}

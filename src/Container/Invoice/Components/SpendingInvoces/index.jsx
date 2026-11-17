@@ -1,46 +1,77 @@
 // SpendingInvoces.js
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SpendingInvocesStyled } from "./styled";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 import { InvoiceServices } from "../../Invoice.Service";
 import { getDate } from "../../../../Helpers/FormatDate";
-import { FaEdit, FaTrash, FaPrint } from "react-icons/fa";
 import SpendingInvoicePrint from "../SpendingInvoicePrint";
 import { InputText } from "primereact/inputtext";
-import { useMemo } from "react";
 import { utils } from "../../../../Helpers/utils";
 import { Toast } from "primereact/toast";
 import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
+import { MobileListSkeleton } from "../../../../Components/Controls/MobileList";
+import PageState from "../../../../Components/Controls/PageState";
+
+const PAGE_SIZE = 15;
 
 const SpendingInvoces = ({
   visible,
   onDismiss,
-  setIsSpendingInvoiceEdit,
   setSpendingInvoiceSelected,
-  setIsOpenSpendingInvoiceModal,
   residentialSelected,
   confirmDialog,
 }) => {
   const [spendingInvoices, setSpendingInvoices] = useState([]);
   const [showPrintMenu, setShowPrintMenu] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState({});
-  const [filterSpendingInvoice, setFilterSpendingInvoice] =
-    useState(spendingInvoices);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const toast = useRef(null);
-  useEffect(() => {
-    getSpendingInovies();
-  }, []);
 
-  const getSpendingInovies = async () => {
-    const response = await InvoiceServices.getAllSpendingInvoice(
-      residentialSelected.residentialNo
-    );
-    if (response.success) {
-      setSpendingInvoices(response.spendingInvoices);
-      return;
-    }
-  };
+  const fetchSpendingInvoices = useCallback(
+    async ({ page = 1, append = false, term = "" } = {}) => {
+      if (!residentialSelected?.residentialNo) return;
+      if (append) {
+        setLoadingMore(true);
+      } else {
+        setLoading(true);
+      }
+
+      const response = await InvoiceServices.getAllSpendingInvoice(
+        residentialSelected.residentialNo,
+        {
+          pageNumber: page,
+          pageSize: PAGE_SIZE,
+          searchTerm: term.trim() || undefined,
+        },
+      );
+
+      setLoading(false);
+      setLoadingMore(false);
+
+      if (response?.success) {
+        const incoming = response.spendingInvoices || [];
+        setSpendingInvoices((prev) =>
+          append ? [...prev, ...incoming] : incoming,
+        );
+        setPageNumber(page);
+        setHasMore(Boolean(response.hasMore));
+      }
+    },
+    [residentialSelected?.residentialNo],
+  );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      fetchSpendingInvoices({ page: 1, append: false, term: searchQuery });
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [searchQuery, fetchSpendingInvoices]);
 
   const deleteSpendingInvoiceSelected = async (invoice) => {
     const response = await InvoiceServices.deleteSpendingInvoice({
@@ -55,85 +86,16 @@ const SpendingInvoces = ({
       });
       return;
     }
-    if (response?.success) {
-      getSpendingInovies();
-      toast.current.show({
-        severity: "success",
-        summary: "Exito",
-        detail: "Gasto eliminado con exito",
-        life: 3000,
-      });
-    }
+    fetchSpendingInvoices({ page: 1, append: false, term: searchQuery });
+    toast.current.show({
+      severity: "success",
+      summary: "Exito",
+      detail: "Gasto eliminado con exito",
+      life: 3000,
+    });
   };
 
-  const handleRenderInvoice = (invoice, index) => {
-    return (
-      <div key={index} className="item-invoice">
-        <div className="invoiceno">{invoice.invoiceNo}</div>
-        <div>{invoice.vendor}</div>
-        <div>{invoice.userCreate}</div>
-        <div>{getDate(invoice.invoiceDate)}</div>
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setSpendingInvoiceSelected(invoice);
-            setShowPrintMenu(true);
-            setSelectedInvoice(invoice);
-          }}
-        >
-          <FaPrint color="#ffc900" />
-        </div>
-        <div
-          onClick={
-            utils.hasPermission("EliminarTipoDeGasto")
-              ? () => {
-                  confirmDialog({
-                    message: "¿Estas seguro que quieres eliminar este gasto?",
-                    header: "Advertencia",
-                    icon: "pi pi-info-circle",
-                    acceptClassName: "p-button-danger",
-                    position: "center",
-                    accept: async () => {
-                      await deleteSpendingInvoiceSelected(invoice);
-                    },
-                    reject: () => {},
-                  });
-                }
-              : null
-          }
-        >
-          <FaTrash
-            color={utils.hasPermission("EliminarTipoDeGasto") ? "#c94139" : "#ddd"}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  const handleOnChangeSearch = (event) => {
-    const query = event.target.value.toLowerCase();
-
-    if (query === "") {
-      setFilterSpendingInvoice(spendingInvoices);
-    } else {
-      const filtered = spendingInvoices.filter(
-        (type) =>
-          type.comment?.toLowerCase()?.includes(query) ||
-          type.paymentWay?.toLowerCase()?.includes(query) ||
-          type.vendor?.toLowerCase()?.includes(query) ||
-          type.cost?.toString()?.toLowerCase().includes(query)
-      );
-      setFilterSpendingInvoice(filtered);
-    }
-  };
-
-  const itemsToIterate = useMemo(() => {
-    if (utils.evaluateArray(filterSpendingInvoice)) {
-      return filterSpendingInvoice;
-    }
-
-    return spendingInvoices;
-  }, [spendingInvoices, filterSpendingInvoice]);
+  const canDelete = utils.hasPermission("EliminarTipoDeGasto");
 
   return (
     <Dialog
@@ -144,22 +106,129 @@ const SpendingInvoces = ({
     >
       <SpendingInvocesStyled>
         <Toast ref={toast} />
-        <div>
-          <span className="p-float-label">
-            <span className="p-input-icon-left">
-              <i className="pi pi-search" />
-              <InputText
-                placeholder="Escriba algo para buscar"
-                onChange={handleOnChangeSearch}
-                // value={searchQuery}
-              />
-            </span>
-          </span>
+        <div className="search-sticky">
+          <div className="search-box">
+            <i className="pi pi-search" aria-hidden="true" />
+            <InputText
+              type="search"
+              value={searchQuery}
+              placeholder="Buscar por correlativo, proveedor, usuario..."
+              aria-label="Buscar recibos de gastos"
+              enterKeyHint="search"
+              autoComplete="off"
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                aria-label="Limpiar búsqueda"
+                onClick={() => setSearchQuery("")}
+              >
+                <i className="pi pi-times" aria-hidden="true" />
+              </button>
+            )}
+          </div>
         </div>
-        {utils.evaluateArray(itemsToIterate) &&
-          itemsToIterate.map((invoice, index) =>
-            handleRenderInvoice(invoice, index)
-          )}
+
+        {loading ? (
+          <MobileListSkeleton rows={6} />
+        ) : spendingInvoices.length === 0 ? (
+          <PageState
+            icon="pi pi-receipt"
+            title="Sin recibos de gastos"
+            message={
+              searchQuery
+                ? "No se encontraron gastos que coincidan con tu búsqueda."
+                : "No hay recibos de gastos registrados."
+            }
+          />
+        ) : (
+          <div className="cards-list">
+            {spendingInvoices.map((invoice, index) => (
+              <div key={invoice.id || invoice.invoiceNo || index} className="item-invoice">
+                <div className="item-top">
+                  <div className="item-top-left">
+                    <span className="invoiceno">{invoice.invoiceNo}</span>
+                    <span className="item-date">{getDate(invoice.invoiceDate)}</span>
+                  </div>
+                  {invoice.total !== undefined && invoice.total !== null && (
+                    <span className="item-amount">
+                      {utils.formateLps(invoice.total)}
+                    </span>
+                  )}
+                </div>
+
+                <div className="item-main">
+                  <div className="item-info">
+                    <div className="item-vendor">
+                      {invoice.vendor || "Sin proveedor"}
+                    </div>
+                    <div className="item-meta">
+                      {[invoice.userCreate, invoice.paymentWay, invoice.comment]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </div>
+                  </div>
+                  <div className="item-actions">
+                    <button
+                      type="button"
+                      className="icon-btn icon-btn--print"
+                      aria-label={`Imprimir gasto ${invoice.invoiceNo}`}
+                      onClick={() => {
+                        setSpendingInvoiceSelected(invoice);
+                        setShowPrintMenu(true);
+                        setSelectedInvoice(invoice);
+                      }}
+                    >
+                      <i className="pi pi-print" aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="icon-btn icon-btn--delete"
+                      disabled={!canDelete}
+                      aria-label={`Eliminar gasto ${invoice.invoiceNo}`}
+                      onClick={() => {
+                        if (!canDelete) return;
+                        confirmDialog({
+                          message: "¿Estas seguro que quieres eliminar este gasto?",
+                          header: "Advertencia",
+                          icon: "pi pi-info-circle",
+                          acceptClassName: "p-button-danger",
+                          position: "center",
+                          accept: async () => {
+                            await deleteSpendingInvoiceSelected(invoice);
+                          },
+                          reject: () => {},
+                        });
+                      }}
+                    >
+                      <i className="pi pi-trash" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {hasMore && (
+              <Button
+                type="button"
+                label="Cargar más"
+                loading={loadingMore}
+                onClick={() =>
+                  fetchSpendingInvoices({
+                    page: pageNumber + 1,
+                    append: true,
+                    term: searchQuery,
+                  })
+                }
+                className="p-button-outlined"
+                style={{ width: "100%", minHeight: "44px", marginTop: "4px" }}
+              />
+            )}
+          </div>
+        )}
+
         {showPrintMenu && (
           <SpendingInvoicePrint
             visible

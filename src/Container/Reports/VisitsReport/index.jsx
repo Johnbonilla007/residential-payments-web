@@ -17,6 +17,7 @@ import { Dialog } from "primereact/dialog";
 import { Image } from "primereact/image";
 import { useDispatch, useSelector } from "react-redux";
 import { setResidentialSelected } from "../../Invoice/reducer";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const Report = () => {
   const [dateQuery, setDateQuery] = useState(null);
@@ -234,7 +235,8 @@ const Report = () => {
     <ReportStyled>
       <Toast ref={toast} />
       <div className="container">
-        <div className="options">
+        <CollapsibleFilters>
+          <div className="options">
           <Dropdown
             className="commandbox"
             value={residentialSelected}
@@ -274,7 +276,8 @@ const Report = () => {
               <div>Descargar Reporte</div>
             </PDFDownloadLink>
           )}
-        </div>
+          </div>
+        </CollapsibleFilters>
         <div className="table">
           <div
             style={{

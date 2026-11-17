@@ -14,6 +14,7 @@ import { Toast } from "primereact/toast";
 import { ReportPdfControl } from "../Components/ReportPdfControl";
 import { useDispatch, useSelector } from "react-redux";
 import { setResidentialSelected } from "../../Invoice/reducer";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const IncomeAndSpendingReportSummarized = () => {
   const [filters, setFilters] = useState({});
@@ -160,7 +161,8 @@ const IncomeAndSpendingReportSummarized = () => {
       <Toast ref={toast} />
 
       <IncomeAndSpendingReportSummarizedStyled>
-        <div className="filters">
+        <CollapsibleFilters>
+          <div className="filters">
           {canShowResidentialControl && (
             <Dropdown
               className="commandbox"
@@ -200,7 +202,8 @@ const IncomeAndSpendingReportSummarized = () => {
               className="p-button-rounded p-button-info"
             />
           )}
-        </div>
+          </div>
+        </CollapsibleFilters>
         <div className="tables">
           <TableControl
             columns={columnsTable}

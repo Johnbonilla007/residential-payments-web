@@ -21,6 +21,7 @@ import { InputText } from "primereact/inputtext";
 import { ReportPdfControl } from "../Components/ReportPdfControl";
 import { useDispatch, useSelector } from "react-redux";
 import { setResidentialSelected } from "../../Invoice/reducer";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const IncomeAndSpendingReportDetailed = () => {
   const [residences, setResidences] = useState([]);
@@ -289,7 +290,8 @@ const IncomeAndSpendingReportDetailed = () => {
       <Toast ref={toast} />
 
       <IncomeReportStyled>
-        <div className="filters">
+        <CollapsibleFilters>
+          <div className="filters">
           {canShowResidentialControl && (
             <Dropdown
               className="commandbox"
@@ -426,7 +428,8 @@ const IncomeAndSpendingReportDetailed = () => {
               className="p-button-rounded p-button-info"
             />
           )}
-        </div>
+          </div>
+        </CollapsibleFilters>
         {printReport && (
           <ReportPdfControl
             visible={printReport}

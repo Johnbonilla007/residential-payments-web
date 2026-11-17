@@ -5,11 +5,11 @@ import { useIsMobile } from "../../../Helpers/useIsMobile";
 const FabButton = styled.button`
   position: fixed;
   right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(78px + env(safe-area-inset-bottom, 0px));
   z-index: 950;
-  min-width: 56px;
-  height: 56px;
-  padding: ${(props) => (props.$extended ? "0 20px" : "0 16px")};
+  min-width: 48px;
+  height: 48px;
+  padding: ${(props) => (props.$extended ? "0 16px" : "0 14px")};
   border-radius: 9999px;
   border: none;
   background: var(--app-primary);
@@ -19,9 +19,10 @@ const FabButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:disabled {
     opacity: 0.5;

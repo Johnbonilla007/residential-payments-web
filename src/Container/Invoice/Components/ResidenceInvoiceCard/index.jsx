@@ -6,7 +6,11 @@ import React, {
   useCallback,
 } from "react";
 
-import { CardComponentStyled, ResidenceInvoiceCardStyled } from "./styled";
+import {
+  CardComponentStyled,
+  MobileResidenceCard,
+  ResidenceInvoiceCardStyled,
+} from "./styled";
 import { UsersServices } from "../../../Users/User/users.service";
 import { utils } from "../../../../Helpers/utils";
 import InvoicesCard from "../InvoicesCard";
@@ -20,6 +24,9 @@ import { getRequestUserInfo } from "../../../../Helpers/restClient";
 import { Dialog } from "primereact/dialog";
 import EditResidenceModal from "./Components/EditResidenceModal";
 import { FaPencilAlt, FaUser } from "react-icons/fa";
+import { useIsMobile } from "../../../../Helpers/useIsMobile";
+import ActionSheet from "../../../../Components/Controls/ActionSheet";
+import { dialogSizing } from "../../../../Components/Controls/dialogStyles";
 
 const DEFAULT_IMAGE =
   "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/casa.jpg";
@@ -34,7 +41,12 @@ const BATCH_SIZE = 12;
 const CardComponent = React.memo(
   ({ residence, canEditHouse, onAsignPayment, onVoucher, onEdit }) => {
     const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+    const [sheetOpen, setSheetOpen] = useState(false);
+    const isMobile = useIsMobile();
     const { imageUrl, accounts, name, block, houseNumber } = residence;
+    const ownerName = accounts?.[0]?.fullName || name || "Propietario no asignado";
+    const showSecondaryName = Boolean(name && name !== ownerName);
+    const hasCustomImage = Boolean(imageUrl && imageUrl !== DEFAULT_IMAGE);
 
     const buttons = [
       {
@@ -50,6 +62,105 @@ const CardComponent = React.memo(
         onClick: () => onVoucher(residence),
       },
     ];
+
+    const mobileActions = [
+      {
+        label: "Ver Comprobantes",
+        icon: "pi pi-receipt",
+        onClick: () => onVoucher(residence),
+      },
+      utils.hasPermission("AsignarPago") && {
+        label: "Asignar Pago",
+        icon: "pi pi-credit-card",
+        onClick: () => onAsignPayment(residence),
+      },
+      canEditHouse && {
+        label: "Editar Casa",
+        icon: "pi pi-pencil",
+        onClick: () => onEdit(residence),
+      },
+      hasCustomImage && {
+        label: "Ver Foto",
+        icon: "pi pi-image",
+        onClick: () => setIsImageModalVisible(true),
+      },
+    ].filter(Boolean);
+
+    if (isMobile) {
+      return (
+        <>
+          <MobileResidenceCard>
+            <button
+              type="button"
+              className="mob-main-trigger"
+              onClick={() => setSheetOpen(true)}
+            >
+              <div className="mob-badge" aria-hidden="true">
+                {hasCustomImage ? (
+                  <img loading="lazy" decoding="async" src={imageUrl} alt="" />
+                ) : (
+                  <>
+                    <span>B{block || "-"}</span>
+                    <span>C{houseNumber || "-"}</span>
+                  </>
+                )}
+              </div>
+              <div className="mob-info">
+                <div className="mob-owner">{ownerName}</div>
+                <div className="mob-sub">
+                  Bloque {block || "-"} · Casa {houseNumber || "-"}
+                  {showSecondaryName ? ` · ${name}` : ""}
+                </div>
+              </div>
+            </button>
+            <div className="mob-actions">
+              <button
+                type="button"
+                className="mob-quick-btn"
+                onClick={() => onVoucher(residence)}
+              >
+                <i className="pi pi-file" aria-hidden="true" />
+                <span>Recibos</span>
+              </button>
+              <button
+                type="button"
+                className="mob-more-btn"
+                aria-label={`Más acciones para ${ownerName}`}
+                onClick={() => setSheetOpen(true)}
+              >
+                <i className="pi pi-ellipsis-v" aria-hidden="true" />
+              </button>
+            </div>
+          </MobileResidenceCard>
+
+          <ActionSheet
+            visible={sheetOpen}
+            onHide={() => setSheetOpen(false)}
+            title={`${ownerName} (${block || "-"}-${houseNumber || "-"})`}
+            actions={mobileActions}
+          />
+
+          {isImageModalVisible && (
+            <Dialog
+              visible={isImageModalVisible}
+              onHide={() => setIsImageModalVisible(false)}
+              header="Foto de Residencia"
+              {...dialogSizing(44, { fullScreenOnMobile: true })}
+              style={{
+                ...dialogSizing(44, { fullScreenOnMobile: true }).style,
+                textAlign: "center",
+              }}
+            >
+              <img
+                src={imageUrl}
+                alt="Full-Size Residence"
+                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+              />
+            </Dialog>
+          )}
+        </>
+      );
+    }
 
     return (
       <CardComponentStyled>
@@ -82,12 +193,14 @@ const CardComponent = React.memo(
         <div className="residence-content">
           <div className="owner-title">
             <FaUser className="info-icon" />
-            <span>{accounts?.[0]?.fullName || "Propietario no asignado"}</span>
+            <span>{ownerName}</span>
           </div>
 
-          <div className="residence-name">
-            <strong>{name || "Sin nombre"}</strong>
-          </div>
+          {showSecondaryName && (
+            <div className="residence-name">
+              <strong>{name}</strong>
+            </div>
+          )}
 
           <div className="residence-details-grid">
             <div className="detail-item">
@@ -121,7 +234,11 @@ const CardComponent = React.memo(
             visible={isImageModalVisible}
             onHide={() => setIsImageModalVisible(false)}
             header="Full-Size Image"
-            style={{ width: "50vw", textAlign: "center" }}
+            {...dialogSizing(44, { fullScreenOnMobile: true })}
+            style={{
+              ...dialogSizing(44, { fullScreenOnMobile: true }).style,
+              textAlign: "center",
+            }}
           >
             {imageUrl ? (
               <img
@@ -332,7 +449,7 @@ const ResidenceInoviceCard = ({
           header="Comprobantes"
           visible
           onHide={() => setShowVoucher(false)}
-          style={{ width: "50vw", height: "100vh" }}
+          {...dialogSizing(54, { fullScreenOnMobile: true })}
         >
           <InvoicesCard
             residenceSelected={residenceSelected}

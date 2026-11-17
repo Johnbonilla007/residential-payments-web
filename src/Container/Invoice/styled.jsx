@@ -25,6 +25,18 @@ export const InvoiceStyled = styled.div`
     & > div > div {
       width: 100%;
     }
+
+    @media (max-width: 767px) {
+      position: sticky;
+      top: 0;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+
+      strong {
+        display: none;
+      }
+    }
   }
 
   .card-container {

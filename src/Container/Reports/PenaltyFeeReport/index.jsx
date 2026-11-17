@@ -21,6 +21,7 @@ import TableControl from "../../../Components/Controls/TableControl";
 import { Checkbox } from "primereact/checkbox";
 import { PenaltyFeeReportService } from "./PenaltyFeeReport.Service";
 import { Dialog } from "primereact/dialog";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const PenaltyFeeReport = () => {
   const [residences, setResidences] = useState([]);
@@ -127,7 +128,8 @@ const PenaltyFeeReport = () => {
   return (
     <Container>
       <PenaltyFeeReportStyled>
-        <div className="filters">
+        <CollapsibleFilters>
+          <div className="filters">
           {/* Residence Dropdown */}
           <div className="filter-item">
             {utils.isNullOrEmpty(filtersReport.residenceNo) ? (
@@ -261,7 +263,8 @@ const PenaltyFeeReport = () => {
             onClick={handleGenerateReport}
             className="button"
           />
-        </div>
+          </div>
+        </CollapsibleFilters>
 
         {/* Table Section */}
         <TableControl

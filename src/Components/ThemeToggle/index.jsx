@@ -4,8 +4,8 @@ import { useTheme } from "../../Context/ThemeContext";
 import { FaSun, FaMoon } from "react-icons/fa";
 
 const ToggleButton = styled.button`
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 40px;
+  min-height: 40px;
   background: transparent;
   border: 1px solid color-mix(in srgb, var(--app-nav-text) 30%, transparent);
   cursor: pointer;
@@ -16,7 +16,7 @@ const ToggleButton = styled.button`
   border-radius: var(--radius-full);
   color: var(--app-nav-text);
   transition: background var(--transition-base), transform var(--transition-base);
-  margin-right: 10px;
+  margin-right: 0;
 
   @media (hover: hover) {
     &:hover {

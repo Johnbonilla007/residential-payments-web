@@ -1,10 +1,23 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
+import { Button } from "primereact/button";
 import {
+  HEADER_HEIGHT,
   SIDEBAR_COLLAPSED_WIDTH,
   SIDEBAR_WIDTH,
   px,
 } from "../../Styles/layout";
-import { media } from "../../Styles/themes";
+
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
 export const DefaultLayoutStyled = styled.div`
   margin: 0;
@@ -15,804 +28,677 @@ export const DefaultLayoutStyled = styled.div`
     "Segoe UI",
     "Roboto",
     sans-serif;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: var(--color-light);
+  background-color: var(--surface-ground);
 
-  /* Premium top navigation bar */
   .top-bar {
     ${({ $authenticate, $showSideBar, $showMenuOnMobile }) =>
       $authenticate &&
-      `position: fixed; 
+      `position: fixed;
        top: 0;
        right: 0;
        left: ${
          $showSideBar
            ? px(SIDEBAR_WIDTH)
            : $showMenuOnMobile
-           ? px(SIDEBAR_COLLAPSED_WIDTH)
-           : "0"
+             ? px(SIDEBAR_COLLAPSED_WIDTH)
+             : "0"
        };
-       z-index: 1000;`}
-
-    transition: left var(--transition-base), background var(--transition-base);
-    background: var(--primary-gradient);
-    border: none;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-
-    .p-menubar {
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      padding: 0.875rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    /* Header brand container - logo + title */
-    .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      transition: all 0.3s ease;
-      padding: 0.5rem;
-      border-radius: 12px;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.08);
-      }
-    }
-
-    /* Posicionar el botón de cerrar sesión a la derecha */
-    .p-menubar-start {
-      flex: 0 0 auto;
-    }
-
-    .p-menubar-end {
-      margin-left: auto !important;
-      flex: 0 0 auto;
-    }
-
-    /* App icon/logo section - mejorado */
-    .app-icon {
-      padding: 0.75rem;
-      background-color: transparent; /* Fondo transparente para integración total */
-      backdrop-filter: blur(10px);
-      color: white;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.1); /* Borde muy sutil */
-
-      .logo-img {
-        height: 50px;
-        width: auto;
-        object-fit: contain;
-        display: block;
-        transition: all 0.3s ease;
-        /* Forzar logo a blanco puro para contraste con el header oscuro */
-        filter: brightness(0) invert(1);
-      }
-
-      /* No necesitamos media query specific para dark mode si el header siempre es oscuro */
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        transform: scale(1.05);
-        border-color: rgba(255, 255, 255, 0.3);
-
-        .logo-img {
-          transform: scale(1.05);
-        }
-      }
-
-      &:active {
-        transform: scale(0.98);
-      }
-
-      svg {
-        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
-      }
-    }
-
-    /* System title styling */
-    .mobile-menu-toggle {
-      display: none; /* Oculto en escritorio porque el sidebar ya tiene su botón */
-    }
-
-    .system-title {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.3;
-
-      .title-main {
-        color: white;
-        font-size: 1.1rem;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      }
-
-      .title-sub {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.85rem;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        opacity: 0.95;
-      }
-    }
-
-    /* Logout button styling */
-    .logout-btn {
-      margin-right: 1.5rem;
-      font-weight: 600;
-      border-radius: 10px;
-      padding: 0.75rem 1.5rem;
-      background: rgba(239, 68, 68, 0.1);
-      border: 2px solid rgba(239, 68, 68, 0.4);
-      color: var(--app-error);
-      transition:
-        background-color var(--transition-base),
-        border-color var(--transition-base),
-        color var(--transition-base),
-        box-shadow var(--transition-base),
-        transform var(--transition-base);
-      box-shadow: var(--app-shadow-sm);
-
-      &:hover {
-        background: var(--app-error);
-        border-color: var(--app-error);
-        color: var(--app-nav-text);
-        transform: translateY(-2px);
-        box-shadow: var(--app-shadow-md);
-      }
-
-      &:active {
-        transform: translateY(0);
-      }
-
-      .pi {
-        font-size: 1.1rem;
-      }
-    }
-
-    /* Mobile responsive */
-    .mobile-back-btn,
-    .mobile-menu-toggle {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: var(--app-nav-text);
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0;
-      border-radius: 10px;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .mobile-back-btn,
-    .mobile-header-title {
-      display: none;
-    }
+       z-index: 900;`}
+    height: ${px(HEADER_HEIGHT)};
+    padding: 0 1.25rem;
+    background: var(--app-nav-gradient);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
 
     @media (max-width: 768px) {
       position: fixed;
       left: 0 !important;
+      right: 0;
       top: 0;
-      width: 100%;
-      z-index: 9999;
-      padding-top: env(safe-area-inset-top, 0px);
-
-      .p-menubar {
-        padding: 0.5rem 0.75rem;
-        gap: 0.5rem;
-        min-height: 60px;
-      }
-
-      .p-menubar-start {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .header-brand {
-        gap: 0.5rem;
-        padding: 0;
-        min-width: 0;
-        width: 100%;
-      }
-
-      .mobile-back-btn {
-        display: inline-flex;
-        flex: 0 0 auto;
-      }
-
-      .mobile-header-title {
-        display: block;
-        color: var(--app-nav-text);
-        font-size: 1rem;
-        font-weight: 600;
-        line-height: 1.25;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        text-align: left;
-      }
-
-      .app-icon {
-        padding: 0.4rem;
-        font-size: 1rem;
-        flex: 0 0 auto;
-
-        &.mobile-menu-toggle {
-          display: flex;
-        }
-
-        .logo-img {
-          height: 42px;
-        }
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-      }
-
-      .system-title {
-        .title-main {
-          font-size: 1rem;
-        }
-
-        .title-sub {
-          font-size: 0.75rem;
-        }
-      }
-
-      .logout-btn {
-        margin-right: 0;
-        padding: 0.5rem;
-        min-width: 44px;
-        min-height: 44px;
-        font-size: 0.9rem;
-
-        .pi {
-          font-size: 1rem;
-        }
-      }
-    }
-
-    @media (max-width: 480px) {
-      .p-menubar {
-        padding: 0.625rem 1rem;
-        gap: 0.75rem;
-      }
-
-      .header-brand {
-        gap: 0.625rem;
-        padding: 0.25rem;
-      }
-
-      .app-icon {
-        padding: 0.45rem 0.65rem;
-        font-size: 0.95rem;
-
-        .logo-img {
-          height: 38px;
-        }
-
-        svg {
-          width: 32px;
-          height: 32px;
-        }
-      }
-
-      .system-title {
-        .title-main {
-          font-size: 0.9rem;
-        }
-
-        .title-sub {
-          font-size: 0.7rem;
-        }
-      }
+      height: var(--mobile-header-h, ${px(HEADER_HEIGHT)});
+      padding: env(safe-area-inset-top, 0px) 0.75rem 0;
+      z-index: 900;
     }
   }
 
-  /* Main content offset */
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .header-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 2 1 0;
+    min-width: 0;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .mobile-back-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--app-nav-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+  }
+
+  .user-avatar-badge {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--app-nav-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+
+    @media (max-width: 768px) {
+      font-size: 0.98rem;
+    }
+  }
+
+  .logout-btn {
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    background: rgba(239, 68, 68, 0.14);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    min-height: 40px;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+
+    @media (hover: hover) {
+      &:hover {
+        background: var(--app-error);
+        border-color: var(--app-error);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      padding: 0;
+      border-radius: 9999px;
+    }
+  }
+
   .main-content {
-    transition: margin-left var(--transition-base);
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     ${({ $authenticate, $showSideBar }) =>
       $authenticate &&
       `margin-left: ${
-         $showSideBar
-           ? px(SIDEBAR_WIDTH)
-           : px(SIDEBAR_COLLAPSED_WIDTH)
-       };`}
+        $showSideBar ? px(SIDEBAR_WIDTH) : px(SIDEBAR_COLLAPSED_WIDTH)
+      };`}
 
     @media (max-width: 768px) {
       margin-left: 0 !important;
     }
   }
+`;
 
-  /* Premium footer */
-  .footer {
-    justify-content: center;
-    background: var(--primary-gradient);
-    width: 100%;
-    color: var(--app-nav-text);
-    font-weight: 500;
-    padding: 1rem;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    font-size: 0.95rem;
+export const Sidebar = styled.aside`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: ${(props) =>
+    props.$collapsed ? px(SIDEBAR_COLLAPSED_WIDTH) : px(SIDEBAR_WIDTH)};
+  height: 100vh;
+  background: var(--app-nav-gradient);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  color: rgba(255, 255, 255, 0.88);
 
-    @media (max-width: 768px) {
-      padding: 0.875rem;
-      font-size: 0.875rem;
-    }
-
-    @media (max-width: 480px) {
-      padding: 0.75rem;
-      font-size: 0.8rem;
-    }
-  }
-
-  /* Menu item colors - white text for visibility on gradient */
-  .p-menubar
-    .p-menubar-root-list
-    > .p-menuitem
-    > .p-menuitem-link
-    .p-menuitem-text {
-    color: var(--app-nav-text);
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.3px;
-    transition: all 0.3s ease;
-  }
-
-  .p-menubar
-    .p-menubar-root-list
-    > .p-menuitem
-    > .p-menuitem-link
-    .p-menuitem-icon {
-    color: var(--app-nav-text);
-    transition: all 0.3s ease;
-    margin-right: 0.5rem;
-    font-size: 1.1rem;
-  }
-
-  .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: transparent;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-
-  .p-menubar.p-menubar-mobile-active .p-menubar-root-list {
-    background: var(--primary-gradient);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    margin-top: 0.5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    padding: 0.5rem;
-  }
-
-  /* Responsive para menu items */
   @media (max-width: 768px) {
-    .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
-      padding: 0.625rem 1.25rem;
+    display: none;
+  }
+`;
 
-      .p-menuitem-text {
-        font-size: 0.95rem;
-      }
+export const SidebarHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: ${(props) => (props.$collapsed ? "center" : "space-between")};
+  padding: ${(props) => (props.$collapsed ? "0.5rem 0.25rem" : "0.75rem 1rem")};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: ${px(HEADER_HEIGHT)};
+  gap: ${(props) => (props.$collapsed ? "0.25rem" : "0.5rem")};
+  overflow: hidden;
+`;
 
-      .p-menuitem-icon {
-        font-size: 1rem;
-      }
+export const SidebarLogo = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  overflow: hidden;
+  flex: ${(props) => (props.$collapsed ? "0 0 auto" : "1 1 auto")};
+  min-width: 0;
+`;
+
+export const LogoIcon = styled.div`
+  width: ${(props) => (props.$collapsed ? "28px" : "38px")};
+  height: ${(props) => (props.$collapsed ? "28px" : "38px")};
+  min-width: ${(props) => (props.$collapsed ? "28px" : "38px")};
+  border-radius: ${(props) => (props.$collapsed ? "8px" : "10px")};
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${(props) => (props.$collapsed ? "3px" : "5px")};
+  transition: width 0.2s ease, height 0.2s ease, min-width 0.2s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+`;
+
+export const LogoText = styled.span`
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: ${(props) => (props.$visible ? "block" : "none")};
+`;
+
+export const ToggleButton = styled(Button)`
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.85) !important;
+  ${(props) =>
+    props.$collapsed &&
+    `
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    padding: 0 !important;
+  `}
+`;
+
+export const SidebarNav = styled.nav`
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible;
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+`;
+
+export const NavSection = styled.div`
+  margin-bottom: 0.25rem;
+  position: relative;
+`;
+
+export const NavSectionTitle = styled.button`
+  display: ${(props) => (props.$visible ? "flex" : "none")};
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-radius: 10px;
+  text-align: left;
+
+  .section-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 
-  @media (max-width: 480px) {
-    .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
-      padding: 0.5rem 1rem;
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
 
-      .p-menuitem-text {
-        font-size: 0.9rem;
-      }
+  .chevron {
+    margin-left: auto;
+    font-size: 0.75rem;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(${(props) => (props.$expanded ? "90deg" : "0deg")});
+  }
+`;
 
-      .p-menuitem-icon {
-        font-size: 0.95rem;
-        margin-right: 0.4rem;
-      }
+export const SubRoutesContainer = styled.div`
+  overflow: hidden;
+  max-height: ${(props) => (props.$expanded ? "600px" : "0")};
+  opacity: ${(props) => (props.$expanded ? 1 : 0)};
+  transition:
+    max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s ease;
+  padding-left: 0.25rem;
+`;
+
+export const NavItemWrapper = styled.div`
+  position: relative;
+`;
+
+export const NavItem = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.6rem;
+  margin: 0.2rem 0.25rem;
+  border-radius: 12px;
+  color: ${(props) => (props.$active ? "#ffffff" : "rgba(255, 255, 255, 0.76)")};
+  background: ${(props) =>
+    props.$active && !props.$collapsed
+      ? "rgba(0, 210, 255, 0.14)"
+      : "transparent"};
+  border: 1px solid
+    ${(props) =>
+      props.$active && !props.$collapsed
+        ? "rgba(0, 210, 255, 0.28)"
+        : "transparent"};
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  justify-content: ${(props) => (props.$collapsed ? "center" : "flex-start")};
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: ${(props) => (props.$active ? "20px" : "0px")};
+    width: 3px;
+    background: #38bdf8;
+    border-radius: 0 4px 4px 0;
+    transition: height 0.2s ease;
+    opacity: ${(props) => (props.$collapsed ? 0 : 1)};
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${(props) =>
+        props.$active
+          ? "rgba(0, 210, 255, 0.2)"
+          : "rgba(255, 255, 255, 0.08)"};
+      color: #ffffff;
+      transform: translateX(2px);
     }
   }
 `;
 
-export const AppSidebarStyled = styled.div`
-  /**
-   * Dismiss layer for the mobile drawer.
-   *
-   * It must outrank the top bar (9999) because the drawer does: an open modal
-   * drawer covers the bar rather than starting below it, which avoids pinning
-   * the drawer's offset to the bar's measured height — that number changes with
-   * the root font size and would silently hide the first menu item again.
-   */
-  /**
-   * Portaled submenu content from react-pro-sidebar (renders outside .side)
-   */
-  :global(.ps-submenu-content) {
-    background: var(--app-nav-gradient) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 8px;
-    box-shadow: var(--app-shadow-lg) !important;
-    padding: 0.5rem !important;
-    
-    .ps-menu-button {
-      color: var(--app-nav-text) !important;
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.14) !important;
-      }
-    }
-    
-    .ps-menu-label {
-      display: block !important;
-      color: var(--app-nav-text) !important;
-    }
-  }
+export const NavIconWrapper = styled.div`
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  background: ${(props) =>
+    props.$active
+      ? props.$color || "#38bdf8"
+      : `${props.$color || "#38bdf8"}26`};
+  color: ${(props) => (props.$active ? "#ffffff" : props.$color || "#93c5fd")};
+  transition: all 0.2s ease;
+  box-shadow: ${(props) =>
+    props.$active ? `0 4px 12px ${props.$color || "#38bdf8"}45` : "none"};
 
-  .sidebar-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    background: var(--maskbg);
+  svg {
+    width: 16px;
+    height: 16px;
   }
+`;
 
-  .side {
+export const NavText = styled.span`
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  display: ${(props) => (props.$visible ? "block" : "none")};
+`;
+
+export const HoverMenu = styled.div`
+  position: fixed;
+  left: 78px;
+  top: ${(props) => props.$top || 100}px;
+  min-width: 220px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  padding: 0.5rem;
+  z-index: 9999;
+  animation: ${slideIn} 0.15s ease-out;
+  color: rgba(255, 255, 255, 0.92);
+`;
+
+export const HoverMenuTitle = styled.div`
+  padding: 0.45rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: ${(props) => props.$color || "#93c5fd"};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.35rem;
+  text-align: left;
+`;
+
+export const HoverMenuItem = styled(Link)`
+  display: block;
+  padding: 0.55rem 0.75rem;
+  color: ${(props) =>
+    props.$active ? "#ffffff" : "rgba(255, 255, 255, 0.76)"};
+  background: ${(props) =>
+    props.$active ? "rgba(59, 130, 246, 0.45)" : "transparent"};
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-align: left;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+`;
+
+export const SidebarFooter = styled.div`
+  padding: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+
+  .footer-caption {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.04em;
+  }
+`;
+
+export const BottomNavContainer = styled.nav`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
     position: fixed;
     bottom: 0;
-    top: 0;
     left: 0;
-    /* Width is set inline by react-pro-sidebar and animates on collapse. */
-    transition:
-      left var(--transition-base),
-      background var(--transition-base);
-    background: var(--app-nav-gradient);
-    height: 100%;
-    box-shadow: var(--app-shadow-lg);
-    z-index: 1001; /* Mayor que top-bar (1000) */
-    overflow-y: auto;
-    overflow-x: hidden;
+    right: 0;
+    height: calc(68px + env(safe-area-inset-bottom, 0px));
+    background: rgba(11, 18, 32, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0.35rem env(safe-area-inset-bottom, 0px);
+  }
+`;
 
-    /* Labels wrap instead of truncating while the sidebar is expanded. */
-    .ps-menu-label {
-      white-space: normal;
-      line-height: 1.3;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
+export const BottomNavItem = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  color: ${(props) =>
+    props.$active ? "#ffffff" : "rgba(255, 255, 255, 0.52)"};
+  padding: 0.35rem 0.5rem;
+  border-radius: 14px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 60px;
+  min-height: 48px;
+  flex: 1 1 0;
+  background: ${(props) =>
+    props.$active
+      ? "radial-gradient(circle at top, rgba(56, 189, 248, 0.2) 0%, transparent 72%)"
+      : "transparent"};
 
-    .ps-menu-button {
-      height: auto !important;
-      min-height: 45px;
-    }
-
-    /* Icons align to the top only when the label wraps to several lines. */
-    .ps-menu-icon {
-      align-self: flex-start;
-      margin-top: 12px;
-    }
+  i,
+  .nav-icon svg {
+    font-size: 1.2rem;
+    width: 19px;
+    height: 19px;
+    color: ${(props) => (props.$active ? "#38bdf8" : "inherit")};
+    filter: ${(props) =>
+      props.$active ? "drop-shadow(0 0 8px rgba(56, 189, 248, 0.65))" : "none"};
+    transition: transform 0.25s ease, color 0.25s ease;
+    transform: ${(props) => (props.$active ? "translateY(-2px)" : "none")};
   }
 
-  /**
-   * Collapsed rail.
-   *
-   * react-pro-sidebar hides labels on collapse by clipping them, which the
-   * rules above used to defeat with an overflow: visible override — so labels
-   * kept rendering into a 70px rail and were cut mid-word. At this width the
-   * label has no room at all, so remove it from layout and centre the icon;
-   * the item's title attribute still carries the name as a tooltip.
-   */
-  .side--collapsed {
-    .ps-menu-label,
-    .ps-submenu-expand-icon {
-      display: none;
-    }
-
-    /* Restore labels inside the popout submenu when collapsed */
-    .ps-submenu-content .ps-menu-label {
-      display: block !important;
-    }
-
-    /* Restore labels inside the popout submenu when collapsed */
-    .ps-submenu-content .ps-menu-label {
-      display: block !important;
-    }
-
-    .ps-menu-button {
-      justify-content: center;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    .ps-menu-icon {
-      align-self: center;
-      margin-top: 0;
-      margin-right: 0;
-    }
+  .nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .side,
-  .ps-sidebar-container {
-    /* Custom scrollbar for sidebar */
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: var(--radius-full);
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.4);
-      }
-    }
-
-    /**
-     * Overlay drawer on mobile.
-     *
-     * This breakpoint must match MOBILE_BREAKPOINT, which the resize handler
-     * uses to flip showMenuOnMobile. It used to be 600px against the handler's
-     * 768px, so between those widths the content was offset for a sidebar that
-     * was already behaving as a full-width rail — it overlapped instead.
-     */
-    ${media.md} {
-      position: fixed;
-      /* Above the top bar (9999) and the backdrop (10000). */
-      z-index: 10001;
-      width: 80%;
-      max-width: 300px;
-      height: 100%;
-      left: ${(props) => (props.mobileSidebarVisible ? "0" : "-100%")};
-      top: 0;
-      padding-top: env(safe-area-inset-top, 0px);
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      transition: left var(--transition-base);
-      box-shadow: ${(props) =>
-        props.mobileSidebarVisible ? "4px 0 20px rgba(0, 0, 0, 0.3)" : "none"};
-    }
-  }
-
-  /* Border styling for sidebar sections */
-  .css-156uyio {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* Main menu item styles with premium effects */
-  .side .menuItem {
-    color: rgba(255, 255, 255, 0.9);
-    transition: all var(--transition-base);
-    padding: 0.75rem 1rem;
-    margin: 0.25rem 0.5rem;
-    border-radius: var(--radius-lg);
-    font-weight: 500;
-    position: relative;
+  span {
+    font-size: 0.68rem;
+    font-weight: 600;
+    max-width: 72px;
     overflow: hidden;
-
-    /* Subtle background on hover */
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.1);
-      opacity: 0;
-      transition: opacity var(--transition-base);
-      border-radius: var(--radius-lg);
-    }
-
-    &:hover {
-      color: var(--app-nav-text);
-      transform: translateX(4px);
-
-      &::before {
-        opacity: 1;
-      }
-    }
-
-    &.active {
-      background: rgba(255, 255, 255, 0.2);
-      color: var(--app-nav-text);
-      font-weight: 600;
-      border-left: 4px solid var(--surface-border);
-      box-shadow: var(--shadow-md);
-    }
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  /* Submenu container styling (Premium Glassmorphism) */
-  .side .submenu {
-    text-align: left;
-    margin-top: 0.25rem;
+  &:active {
+    transform: scale(0.95);
+  }
+`;
 
-    > .ps-menu-button {
-      border-radius: var(--radius-lg);
-      margin: 0.25rem 0.5rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        transform: translateX(4px);
-      }
-    }
+export const NavBottomSheetOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1001;
+  opacity: ${(props) => (props.$visible ? 1 : 0)};
+  pointer-events: ${(props) => (props.$visible ? "auto" : "none")};
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+`;
 
-    .ps-submenu-content {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      padding: 0 !important;
-      margin: 0 !important;
+export const NavBottomSheet = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 78dvh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(11, 18, 32, 0.96);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 1.15rem 1.15rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  z-index: 1002;
+  transform: ${(props) =>
+    props.$visible ? "translateY(0)" : "translateY(105%)"};
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.48);
+  color: #ffffff;
+`;
 
-      > ul {
-        background: rgba(255, 255, 255, 0.03) !important;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-radius: 16px;
-        margin: 0.5rem 0.75rem;
-        padding: 0.5rem 0.25rem;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.2), 
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      }
+export const NavBottomSheetHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+
+  h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    .sheet-icon svg {
+      width: 20px;
+      height: 20px;
     }
   }
+`;
 
-  /* When collapsed, override the transparent submenu so the popout has a background */
-  .side.side--collapsed .submenu .ps-submenu-content {
-    background: var(--app-nav-gradient) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 12px !important;
-    box-shadow: var(--app-shadow-lg) !important;
-    padding: 0.5rem !important;
+export const NavBottomSheetBody = styled.div`
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
 
-    > ul {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      border: none !important;
-      box-shadow: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
+export const NavBottomSheetItem = styled(Link)`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  border: 1px solid
+    ${(props) =>
+      props.$active ? "rgba(56, 189, 248, 0.4)" : "rgba(255, 255, 255, 0.08)"};
+  border-radius: 14px;
+  background: ${(props) =>
+    props.$active ? "rgba(56, 189, 248, 0.14)" : "rgba(255, 255, 255, 0.05)"};
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  gap: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+
+  &:active {
+    background: rgba(255, 255, 255, 0.14);
+    transform: scale(0.99);
   }
 
-      .ps-menu-button {
-        border-radius: 12px;
-        margin: 0.25rem 0.5rem;
-        padding: 0.5rem 1rem 0.5rem 1.5rem;
-        height: auto !important;
-        min-height: 42px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        color: rgba(255, 255, 255, 0.75) !important;
-        background: transparent !important;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.08) !important;
-          color: #ffffff !important;
-          transform: translateX(4px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        &.active {
-          background: linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%) !important;
-          color: #ffffff !important;
-          font-weight: 600;
-          border-left: 3px solid #8083ff;
-          box-shadow: var(--shadow-md);
-        }
-        
-        .ps-menu-icon {
-          min-width: 30px;
-          margin-right: 10px;
-          color: rgba(255, 255, 255, 0.5);
-          transition: all 0.3s ease;
-        }
-
-        &:hover .ps-menu-icon, &.active .ps-menu-icon {
-          color: #8083ff;
-          transform: scale(1.1);
-          filter: drop-shadow(0 0 8px rgba(128, 131, 255, 0.5));
-        }
-
-        .ps-menu-label {
-          font-size: 0.85rem;
-          letter-spacing: 0.3px;
-        }
-      }
-    }
-  }
-
-  /* Toggle menu button styling */
-  .show-and-unshown-menu-item {
-    color: white;
-    transition: all var(--transition-base);
-    padding: 0.5rem;
-    border-radius: var(--radius-lg);
+  .sheet-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
 
     svg {
-      font-size: 1.25rem;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: scale(1.1);
-    }
-
-    &:active {
-      transform: scale(0.95);
+      width: 18px;
+      height: 18px;
     }
   }
 
-  /**
-   * Tablet adjustments.
-   *
-   * Type and padding only. This block used to override the sidebar width to
-   * 180px, a third value competing with SIDEBAR_WIDTH and the content offset —
-   * any width set here desynchronises the layout.
-   */
-  @media only screen and (max-width: 1024px) and (min-width: 769px) {
-    .side .menuItem,
-    .side .submenuItem {
-      font-size: 0.9rem;
-      padding: 0.625rem 0.875rem;
-    }
-  }
-
-  /* Mobile-specific adjustments */
-  ${media.md} {
-    .side .menuItem {
-      padding: 0.875rem 1rem;
-      margin: 0.25rem 0.75rem;
-      font-size: 1rem;
-    }
-
-    .side .submenuItem {
-      padding: 0.75rem 1rem;
-      margin: 0.25rem 0.75rem;
-    }
-
-    .show-and-unshown-menu-item svg {
-      font-size: 1.5rem;
-    }
+  .sheet-chevron {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.45);
   }
 `;

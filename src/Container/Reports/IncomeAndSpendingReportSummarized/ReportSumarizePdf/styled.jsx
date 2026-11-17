@@ -9,113 +9,185 @@ export const ReportSumarizePdfStyled = styled.div`
   }
   width: 100%;
   margin: 0;
-  font-size: 8pt;
+  font-size: 0.85rem;
+  color: var(--text-color, #1f2937);
+
   .container-header {
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid #002147;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--app-primary, #002147);
   }
 
   .header-logo {
-    width: 80px;
+    width: 64px;
     height: auto;
-    max-height: 70px;
+    max-height: 60px;
     object-fit: contain;
     flex-shrink: 0;
+    border-radius: 6px;
   }
 
   .header-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
+    text-align: left;
   }
 
   .header-residential-name {
-    font-size: 13pt;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
     font-weight: 700;
-    color: #002147;
+    color: var(--text-color, #002147);
     line-height: 1.2;
   }
 
   .header-department {
-    font-size: 9pt;
-    color: #555;
+    font-size: 0.8rem;
+    color: var(--text-color-secondary, #555);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+
+  .report-title {
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 8px 0 2px;
+    color: var(--text-color, #1f2937);
+  }
+
+  .report-subtitle {
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--text-color-secondary, #555);
   }
 
   .date-range {
     display: flex;
     justify-content: space-between;
-    text-align: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    margin-top: 5px;
-    gap: 12px;
+    margin-top: 8px;
+    gap: 14px;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
+
   .table {
-    border: 2px solid ${(props) => props.theme.colors.border || "#ccc"};
-    width: 48%;
-    align-self: self-start;
+    border: 1px solid var(--surface-border, #ccc);
+    border-radius: 8px;
+    overflow: hidden;
+    width: 49%;
+    background: var(--surface-card, #fff);
+
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+
     .header-title {
       width: 100%;
-      font-size: 14pt;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+      text-align: center;
+      background: var(--surface-section, #f8fafc);
+      color: var(--text-color, #1f2937);
+      border-bottom: 1px solid var(--surface-border, #ccc);
     }
+
     .header-item {
       display: grid;
-      font-size: 10pt;
-      grid-template-columns: 30% 50% 20%;
+      grid-template-columns: minmax(88px, 26%) minmax(0, 1fr) minmax(84px, auto);
+      gap: 8px;
+      padding: 7px 10px;
+      font-size: 0.8125rem;
       background-color: #002147;
       width: 100%;
       text-align: left;
+      align-items: center;
+
       div {
         color: #fff;
+        min-width: 0;
+      }
+
+      div:last-child {
+        text-align: right;
       }
     }
+
     .item-container {
-      /* Permitir salto de página dentro del contenedor de items */
       display: block;
 
       .item {
         display: grid;
-        font-size: 7.5pt; /* Reducir ligeramente */
-        padding: 3px 4px;
-        grid-template-columns: 30% 50% 20%;
-        border-top: 1px solid ${(props) => props.theme.colors.border || "#000"};
-        color: ${(props) => props.theme.colors.text || "#000"};
+        grid-template-columns: minmax(88px, 26%) minmax(0, 1fr) minmax(84px, auto);
+        gap: 8px;
+        padding: 7px 10px;
+        font-size: 0.8125rem;
+        border-top: 1px solid var(--surface-border, #e2e8f0);
+        color: var(--text-color, #1f2937);
         text-align: left;
-        page-break-inside: avoid; /* Evitar partir una fila */
-        break-inside: avoid;
-      }
-      .total {
-        display: grid;
-        font-size: 9pt;
-        grid-template-columns: 60% 20% 20%;
-        justify-content: center;
-        align-items: center;
-        padding: 4px;
-        border-top: 2px solid ${(props) => props.theme.colors.border || "#000"};
-        color: ${(props) => props.theme.colors.text || "#000"};
+        align-items: start;
         page-break-inside: avoid;
         break-inside: avoid;
-        /* Evita que el salto de página ocurra justo antes de esta fila,
-           dejándola huérfana sola en la página siguiente. */
+
+        div {
+          min-width: 0;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        div:last-child {
+          white-space: nowrap;
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+          font-weight: 600;
+        }
+      }
+
+      .total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 10px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        border-top: 2px solid var(--surface-border, #cbd5e1);
+        background: var(--surface-section, #f8fafc);
+        color: var(--text-color, #1f2937);
+        page-break-inside: avoid;
+        break-inside: avoid;
         page-break-before: avoid;
         break-before: avoid;
+
+        div:empty {
+          display: none;
+        }
+
+        div:last-child {
+          white-space: nowrap;
+          font-variant-numeric: tabular-nums;
+        }
       }
     }
   }
 
-  /* Tres tarjetas agrupadas por tema (Ingresos/Gastos/Disponible) en vez de
-     11 cajitas sueltas sin relación visual entre sí. */
   .summary-cards {
-    display: flex;
-    gap: 8px;
-    margin: 6px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 10px;
+    margin: 10px 0 14px;
     width: 100%;
     align-items: stretch;
     page-break-inside: avoid;
@@ -123,50 +195,53 @@ export const ReportSumarizePdfStyled = styled.div`
   }
 
   .summary-card {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 5px 8px;
-    background-color: ${(props) => props.theme.colors.cardBg || "#f9f9f9"};
-    border: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
-    border-radius: 4px;
+    padding: 10px 12px;
+    background-color: var(--surface-card, #f9f9f9);
+    border: 1px solid var(--surface-border, #ccc);
+    border-radius: 8px;
   }
 
   .summary-card-title {
-    font-size: 8pt;
+    font-size: 0.8125rem;
     font-weight: 700;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    border-bottom: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
-    padding-bottom: 3px;
-    margin-bottom: 3px;
-    color: ${(props) => props.theme.colors.text || "#333"};
+    border-bottom: 1px solid var(--surface-border, #ccc);
+    padding-bottom: 5px;
+    margin-bottom: 6px;
+    color: var(--text-color, #333);
   }
 
   .summary-row {
     display: flex;
     justify-content: space-between;
-    gap: 6px;
-    padding: 1.5px 0;
-    font-size: 7pt;
-    color: ${(props) => props.theme.colors.text || "#333"};
+    align-items: baseline;
+    gap: 8px;
+    padding: 3px 0;
+    font-size: 0.8125rem;
+    color: var(--text-color, #333);
+    text-align: left;
 
     .label {
-      color: ${(props) => props.theme.colors.textSecondary || "#555"};
+      color: var(--text-color-secondary, #555);
+      min-width: 0;
     }
 
     .value {
       font-weight: 600;
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
   }
 
   .summary-row.total {
-    border-top: 1.5px solid ${(props) => props.theme.colors.border || "#999"};
-    margin-top: 2px;
-    padding-top: 3px;
-    font-size: 8pt;
+    border-top: 1.5px solid var(--surface-border, #999);
+    margin-top: 4px;
+    padding-top: 6px;
+    font-size: 0.875rem;
 
     .label,
     .value {
@@ -175,32 +250,71 @@ export const ReportSumarizePdfStyled = styled.div`
   }
 
   .value.positive {
-    color: green;
+    color: var(--app-success, #2e7d32);
   }
 
   .value.negative {
-    color: red;
+    color: var(--app-error, #ef5350);
   }
 
-  /* Overrides para impresión: forzar estilo papel limpio, sin importar el
-     tema (claro/oscuro) activo en pantalla al momento de imprimir. */
+  /* Print overrides: crisp white paper regardless of dark mode */
   @media print {
+    font-size: 8pt;
+    color: #000 !important;
+
+    .container-header {
+      border-bottom-color: #002147 !important;
+    }
+    .header-logo {
+      width: 80px;
+      max-height: 70px;
+    }
+    .header-residential-name {
+      font-size: 13pt;
+      color: #002147 !important;
+    }
+    .header-department {
+      font-size: 9pt;
+      color: #555 !important;
+    }
+    .report-title {
+      font-size: 14pt;
+      color: #000 !important;
+    }
+    .report-subtitle {
+      font-size: 12pt;
+      color: #333 !important;
+    }
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 6px 0;
+    }
     .summary-card {
       background-color: #fff !important;
       border: 1px solid #ccc !important;
+      padding: 5px 8px;
+      border-radius: 4px;
       -webkit-print-color-adjust: exact;
     }
     .summary-card-title {
+      font-size: 8pt;
       color: #000 !important;
       border-bottom-color: #ccc !important;
+      padding-bottom: 3px;
+      margin-bottom: 3px;
     }
     .summary-row {
+      font-size: 7pt;
+      padding: 1.5px 0;
       color: #000 !important;
     }
     .summary-row .label {
       color: #555 !important;
     }
     .summary-row.total {
+      font-size: 8pt;
       border-top-color: #999 !important;
     }
     .value.positive {
@@ -209,25 +323,37 @@ export const ReportSumarizePdfStyled = styled.div`
     .value.negative {
       color: red !important;
     }
-    .table .item-container .item,
-    .table .item-container .total {
-      color: #000 !important;
-      border-color: #000 !important;
-    }
-    .table {
-      border-color: #ccc !important;
-    }
-
-    /* Flexbox no reparte bien columnas de alturas muy distintas entre páginas
-       (Ingresos suele ser corto, Gastos puede tener muchas filas): el motor de
-       impresión deja un hueco enorme al saltar de página. Apilar en vez de
-       lado a lado deja que cada tabla fluya sola, de corrido. */
     .date-range {
       flex-direction: column;
       align-items: stretch;
     }
     .table {
       width: 100%;
+      border-radius: 0;
+      background: #fff !important;
+      border-color: #ccc !important;
+    }
+    .table .header-title {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 11pt;
+    }
+    .table .header-item {
+      font-size: 9pt;
+      padding: 4px 6px;
+    }
+    .table .item-container .item {
+      font-size: 7.5pt;
+      padding: 3px 6px;
+      color: #000 !important;
+      border-color: #000 !important;
+    }
+    .table .item-container .total {
+      font-size: 9pt;
+      padding: 5px 6px;
+      background: #fff !important;
+      color: #000 !important;
+      border-color: #000 !important;
     }
   }
 `;

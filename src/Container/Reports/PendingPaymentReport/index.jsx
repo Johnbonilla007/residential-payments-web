@@ -22,6 +22,7 @@ import { useIsMobile } from "../../../Helpers/useIsMobile";
 import MobilePage from "../../../Components/Controls/MobilePage";
 import FilterChips from "../../../Components/Controls/FilterChips";
 import FilterSheet from "../../../Components/Controls/FilterSheet";
+import CollapsibleFilters from "../../../Components/Controls/CollapsibleFilters";
 
 const MOBILE_PAGE_SIZE = 20;
 
@@ -331,28 +332,30 @@ const PendingPaymentReport = () => {
   ];
 
   const desktopHeader = (
-    <div className="filter-card">
-      {renderFilterFields()}
+    <CollapsibleFilters>
+      <div className="filter-card">
+        {renderFilterFields()}
 
-      <div className="filter-actions">
-        <Button
-          label="Generar Reporte"
-          icon="pi pi-check"
-          onClick={() => handleGenerateReport(1, false)}
-          className="btn-generate"
-        />
-        {utils.evaluateArray(pandingPayments) && (
+        <div className="filter-actions">
           <Button
-            label="Imprimir"
-            icon="pi pi-print"
-            onClick={() => setPrintReport(true)}
-            className="btn-print"
-            tooltip="Vista Previa de impresión"
-            tooltipOptions={{ position: "top" }}
+            label="Generar Reporte"
+            icon="pi pi-check"
+            onClick={() => handleGenerateReport(1, false)}
+            className="btn-generate"
           />
-        )}
+          {utils.evaluateArray(pandingPayments) && (
+            <Button
+              label="Imprimir"
+              icon="pi pi-print"
+              onClick={() => setPrintReport(true)}
+              className="btn-print"
+              tooltip="Vista Previa de impresión"
+              tooltipOptions={{ position: "top" }}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </CollapsibleFilters>
   );
 
   return (

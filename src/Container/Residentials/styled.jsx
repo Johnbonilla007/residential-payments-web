@@ -2,28 +2,21 @@ import styled from "styled-components";
 
 export const ResidentialContainerStyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  justify-content: center;
-  gap: 2rem;
-  padding: 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  padding: clamp(0.5rem, 1.5vw, 1.5rem);
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.75rem;
-    padding: 2rem;
+  .item {
+    height: 100%;
+    min-width: 0;
   }
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
-    padding: 1.25rem;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
   }
 `;

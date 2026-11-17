@@ -88,8 +88,10 @@ export const CommandBarControlStyled = styled.div`
   }
 
   @media (max-width: 767px) {
-    padding: 6px 0;
-    background: var(--surface-ground);
+    position: static;
+    padding: 2px 0 8px;
+    border-bottom: none;
+    background: transparent;
     box-shadow: none;
   }
 `;
@@ -103,7 +105,7 @@ export const MobileChipBar = styled.div`
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 2px 4px;
+  padding: 2px 0;
 
   &::-webkit-scrollbar {
     display: none;
@@ -113,19 +115,25 @@ export const MobileChipBar = styled.div`
 export const MobileChipBtn = styled.button`
   flex: 0 0 auto;
   scroll-snap-align: start;
-  min-height: 44px;
-  padding: 0 14px;
-  border-radius: 9999px;
-  border: 1px solid var(--app-control-border);
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--surface-border);
   background: var(--surface-card);
   color: var(--text-color);
-  font-size: 0.8125rem;
+  box-shadow: var(--app-shadow-sm);
+  font-size: 0.78rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   white-space: nowrap;
   cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
 
   &:disabled {
     opacity: 0.45;

@@ -7,6 +7,141 @@ export const ResidenceInvoiceCardStyled = styled.div`
   align-items: flex-start;
   gap: 1.25rem;
   padding: 1.5rem;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 8px;
+    padding: 4px 0 12px;
+  }
+`;
+
+export const MobileResidenceCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 70px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--app-shadow-sm);
+  transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  .mob-main-trigger {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    color: var(--text-color);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-radius: 10px;
+    }
+  }
+
+  .mob-badge {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--highlight-bg);
+    color: var(--highlight-text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .mob-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mob-owner {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mob-sub {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mob-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mob-quick-btn {
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: none;
+    background: var(--app-primary);
+    color: var(--primary-color-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  .mob-more-btn {
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-section);
+    color: var(--text-color-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
 `;
 
 export const CardComponentStyled = styled.div`

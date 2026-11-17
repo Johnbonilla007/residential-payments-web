@@ -63,9 +63,10 @@ export class InvoiceServices {
     return response;
   }
 
-  static async getAllSpendingInvoice(searchValue) {
+  static async getAllSpendingInvoice(searchValue, pagination = {}) {
     const response = await restClient.httpGet(`/payment/spending-invoices`, {
       searchValue,
+      ...pagination,
     });
     return response;
   }

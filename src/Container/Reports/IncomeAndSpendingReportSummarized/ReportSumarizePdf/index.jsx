@@ -78,19 +78,11 @@ const ReportSumarizePdf = ({
             <div className="header-department">DEPARTAMENTO DE CONTABILIDAD</div>
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            fontSize: "16pt",
-          }}
-        >
-          <strong>REPORTE DE INGRESOS Y GASTOS MESUALES</strong>
+        <div className="report-title">
+          <strong>REPORTE DE INGRESOS Y GASTOS MENSUALES</strong>
         </div>
-        <div style={{ fontWeight: "700", fontSize: "16pt" }}>
-          <div>
-            <strong>{utils.FormatDateMonth(filters?.month)}</strong>
-          </div>
+        <div className="report-subtitle">
+          <strong>{utils.FormatDateMonth(filters?.month)}</strong>
         </div>
         <div className="summary-cards">
           <div className="summary-card">
