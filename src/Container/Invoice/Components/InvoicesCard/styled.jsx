@@ -5,9 +5,11 @@ export const InvoiceCardStyled = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    padding: 20px;
-    height: 65vh;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 16px;
+    padding: 16px;
+    max-height: 68vh;
     overflow: auto;
 
     /* Scrollbar styling */
@@ -34,13 +36,22 @@ export const InvoiceCardStyled = styled.div`
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       overflow: hidden;
       transition: all 0.3s ease;
-      width: 320px;
+      width: min(100%, 320px);
       height: auto;
-      min-height: 220px;
-      margin: 10px;
+      margin: 0;
       cursor: pointer;
       display: flex;
       flex-direction: column;
+    }
+
+    @media (max-width: 767px) {
+      padding: 8px 2px;
+      gap: 12px;
+      max-height: 75dvh;
+
+      .invoice-card {
+        width: 100%;
+      }
     }
 
     .invoice-card:hover {

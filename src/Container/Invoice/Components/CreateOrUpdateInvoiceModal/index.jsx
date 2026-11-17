@@ -1176,6 +1176,37 @@ const CreateOrUpdateInvoiceModal = ({
                 <label htmlFor="invoiceDate">Fecha</label>
               </span>
             </div>
+
+            {/* 5. TOTAL */}
+            <div>
+              <span className="p-float-label">
+                <InputNumber
+                  id="total"
+                  value={invoice.total}
+                  readOnly
+                  mode="currency"
+                  currency="HNL"
+                  locale="es-HN"
+                />
+                <label htmlFor="total">Total</label>
+              </span>
+            </div>
+
+            {/* 6. CONCEPTO */}
+            <div
+              style={{ gridColumn: "1 / -1" }}
+              className="description-field"
+            >
+              <label htmlFor="commentsGeneral">Concepto</label>
+              <InputTextarea
+                id="commentsGeneral"
+                value={invoice.comments}
+                readOnly
+                rows={2}
+                autoResize
+                style={{ width: "100%", resize: "none" }}
+              />
+            </div>
           </div>
         </div>
         )}
