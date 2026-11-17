@@ -10,6 +10,8 @@ import { utils } from "../../../../../../Helpers/utils";
 import { getDate } from "../../../../../../Helpers/FormatDate";
 import DynamicFormDialog from "../../../../../../Components/DynamicFormDialog";
 import { fieldsPaymentAsign } from "./dataFactory";
+import { dialogSizing } from "../../../../../../Components/Controls/dialogStyles";
+import { useIsMobile } from "../../../../../../Helpers/useIsMobile";
 
 export const AsignPaymentModal = ({
   isOpen,
@@ -17,6 +19,7 @@ export const AsignPaymentModal = ({
   residenceSelected,
   confirmDialog,
 }) => {
+  const isMobile = useIsMobile();
   const toast = useRef(null);
   const [payments, setPayments] = useState([]);
   const [paymentAsignSelected, setPaymentAsignSelected] = useState({});
@@ -266,7 +269,7 @@ export const AsignPaymentModal = ({
       header={"Asignación de tipos de pagos"}
       visible={isOpen}
       onHide={() => onDissmis()}
-      style={{ width: "70vw", height: "70vh" }}
+      {...dialogSizing(62, { fullScreenOnMobile: true })}
     >
       <AsignPaymentModalStyled>
         <Toast ref={toast} />
@@ -275,49 +278,91 @@ export const AsignPaymentModal = ({
             <Button
               label="Agregar Pago"
               icon="pi pi-plus"
+              className="p-button-sm"
+              style={{ borderRadius: "8px" }}
               onClick={() => setShowModalForm(true)}
             />
           </div>
         </div>
-        <div className="payment-table">
-          {payments?.length > 0 && (
-            <DataTable
-              value={payments}
-              rows={5}
-              responsiveLayout="scroll"
-              paginator
-            >
-              <Column
-                field="type"
-                header="Tipo de Pago"
-                body={(rowData) => `${getPaymentName(rowData.paymentNo)}`}
-              />
-              <Column
-                field="discount"
-                header="Descuento"
-                body={(rowData) => `${rowData.discount || 0}`}
-              />
+        {isMobile ? (
+          <div className="mobile-payment-cards">
+            {payments?.map((rowData, idx) => (
+              <div className="mobile-payment-card" key={rowData.id || idx}>
+                <div className="mobile-payment-header">
+                  <strong>{getPaymentName(rowData.paymentNo)}</strong>
+                  <div className="action-buttons">
+                    {actionEditBodyTemplate(rowData)}
+                    {actionBodyTemplate(rowData)}
+                  </div>
+                </div>
+                <div className="mobile-payment-grid">
+                  <div>
+                    <span className="label">Descuento</span>
+                    <span className="val">{rowData.discount || 0}</span>
+                  </div>
+                  <div>
+                    <span className="label">Inicio de Pago</span>
+                    <span className="val">
+                      {getDate(rowData.initialPaymentDate)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="label">Seguimiento Fechas</span>
+                    <span className="val">
+                      {rowData.hasFollowUp ? "Sí" : "No"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="label">Seguimiento App</span>
+                    <span className="val">
+                      {rowData.hasFollowUpApp ? "Sí" : "No"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="payment-table">
+            {payments?.length > 0 && (
+              <DataTable
+                value={payments}
+                rows={5}
+                responsiveLayout="scroll"
+                paginator
+              >
+                <Column
+                  field="type"
+                  header="Tipo de Pago"
+                  body={(rowData) => `${getPaymentName(rowData.paymentNo)}`}
+                />
+                <Column
+                  field="discount"
+                  header="Descuento"
+                  body={(rowData) => `${rowData.discount || 0}`}
+                />
 
-              <Column
-                field="discount"
-                header="Inicio de Pago"
-                body={(rowData) => `${getDate(rowData.initialPaymentDate)}`}
-              />
-              <Column
-                field="hasFollowUp"
-                header="Tiene Seguimineto de fechas"
-                body={(rowData) => `${rowData.hasFollowUp ? "Si" : "No"}`}
-              />
-              <Column
-                field="hasFollowUpApp"
-                header="Tiene Seguimineto App"
-                body={(rowData) => `${rowData.hasFollowUpApp ? "Si" : "No"}`}
-              />
-              <Column body={actionBodyTemplate} header="Acciones" />
-              <Column body={actionEditBodyTemplate} header="Acciones" />
-            </DataTable>
-          )}
-        </div>
+                <Column
+                  field="discount"
+                  header="Inicio de Pago"
+                  body={(rowData) => `${getDate(rowData.initialPaymentDate)}`}
+                />
+                <Column
+                  field="hasFollowUp"
+                  header="Seguimiento de fechas"
+                  body={(rowData) => `${rowData.hasFollowUp ? "Si" : "No"}`}
+                />
+                <Column
+                  field="hasFollowUpApp"
+                  header="Seguimiento App"
+                  body={(rowData) => `${rowData.hasFollowUpApp ? "Si" : "No"}`}
+                />
+                <Column body={actionBodyTemplate} header="Eliminar" />
+                <Column body={actionEditBodyTemplate} header="Editar" />
+              </DataTable>
+            )}
+          </div>
+        )}
         {showModalForm && (
           <DynamicFormDialog
             title={

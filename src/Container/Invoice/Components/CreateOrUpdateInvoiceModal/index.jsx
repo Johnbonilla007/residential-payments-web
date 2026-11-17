@@ -795,6 +795,42 @@ const CreateOrUpdateInvoiceModal = ({
     setShowPartialPayment(false);
   };
 
+  const isStep1Complete =
+    !utils.isNullOrEmpty(invoice?.customer) &&
+    !utils.isNullOrEmpty(invoice?.paymentWay);
+  const isStep2Complete =
+    (invoice?.invoiceDetail?.length || 0) > 0 ||
+    !utils.isNullOrEmpty(invoice?.invoiceNo);
+
+  const canAccessStep = (stepIndex) => {
+    if (stepIndex === 0) return true;
+    if (stepIndex === 1) return isStep1Complete;
+    if (stepIndex === 2) return isStep1Complete && isStep2Complete;
+    return false;
+  };
+
+  const handleGoToStep = (stepIndex) => {
+    if (stepIndex >= 1 && !isStep1Complete) {
+      toast.current?.show({
+        severity: "warn",
+        summary: "Paso incompleto",
+        detail: "Seleccione el cliente y el método de pago para continuar",
+        life: 3000,
+      });
+      return;
+    }
+    if (stepIndex === 2 && !isStep2Complete) {
+      toast.current?.show({
+        severity: "warn",
+        summary: "Paso incompleto",
+        detail: "Agregue al menos un ítem al detalle antes de continuar",
+        life: 3000,
+      });
+      return;
+    }
+    setActiveStep(stepIndex);
+  };
+
   const renderFooter = () => {
     const isSaved = !utils.isNullOrEmpty(invoice?.invoiceNo);
     return (
@@ -827,7 +863,7 @@ const CreateOrUpdateInvoiceModal = ({
               iconPos="right"
               className="p-button-sm"
               style={{ borderRadius: "8px" }}
-              onClick={() => setActiveStep((prev) => Math.min(2, prev + 1))}
+              onClick={() => handleGoToStep(Math.min(2, activeStep + 1))}
             />
           )}
           {invoice?.id > 0 && (
@@ -1052,12 +1088,9 @@ const CreateOrUpdateInvoiceModal = ({
             role="tab"
             aria-selected={activeStep === 0}
             className={`wizard-step-btn ${activeStep === 0 ? "active" : ""} ${
-              !utils.isNullOrEmpty(invoice?.customer) &&
-              !utils.isNullOrEmpty(invoice?.paymentWay)
-                ? "done"
-                : ""
+              isStep1Complete ? "done" : ""
             }`}
-            onClick={() => setActiveStep(0)}
+            onClick={() => handleGoToStep(0)}
           >
             <span className="step-num">1</span>
             <span>General</span>
@@ -1066,10 +1099,11 @@ const CreateOrUpdateInvoiceModal = ({
             type="button"
             role="tab"
             aria-selected={activeStep === 1}
+            disabled={!canAccessStep(1)}
             className={`wizard-step-btn ${activeStep === 1 ? "active" : ""} ${
-              invoice?.invoiceDetail?.length > 0 ? "done" : ""
+              isStep2Complete ? "done" : ""
             }`}
-            onClick={() => setActiveStep(1)}
+            onClick={() => handleGoToStep(1)}
           >
             <span className="step-num">2</span>
             <span>Detalle</span>
@@ -1078,10 +1112,11 @@ const CreateOrUpdateInvoiceModal = ({
             type="button"
             role="tab"
             aria-selected={activeStep === 2}
+            disabled={!canAccessStep(2)}
             className={`wizard-step-btn ${activeStep === 2 ? "active" : ""} ${
               !utils.isNullOrEmpty(invoice?.invoiceNo) ? "done" : ""
             }`}
-            onClick={() => setActiveStep(2)}
+            onClick={() => handleGoToStep(2)}
           >
             <span className="step-num">3</span>
             <span>Resumen</span>
@@ -1176,37 +1211,17 @@ const CreateOrUpdateInvoiceModal = ({
                 <label htmlFor="invoiceDate">Fecha</label>
               </span>
             </div>
+          </div>
 
-            {/* 5. TOTAL */}
-            <div>
-              <span className="p-float-label">
-                <InputNumber
-                  id="total"
-                  value={invoice.total}
-                  readOnly
-                  mode="currency"
-                  currency="HNL"
-                  locale="es-HN"
-                />
-                <label htmlFor="total">Total</label>
-              </span>
-            </div>
-
-            {/* 6. CONCEPTO */}
-            <div
-              style={{ gridColumn: "1 / -1" }}
-              className="description-field"
-            >
-              <label htmlFor="commentsGeneral">Concepto</label>
-              <InputTextarea
-                id="commentsGeneral"
-                value={invoice.comments}
-                readOnly
-                rows={2}
-                autoResize
-                style={{ width: "100%", resize: "none" }}
-              />
-            </div>
+          <div className="step-summary-pill" style={{ marginTop: "0.85rem", marginBottom: 0 }}>
+            <span>
+              {isStep1Complete
+                ? "Datos completos. Continúa al paso 2 para agregar conceptos."
+                : "Completa cliente y método de pago para continuar."}
+            </span>
+            {invoice?.invoiceDetail?.length > 0 && (
+              <strong>{formatter.format(invoice?.total || 0)}</strong>
+            )}
           </div>
         </div>
         )}
@@ -1417,7 +1432,7 @@ const CreateOrUpdateInvoiceModal = ({
                     (x) =>
                       x.paymentTypeNo === detail.paymentTypeNo && x.isFollowing,
                   ) && (
-                    <div>
+                    <div className="partial-btn-wrap">
                       {invoice?.partialPayments?.length > 0 ? (
                         <div>
                           <Button

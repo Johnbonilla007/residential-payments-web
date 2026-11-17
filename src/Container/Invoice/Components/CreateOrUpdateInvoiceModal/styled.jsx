@@ -56,6 +56,11 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
       background: #10b981;
       color: #ffffff;
     }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
   }
 
   .step-summary-pill {
@@ -128,9 +133,8 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
   /* DETALLES DE FACTURA - Grid Compacto */
   .detail-fields {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.75rem 0.65rem;
-    /* Alineado arriba para que el textarea (más alto) no descentre la fila. */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem 0.75rem;
     align-items: start;
     margin-bottom: 0.5rem;
     padding-top: 0.35rem;
@@ -321,6 +325,33 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
 
   @media (max-width: 767px) {
     padding: 0.5rem 0.65rem 0.75rem;
+
+    .header-fields {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    .detail-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem 0.65rem;
+    }
+
+    .detail-fields > div:nth-child(1),
+    .detail-fields > div:nth-child(2),
+    .detail-fields .description-extra-field,
+    .detail-fields .partial-btn-wrap {
+      grid-column: 1 / -1;
+    }
+
+    .add-btn-container .p-button {
+      width: 100%;
+    }
+
+    .info-payment-container {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.65rem 0.75rem;
+    }
 
     .wizard-step-btn {
       padding: 0.45rem 0.4rem;
