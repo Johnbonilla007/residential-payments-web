@@ -148,6 +148,36 @@ const PendingPaymentReport = () => {
     await handleGenerateReport(pageNumber + 1, true);
   };
 
+  const handleFetchAllForExport = async () => {
+    if (!filters?.month) {
+      toast.current?.show({
+        severity: "warn",
+        summary: "Advertencia",
+        detail: "Seleccione un mes antes de exportar",
+        life: 3000,
+      });
+      return [];
+    }
+
+    const request = {
+      ...filters,
+      residentialNo: residentialSelected.residentialNo,
+      month: utils.FormatDate(filters?.month),
+    };
+    const response = await PendingPaymentReportService.generateReport(request);
+    if (!response?.success) {
+      toast.current?.show({
+        severity: "warn",
+        summary: "Advertencia",
+        detail: response?.validationErrorMessage || "No se pudo exportar",
+        life: 3000,
+      });
+      return [];
+    }
+
+    return response.pendingPayments || [];
+  };
+
   const handleResetFilters = () => {
     setFilters({ onlyPending: true });
     setMobileSearch("");
@@ -423,6 +453,7 @@ const PendingPaymentReport = () => {
               emptyMessage="Seleccione un mes y presione Generar Reporte"
               isExportExcel
               fileName={excelFileName}
+              onExportExcel={handleFetchAllForExport}
               hasMore={isMobile && hasMore}
               onLoadMore={isMobile && hasMore ? handleLoadMore : undefined}
               loadingMore={loadingMore}

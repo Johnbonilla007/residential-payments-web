@@ -77,6 +77,7 @@ const TableControl = ({
   hasMore = false,
   onLoadMore,
   loadingMore = false,
+  onExportExcel,
 }) => {
   const isMobile = useIsMobile();
   const pageSize = rows || 15;
@@ -134,11 +135,14 @@ const TableControl = ({
     });
   };
 
-  const exportExcel = () => {
+  const exportExcel = async () => {
+    const exportSource = onExportExcel ? await onExportExcel() : items;
+    if (!Array.isArray(exportSource) || exportSource.length === 0) return;
+
     import("xlsx").then((xlsx) => {
       const _columns = columnsToExcelExport || columns;
 
-      const customizedItems = items?.map((item) => {
+      const customizedItems = exportSource.map((item) => {
         const customizedItem = {};
 
         _columns.forEach((column) => {
@@ -271,10 +275,11 @@ const TableControl = ({
               <Button
                 type="button"
                 icon="pi pi-file-excel"
+                label="Excel"
                 onClick={exportExcel}
-                className="p-button-success p-button-outlined"
+                className="p-button-success p-button-outlined p-button-sm"
                 aria-label="Exportar a Excel"
-                style={{ minWidth: "44px", minHeight: "44px" }}
+                style={{ minHeight: "40px", whiteSpace: "nowrap" }}
               />
             )}
           </MobileTableHeader>

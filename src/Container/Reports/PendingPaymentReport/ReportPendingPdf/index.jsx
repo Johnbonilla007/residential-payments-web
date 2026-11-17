@@ -22,7 +22,7 @@ const ReportPendingPdf = ({
     >
       <div>
         <div className="container-header">
-          <div>
+          <div className="logo-badge">
             <img
               alt="logo"
               src={
@@ -30,23 +30,18 @@ const ReportPendingPdf = ({
                   ? residentialSelected.logoResidential
                   : "https://sasapp764c0b20515d4bb69a4c5978319c04a1213255-dev.s3.amazonaws.com/public/residenciales.jpg"
               }
-              style={{ width: "80px", height: "80px", alignSelf: "center" }}
             />
           </div>
-          <div>
-            <div style={{ fontSize: "14pt" }}>
+          <div className="header-titles">
+            <div className="residential-name">
               <strong>{residentialSelected.name}</strong>
             </div>
-            <div style={{ fontSize: "14pt" }}>
+            <div className="report-subtitle">
               <span>Reporte de Saldos Pendientes</span>
             </div>
           </div>
-          <div style={{ border: "2px #ccc solid", borderRadius: 10 }}>
-            <img
-              alt="logo"
-              src={appLogo}
-              style={{ width: "80px", height: "80px", alignSelf: "center" }}
-            />
+          <div className="logo-badge">
+            <img alt="logo" src={appLogo} />
           </div>
         </div>
 
@@ -93,8 +88,8 @@ const ReportPendingPdf = ({
               </div>
             </div>
             <div className="item-container">
-              {reportPending?.map((item) => (
-                <div className="item">
+              {reportPending?.map((item, index) => (
+                <div className="item" key={item?.accountNumber || index}>
                   <div>{item?.residentName}</div>
                   <div>{item?.paymentName}</div>
                   <div>{item?.blockAndHouse}</div>

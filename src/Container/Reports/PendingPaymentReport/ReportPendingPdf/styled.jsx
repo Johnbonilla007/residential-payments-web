@@ -19,6 +19,57 @@ export const ReportPendingPdfStyled = styled.div`
     align-items: center;
     gap: 10px;
     width: 100%;
+    margin-bottom: 8px;
+
+    .logo-badge {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .header-titles {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .residential-name,
+    .report-subtitle {
+      font-size: 14pt;
+      line-height: 1.25;
+    }
+
+    @media screen and (max-width: 767px) {
+      gap: 8px;
+
+      .logo-badge {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        padding: 3px;
+      }
+
+      .residential-name {
+        font-size: 0.95rem;
+      }
+
+      .report-subtitle {
+        font-size: 0.82rem;
+      }
+    }
   }
 
   .date-range {
@@ -168,11 +219,15 @@ export const ReportPendingPdfStyled = styled.div`
       border-color: #ccc !important;
     }
     .table .header-item {
+      display: grid;
       font-size: 7.5pt;
       padding: 4px 6px;
       gap: 4px;
       box-sizing: border-box;
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr) 64px 66px 70px 48px 56px 76px;
+    }
+    .table .item-container {
+      display: block;
     }
     .table .item-container .item {
       font-size: 7pt;
