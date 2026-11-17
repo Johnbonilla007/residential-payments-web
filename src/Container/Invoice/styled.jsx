@@ -44,10 +44,16 @@ export const InvoiceStyled = styled.div`
 
     @media (max-width: 767px) {
       position: sticky;
-      top: 0;
-      padding: 8px 10px;
-      margin-bottom: 10px;
-      border-radius: 12px;
+      top: -10px;
+      padding: 8px 12px;
+      margin: -10px -12px 10px;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+
+      &::before {
+        display: none;
+      }
 
       strong {
         display: none;

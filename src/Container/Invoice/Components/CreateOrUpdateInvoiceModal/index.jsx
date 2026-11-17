@@ -39,6 +39,12 @@ const CreateOrUpdateInvoiceModal = ({
           invoiceDetail: [],
         },
   );
+  const [activeStep, setActiveStep] = useState(
+    utils.evaluateFullObjetct(invoiceSelected) &&
+      !utils.isNullOrEmpty(invoiceSelected?.invoiceNo)
+      ? 2
+      : 0,
+  );
   const [paymentTypeList, setPaymentTypeList] = useState([]);
   const [detail, setDetail] = useState({
     paymentTypeNo: null,
@@ -790,52 +796,102 @@ const CreateOrUpdateInvoiceModal = ({
   };
 
   const renderFooter = () => {
+    const isSaved = !utils.isNullOrEmpty(invoice?.invoiceNo);
     return (
-      <div className="footer-buttons">
-        {invoice?.id > 0 && (
-          <Button
-            label="Nuevo"
-            icon="pi pi-file"
-            className="p-button-raised p-button-warning p-button-sm"
-            onClick={() => {
-              const newInvoice = {
-                invoiceNo: "",
-                depositNo: "",
-                comments: "",
-                descriptionEx: "",
-                invoiceDate: null,
-                customer: null,
-                invoiceDetail: [],
-              };
-
-              setInvoice(newInvoice);
-            }}
-          />
-        )}
-        {invoice?.id > 0 && (
-          <Button
-            label="Imprimir"
-            icon="pi pi-print"
-            className="p-button-raised p-button-info p-button-sm"
-            onClick={() => setShowPrintMenu(true)}
-          />
-        )}
-        {utils.isNullOrEmpty(invoice?.invoiceNo) && (
-          <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "0.5rem",
+          flexWrap: "wrap",
+          width: "100%",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          {!isSaved && activeStep > 0 && (
             <Button
+              type="button"
+              label="Anterior"
+              icon="pi pi-arrow-left"
+              className="p-button-outlined p-button-secondary p-button-sm"
+              style={{ borderRadius: "8px" }}
+              onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
+            />
+          )}
+          {!isSaved && activeStep < 2 && (
+            <Button
+              type="button"
+              label="Siguiente"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              className="p-button-sm"
+              style={{ borderRadius: "8px" }}
+              onClick={() => setActiveStep((prev) => Math.min(2, prev + 1))}
+            />
+          )}
+          {invoice?.id > 0 && (
+            <Button
+              type="button"
+              label="Nuevo"
+              icon="pi pi-file"
+              className="p-button-warning p-button-sm"
+              style={{ borderRadius: "8px" }}
+              onClick={() => {
+                const newInvoice = {
+                  invoiceNo: "",
+                  depositNo: "",
+                  comments: "",
+                  descriptionEx: "",
+                  invoiceDate: null,
+                  customer: null,
+                  invoiceDetail: [],
+                };
+
+                setInvoice(newInvoice);
+                setActiveStep(0);
+              }}
+            />
+          )}
+          {invoice?.id > 0 && (
+            <Button
+              type="button"
+              label="Imprimir"
+              icon="pi pi-print"
+              className="p-button-info p-button-sm"
+              style={{ borderRadius: "8px" }}
+              onClick={() => setShowPrintMenu(true)}
+            />
+          )}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginLeft: "auto",
+          }}
+        >
+          {utils.isNullOrEmpty(invoice?.invoiceNo) && activeStep === 2 && (
+            <Button
+              type="button"
               label="Guardar"
               icon="pi pi-check"
-              className="p-button-raised p-button-success p-button-sm"
+              className="p-button-success p-button-sm"
+              style={{ borderRadius: "8px" }}
               onClick={handleSaveInvoice}
             />
-            <Button
-              label="Cerrar"
-              icon="pi pi-times"
-              className="p-button-raised p-button-danger p-button-sm"
-              onClick={() => onDissmis()}
-            />
-          </div>
-        )}
+          )}
+          <Button
+            type="button"
+            label="Cerrar"
+            icon="pi pi-times"
+            className="p-button-outlined p-button-danger p-button-sm"
+            style={{ borderRadius: "8px" }}
+            onClick={() => onDissmis()}
+          />
+        </div>
       </div>
     );
   };
@@ -990,7 +1046,50 @@ const CreateOrUpdateInvoiceModal = ({
     >
       <CreateOrUpdateInvoiceModalStyled>
         <Toast ref={toast} />
-        {/* SECCION GENERAL */}
+        <div className="wizard-steps" role="tablist" aria-label="Pasos del recibo">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeStep === 0}
+            className={`wizard-step-btn ${activeStep === 0 ? "active" : ""} ${
+              !utils.isNullOrEmpty(invoice?.customer) &&
+              !utils.isNullOrEmpty(invoice?.paymentWay)
+                ? "done"
+                : ""
+            }`}
+            onClick={() => setActiveStep(0)}
+          >
+            <span className="step-num">1</span>
+            <span>General</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeStep === 1}
+            className={`wizard-step-btn ${activeStep === 1 ? "active" : ""} ${
+              invoice?.invoiceDetail?.length > 0 ? "done" : ""
+            }`}
+            onClick={() => setActiveStep(1)}
+          >
+            <span className="step-num">2</span>
+            <span>Detalle</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeStep === 2}
+            className={`wizard-step-btn ${activeStep === 2 ? "active" : ""} ${
+              !utils.isNullOrEmpty(invoice?.invoiceNo) ? "done" : ""
+            }`}
+            onClick={() => setActiveStep(2)}
+          >
+            <span className="step-num">3</span>
+            <span>Resumen</span>
+          </button>
+        </div>
+
+        {/* PASO 1: SECCION GENERAL */}
+        {activeStep === 0 && (
         <div className="section-card">
           <label className="section-title">General</label>
 
@@ -1077,43 +1176,21 @@ const CreateOrUpdateInvoiceModal = ({
                 <label htmlFor="invoiceDate">Fecha</label>
               </span>
             </div>
-
-            {/* 5. TOTAL */}
-            <div>
-              <span className="p-float-label">
-                <InputNumber
-                  id="total"
-                  value={invoice.total}
-                  readOnly
-                  mode="currency"
-                  currency="HNL"
-                  locale="es-HN"
-                />
-                <label htmlFor="total">Total</label>
-              </span>
-            </div>
-
-            {/* 6. CONCEPTO */}
-            <div
-              style={{ gridColumn: "1 / -1" }}
-              className="description-field"
-            >
-              {/* Concepto full width si es posible */}
-              <label htmlFor="comments">Concepto</label>
-              <InputTextarea
-                id="comments"
-                value={invoice.comments}
-                readOnly
-                rows={2}
-                autoResize
-                style={{ width: "100%", resize: "none" }}
-              />
-            </div>
           </div>
         </div>
-        {/* SECCION DETALLE */}
+        )}
+
+        {/* PASO 2: SECCION DETALLE */}
+        {activeStep === 1 && (
         <div className="section-card">
           <label className="section-title">Detalle</label>
+          <div className="step-summary-pill">
+            <span>
+              <strong>{invoice?.invoiceDetail?.length || 0}</strong> ítem(s)
+              agregados
+            </span>
+            <strong>{formatter.format(invoice?.total || 0)}</strong>
+          </div>
           {utils.isNullOrEmpty(invoice?.invoiceNo) && (
             <div>
               <div className="detail-fields">
@@ -1360,13 +1437,37 @@ const CreateOrUpdateInvoiceModal = ({
                 <Button
                   label="Agregar"
                   icon="pi pi-plus"
-                  className="p-button-raised p-button-info"
+                  className="p-button-raised p-button-info p-button-sm"
+                  style={{ borderRadius: "8px" }}
                   onClick={addDetail}
                 />
               </div>
             </div>
           )}
+        </div>
+        )}
 
+        {/* PASO 3: RESUMEN Y GUARDAR */}
+        {activeStep === 2 && (
+        <div className="section-card">
+          <label className="section-title">Resumen del Recibo</label>
+          <div className="summary-total-box">
+            <span className="summary-total-label">Total a Pagar</span>
+            <span className="summary-total-value">
+              {formatter.format(invoice?.total || 0)}
+            </span>
+          </div>
+          <div className="description-field" style={{ marginBottom: "0.85rem" }}>
+            <label htmlFor="comments">Concepto</label>
+            <InputTextarea
+              id="comments"
+              value={invoice.comments}
+              readOnly
+              rows={2}
+              autoResize
+              style={{ width: "100%", resize: "none" }}
+            />
+          </div>
           <div className="detail-table-container">
             <div className="header-detail">
               <div></div>
@@ -1399,7 +1500,8 @@ const CreateOrUpdateInvoiceModal = ({
               ))}
             </div>
           </div>
-        </div>{" "}
+        </div>
+        )}
         {/* Cierre section-card detalle */}
         {showPartialPayment && (
           <PartialPaymentModal

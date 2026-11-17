@@ -1,9 +1,99 @@
 import styled from "styled-components";
 
 export const CreateOrUpdateInvoiceModalStyled = styled.div`
-  overflow-y: auto;
-  padding: 1rem;
+  padding: 0.75rem 1rem 1rem;
   background-color: ${(props) => props.theme.colors.background || "var(--surface-card)"};
+
+  .wizard-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .wizard-step-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 10px;
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
+    background-color: ${(props) => props.theme.colors.cardBg || "var(--surface-card)"};
+    color: ${(props) => props.theme.colors.textSecondary || "var(--text-color-secondary)"};
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    &.active {
+      border-color: var(--color-primary, var(--app-primary, #3b82f6));
+      color: var(--text-color);
+      background: color-mix(in srgb, var(--color-primary, #3b82f6) 14%, var(--card-bg));
+
+      .step-num {
+        background: var(--color-primary, var(--app-primary, #3b82f6));
+        color: #ffffff;
+      }
+    }
+
+    &.done:not(.active) .step-num {
+      background: #10b981;
+      color: #ffffff;
+    }
+  }
+
+  .step-summary-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.55rem 0.85rem;
+    margin-bottom: 0.65rem;
+    border-radius: 10px;
+    background: var(--surface-section, rgba(148, 163, 184, 0.1));
+    border: 1px solid ${(props) => props.theme.colors.border || "var(--surface-border)"};
+    font-size: 0.84rem;
+    color: var(--text-color);
+  }
+
+  .summary-total-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: color-mix(in srgb, #10b981 12%, var(--card-bg));
+    border: 1px solid color-mix(in srgb, #10b981 35%, transparent);
+    margin-bottom: 0.75rem;
+
+    .summary-total-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-color-secondary);
+    }
+
+    .summary-total-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #10b981;
+    }
+  }
 
   /* SECCIONES (Tarjetas) - COMPACTO */
   .section-card {
@@ -226,6 +316,58 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
 
     &:last-child {
       border-bottom: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 0.5rem 0.65rem 0.75rem;
+
+    .wizard-step-btn {
+      padding: 0.45rem 0.4rem;
+      font-size: 0.75rem;
+      gap: 0.3rem;
+    }
+
+    .header-detail {
+      display: none;
+    }
+
+    .detail-item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      text-align: left;
+      gap: 0.25rem 0.5rem;
+      padding: 0.65rem 0.75rem;
+
+      & > div:nth-child(1) {
+        display: none;
+      }
+
+      & > div:nth-child(2) {
+        font-size: 0.75rem;
+        color: var(--text-color-secondary);
+      }
+
+      & > div:nth-child(3) {
+        grid-column: 1 / -1;
+        font-weight: 600;
+      }
+
+      & > div:nth-child(4),
+      & > div:nth-child(5) {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary);
+      }
+
+      & > div:nth-child(6) {
+        font-weight: 700;
+        color: #10b981;
+      }
+
+      & > div:nth-child(7) {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+      }
     }
   }
 
