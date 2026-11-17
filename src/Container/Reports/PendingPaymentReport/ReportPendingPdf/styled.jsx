@@ -107,6 +107,49 @@ export const ReportPendingPdfStyled = styled.div`
     }
   }
 
+  @media screen and (max-width: 767px) {
+    .table {
+      min-width: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .table .header-item {
+      display: none;
+    }
+
+    .table .item-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .table .item-container .item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--surface-border, #cbd5e1);
+      border-radius: 10px;
+      background: var(--surface-card, #fff);
+
+      div:first-child {
+        font-weight: 600;
+      }
+
+      div:not(:first-child):not(:last-child) {
+        grid-column: 1 / -1;
+        font-size: 0.78rem;
+        opacity: 0.85;
+      }
+
+      div:last-child {
+        grid-column: 2;
+        grid-row: 1;
+        font-weight: 700;
+      }
+    }
+  }
+
   @media print {
     color: #000 !important;
     font-size: 8pt;

@@ -30,18 +30,20 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
   .header-fields {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.5rem 1rem;
+    gap: 0.9rem 1rem;
     align-items: center;
+    padding-top: 0.35rem;
   }
 
   /* DETALLES DE FACTURA - Grid Compacto */
   .detail-fields {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.5rem;
+    gap: 0.75rem 0.65rem;
     /* Alineado arriba para que el textarea (más alto) no descentre la fila. */
     align-items: start;
     margin-bottom: 0.5rem;
+    padding-top: 0.35rem;
     padding-bottom: 0.2rem;
   }
 
@@ -97,7 +99,15 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
   .p-float-label {
     width: 100%;
     display: block;
-    margin-top: 5px;
+    margin-top: 6px;
+
+    > label {
+      background-color: ${(props) => props.theme.colors.cardBg || "var(--card-bg, #fff)"};
+      padding: 0 5px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 4px;
+    }
   }
 
   .p-inputtext,
@@ -106,6 +116,17 @@ export const CreateOrUpdateInvoiceModalStyled = styled.div`
   .p-inputnumber,
   textarea {
     width: 100% !important;
+    border-radius: 8px;
+  }
+
+  .p-inputtext,
+  .p-dropdown {
+    min-height: 42px;
+  }
+
+  textarea.p-inputtext {
+    min-height: 48px;
+    padding: 0.65rem 0.75rem;
   }
 
   .p-calendar.p-calendar-w-btn {

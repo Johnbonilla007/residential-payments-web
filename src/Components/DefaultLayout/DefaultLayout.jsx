@@ -298,7 +298,7 @@ export const DefaultLayout = () => {
         ref={op}
         showCloseIcon
         id="overlay_panel"
-        style={{ width: "450px" }}
+        style={{ width: "min(92vw, 450px)" }}
         className="overlaypanel-demo"
       >
         <div

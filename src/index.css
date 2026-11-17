@@ -119,6 +119,12 @@ body {
   color: var(--text-color) !important;
 }
 
+.p-dropdown .p-dropdown-label.p-inputtext {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .p-dropdown-panel,
 .p-datepicker,
 .p-multiselect-panel,

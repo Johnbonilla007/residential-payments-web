@@ -130,4 +130,24 @@ export const CreateOrUpdateSpendingInvoiceModalStyled = styled.div`
       gap: 0.5rem;
     }
   }
+
+  @media (max-width: 480px) {
+    .header-detail {
+      display: none;
+    }
+
+    .detail-item {
+      grid-template-columns: 2rem minmax(0, 1fr) 2.5rem;
+      gap: 0.5rem;
+
+      & > *:nth-child(3) {
+        grid-column: 2 / -1;
+      }
+
+      & > *:nth-child(4) {
+        grid-column: 3;
+        grid-row: 1;
+      }
+    }
+  }
 `;

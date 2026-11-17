@@ -187,7 +187,7 @@ export const InvoiceStyled = styled.div`
   /* Responsive Design */
   @media (max-width: 1024px) {
     .card-container {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
       gap: 1.25rem;
       padding: 1.25rem;
     }
@@ -203,7 +203,7 @@ export const InvoiceStyled = styled.div`
 
   @media (max-width: 768px) {
     .card-container {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
       gap: 1rem;
       padding: 1rem;
       max-height: 85vh;
