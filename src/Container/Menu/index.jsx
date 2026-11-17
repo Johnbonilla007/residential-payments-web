@@ -17,31 +17,84 @@ const DashboardMenu = () => {
     return [];
   }, [userInfo]);
 
+  const isSuperRoot = accesses?.some((x) =>
+    x?.permissions?.some((y) => y.name === "SuperRoot")
+  );
+
+  const primaryAccount = userInfo?.accounts?.[0];
+  const displayName =
+    primaryAccount?.fullName ||
+    [primaryAccount?.firstName, primaryAccount?.lastName]
+      .filter(Boolean)
+      .join(" ") ||
+    userInfo?.fullName ||
+    userInfo?.name ||
+    userInfo?.userName ||
+    "Bienvenido";
+
+  const formattedDate = useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }).format(new Date());
+    } catch {
+      return "";
+    }
+  }, []);
+
   return (
     <Container>
       <MenuStyled>
-        <div className="container-menu">
-          {routes.map((route, index) => {
-            const AllowView = accesses?.some(
-              (x) =>
-                x.rolName === route.accesses ||
-                x?.permissions?.some((y) => y.name === "SuperRoot")
-            );
+        <div className="menu-wrapper">
+          <div className="dashboard-hero">
+            <div className="hero-text">
+              <h2 className="hero-title">Hola, {displayName}</h2>
+              <p className="hero-subtitle">
+                Selecciona un módulo o accede directo a una sección
+              </p>
+            </div>
+            {formattedDate && (
+              <span className="hero-date">{formattedDate}</span>
+            )}
+          </div>
 
-            if (AllowView)
+          <div className="container-menu">
+            {routes.map((route, index) => {
+              const AllowView =
+                isSuperRoot ||
+                accesses?.some((x) => x.rolName === route.accesses);
+
+              if (!AllowView) return null;
+
+              const allowedSubRoutes = utils.evaluateArray(route.subRoutes)
+                ? route.subRoutes.filter(
+                    (subRoute) =>
+                      isSuperRoot ||
+                      accesses?.some(
+                        (x) =>
+                          x.rolName === subRoute.accesses ||
+                          x?.permissions?.some(
+                            (y) => y.name === subRoute.accesses
+                          )
+                      )
+                  )
+                : [];
+
               return (
                 <CardMenu
-                  key={index}
+                  key={route.path || index}
                   label={route.name}
                   description={route.description}
                   color={route.color}
                   icon={route.icon}
                   path={route.path}
+                  subRoutes={allowedSubRoutes}
                 />
               );
-
-            return null;
-          })}
+            })}
+          </div>
         </div>
       </MenuStyled>
     </Container>

@@ -119,6 +119,13 @@ body {
   color: var(--text-color) !important;
 }
 
+.p-dropdown-panel,
+.p-datepicker,
+.p-multiselect-panel,
+.p-autocomplete-panel {
+  z-index: 13000 !important;
+}
+
 .p-dropdown-panel {
   background: var(--card-bg) !important;
   border: 2px solid var(--border-color) !important;

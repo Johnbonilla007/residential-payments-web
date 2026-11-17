@@ -78,8 +78,61 @@ export const TableControlStyled = styled.div`
     color: var(--text-color) !important;
   }
 
+  .p-datatable .p-datatable-thead > tr.p-filter-row > th,
+  .p-datatable .p-datatable-thead > tr:nth-child(2) > th {
+    padding: 0.45rem 0.65rem;
+    font-weight: 400;
+  }
+
+  .p-column-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+  }
+
   .p-column-filter-row .p-column-filter-element {
+    flex: 1 1 auto;
+    min-width: 7.5rem;
     text-align: left;
+  }
+
+  .p-column-filter-row .p-inputtext {
+    width: 100%;
+    height: 34px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.82rem;
+    border-radius: 8px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: var(--text-color-secondary);
+      opacity: 0.7;
+    }
+
+    &:focus {
+      border-color: var(--color-primary, var(--app-primary));
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+  }
+
+  .p-column-filter-row .p-column-filter-menu-button,
+  .p-column-filter-row .p-column-filter-clear-button {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    color: var(--text-color-secondary);
+    opacity: 0.75;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+      background: rgba(148, 163, 184, 0.15);
+    }
   }
 `;
 

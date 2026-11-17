@@ -417,8 +417,8 @@ const TableControl = ({
                       field={item.fieldName}
                       header={item.name}
                       filter
-                      filterPlaceholder={item.filterPlaceHolder}
-                      style={{ minWidth: item.width }}
+                      filterPlaceholder={item.filterPlaceHolder || "Filtrar..."}
+                      style={{ minWidth: item.width || "11rem" }}
                     />
                   )
                 ) : item.isBoolean ? (

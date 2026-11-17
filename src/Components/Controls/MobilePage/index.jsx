@@ -17,10 +17,13 @@ const PageWrapper = styled.div`
 
 const StickyToolbar = styled.div`
   position: sticky;
-  top: 0;
+  top: -10px;
   z-index: 30;
-  background: var(--surface-ground);
-  padding: 6px 0 8px;
+  background: var(--surface-ground, var(--background-color));
+  margin: -10px -12px 0;
+  padding: 10px 12px 10px;
+  border-bottom: 1px solid var(--surface-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   gap: 8px;

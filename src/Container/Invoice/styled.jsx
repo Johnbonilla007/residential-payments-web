@@ -5,14 +5,25 @@ export const InvoiceStyled = styled.div`
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: color-mix(in srgb, var(--card-bg) 85%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
     box-shadow: var(--app-shadow-md);
     border: 1px solid var(--surface-border);
+
+    /* Cover the parent .content padding above and beside the sticky card so scrolled cards never peek through */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -28px;
+      left: -28px;
+      right: -28px;
+      bottom: 0;
+      background-color: var(--background-color);
+      z-index: -1;
+      pointer-events: none;
+    }
 
     strong {
       display: block;

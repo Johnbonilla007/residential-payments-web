@@ -8,6 +8,53 @@ const SectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-color-secondary);
+      text-align: left;
+      margin: 0;
+    }
+
+    .p-dropdown,
+    .p-calendar,
+    .p-inputtext,
+    .p-component {
+      width: 100%;
+    }
+
+    .p-dropdown,
+    .p-calendar .p-inputtext {
+      min-height: 44px;
+    }
+
+    .selected-residence-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+
+      .p-inputtext {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
 `;
 
 const SectionWrap = styled.section`
@@ -60,6 +107,7 @@ export const FilterSheet = ({
         type="button"
         label={applyLabel}
         icon="pi pi-check"
+        style={{ whiteSpace: "nowrap" }}
         onClick={() => {
           onApply?.();
           onHide?.();
