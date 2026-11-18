@@ -36,7 +36,7 @@ const DocumentSpendingInvoice = (props) => {
   };
   const footer = () => {
     return (
-      <div>
+      <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", flexWrap: "wrap" }}>
         <Button
           label="Imprimir"
           className="p-button-rounded p-button-success p-button-sm"
